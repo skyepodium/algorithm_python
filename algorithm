@@ -1,15 +1,32 @@
 n = int(input())
-a = [0] + list(map(int, input().split()))
-d = [[0 for j in range(21)]for i in range(n)]
+stack = []
 
-d[1][a[1]] = 1
+for i in range(n):
+    cmd = input().split()
 
-for i in range(2, n):
-    for j in range(0, 21):
+    if cmd[0] == 'push':
+        stack.append(cmd[1])
 
-        if j-a[i] >= 0:
-            d[i][j] += d[i-1][j-a[i]]
-        if j+a[i] <= 20:
-            d[i][j] += d[i-1][j+a[i]]
+    elif cmd[0] == 'pop':
+        if len(stack):
+            print(stack.pop())
+        else:
+            print(-1)
 
-print(d[n-1][a[n]])
+    elif cmd[0] == 'size':
+        print(len(stack))
+
+    elif cmd[0] == 'empty':
+        if len(stack):
+            print(0)
+        else:
+            print(1)
+
+    elif cmd[0] == 'top':
+        if len(stack):
+            print(stack[len(stack) - 1])
+        else:
+            print(-1)
+
+
+
