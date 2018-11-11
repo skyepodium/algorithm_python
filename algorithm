@@ -1,32 +1,5 @@
-n = int(input())
-stack = []
+tc = int(input())
 
-for i in range(n):
-    cmd = input().split()
-
-    if cmd[0] == 'push':
-        stack.append(cmd[1])
-
-    elif cmd[0] == 'pop':
-        if len(stack):
-            print(stack.pop())
-        else:
-            print(-1)
-
-    elif cmd[0] == 'size':
-        print(len(stack))
-
-    elif cmd[0] == 'empty':
-        if len(stack):
-            print(0)
-        else:
-            print(1)
-
-    elif cmd[0] == 'top':
-        if len(stack):
-            print(stack[len(stack) - 1])
-        else:
-            print(-1)
-
-
-
+for t in range(tc):
+    a, b = map(int, input().split())
+    print("Case #%d: %d + %d = %d" % (t+1, a, b, a+b))
