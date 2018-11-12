@@ -1,54 +1,40 @@
-import sys, collections
+import sys
 input = sys.stdin.readline
 print = sys.stdout.write
 
 sys.setrecursionlimit(10 ** 6)
 
 
-def dfs(node):
-    check[node] = True
-    print("%d " % node)
+def dfs(x, y):
+    check[x][y] = True
 
-    for i in v[node]:
-        if not check[i]:
-            dfs(i)
+    for i in range(8):
+        nx = x + dx[i]
+        ny = y + dy[i]
 
-
-def bfs(start):
-    check[start] = True
-    q = collections.deque()
-    q.append(start)
-
-    while q:
-        node = q.popleft()
-        print("%d " % node)
-
-        for i in v[node]:
-            if not check[i]:
-                check[i] = True
-                q.append(i)
+        if nx >= 0 and nx < h and ny >= 0 and ny < w:
+            if not check[nx][ny] and d[nx][ny] == 1:
+                dfs(nx, ny)
 
 
-n, m, start_node = map(int, input().split())
-v = [[] for _ in range(n+1)]
+dx = [0, 0, 1, -1, 1, 1, -1, -1]
+dy = [-1, 1, 0, 0, 1, -1, 1, -1]
+
+while True:
+    w, h = map(int, input().split())
+    if w == 0 and h == 0:
+        break
+
+    d = [list(map(int, input().split())) for _ in range(h)]
+    check = [[False for _ in range(w)] for _ in range(h)]
+
+    cnt = 0
+    for i in range(h):
+        for j in range(w):
+            if not check[i][j] and d[i][j] == 1:
+                dfs(i, j)
+                cnt += 1
+
+    print("%d\n" % cnt)
 
 
-for _ in range(m):
-    a, b = map(int, input().split())
-    v[a].append(b)
-    v[b].append(a)
-
-
-for i in v:
-    i.sort()
-
-
-check = [False] * (n+1)
-
-dfs(start_node)
-print("\n")
-
-check = [False] * (n+1)
-
-bfs(start_node)
-print("\n")
