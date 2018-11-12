@@ -1,20 +1,24 @@
-import sys
+import sys, collections
 input = sys.stdin.readline
 print = sys.stdout.write
 
-sys.setrecursionlimit(10 ** 6)
 
-
-def dfs(x, y):
+def bfs(x, y):
     check[x][y] = True
+    q = collections.deque()
+    q.append((x, y))
 
-    for i in range(8):
-        nx = x + dx[i]
-        ny = y + dy[i]
+    while q:
+        x, y = q.popleft()
 
-        if nx >= 0 and nx < h and ny >= 0 and ny < w:
-            if not check[nx][ny] and d[nx][ny] == 1:
-                dfs(nx, ny)
+        for i in range(8):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if nx >= 0 and nx < h and ny >= 0 and ny < w:
+                if not check[nx][ny] and d[nx][ny] == 1:
+                    check[nx][ny] = True
+                    q.append((nx, ny))
 
 
 dx = [0, 0, 1, -1, 1, 1, -1, -1]
@@ -32,7 +36,7 @@ while True:
     for i in range(h):
         for j in range(w):
             if not check[i][j] and d[i][j] == 1:
-                dfs(i, j)
+                bfs(i, j)
                 cnt += 1
 
     print("%d\n" % cnt)
