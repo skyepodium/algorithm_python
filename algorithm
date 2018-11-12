@@ -1,36 +1,54 @@
-#시간 복잡도: O(mlogn)
-#공간 복잡도: O(n)
-#사용한 알고리즘: 이진 탐색(재귀), sort
-#사용한 자료구조: 리스트
-
-
-import sys
+import sys, collections
 input = sys.stdin.readline
 print = sys.stdout.write
+
 sys.setrecursionlimit(10 ** 6)
 
 
-def binary_search(val, start, end):
+def dfs(node):
+    check[node] = True
+    print("%d " % node)
 
-    if start > end:
-        return 0
-
-    mid = (start + end) // 2
-
-    if a[mid] == val :
-        return 1
-    elif a[mid] < val:
-        return binary_search(val, mid+1, end)
-    else:
-        return binary_search(val, start, mid-1)
+    for i in v[node]:
+        if not check[i]:
+            dfs(i)
 
 
-n = int(input())
-a = list(map(int, input().split()))
-a.sort()
+def bfs(start):
+    check[start] = True
+    q = collections.deque()
+    q.append(start)
 
-input()
-number = list(map(int, input().split()))
+    while q:
+        node = q.popleft()
+        print("%d " % node)
 
-for i in number:
-    print("%d\n" % binary_search(i, 0, n-1))
+        for i in v[node]:
+            if not check[i]:
+                check[i] = True
+                q.append(i)
+
+
+n, m, start_node = map(int, input().split())
+v = [[] for _ in range(n+1)]
+
+
+for _ in range(m):
+    a, b = map(int, input().split())
+    v[a].append(b)
+    v[b].append(a)
+
+
+for i in v:
+    i.sort()
+
+
+check = [False] * (n+1)
+
+dfs(start_node)
+print("\n")
+
+check = [False] * (n+1)
+
+bfs(start_node)
+print("\n")
