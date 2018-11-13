@@ -1,30 +1,45 @@
-import sys
+import sys, collections
 input = sys.stdin.readline
 print = sys.stdout.write
-from heapq import heappush, heappop
 
-n, m = map(int, input().split())
-v = [[] for _ in range(n+1)]
+
+n = int(input())
+cost = [0] * (n+1)
+d = [0] * (n+1)
 ind = [0] * (n+1)
+v = [[] for _ in range(n+1)]
 
 
-for _ in range(m):
-    a, b = map(int, input().split())
-    v[a].append(b)
-    ind[b] += 1
+for i in range(1, n+1):
+    arr = list(map(int, input().split()))
+    cost[i] = arr[0]
+
+    for _ in range(arr[1]):
+        ind[i] += 1
+
+    for j in arr[2:]:
+        v[j].append(i)
 
 
-pq = []
+q = collections.deque()
 for i in range(1, n+1):
     if ind[i] == 0:
-        heappush(pq, i)
+        q.append(i)
+        d[i] = cost[i]
 
-while pq:
-    node = heappop(pq)
-    print("%d " % node)
+while q:
+    node = q.popleft()
 
     for i in v[node]:
         ind[i] -= 1
-        if ind[i] == 0: heappush(pq, i)
+        d[i] = max(d[i], d[node] + cost[i])
 
-print("\n")
+        if ind[i] == 0:
+            q.append(i)
+
+result = 0
+for i in range(1, n+1):
+    result = max(result, d[i])
+
+print("%d\n" % result)
+
