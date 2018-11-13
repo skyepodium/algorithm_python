@@ -1,45 +1,31 @@
-import sys, collections
+import sys
 input = sys.stdin.readline
 print = sys.stdout.write
+sys.setrecursionlimit(10**6)
+
+def find(node):
+    if node == d[node]:
+        return node
+    else:
+        d[node] = find(d[node])
+        return d[node]
 
 
-n = int(input())
-cost = [0] * (n+1)
-d = [0] * (n+1)
-ind = [0] * (n+1)
-v = [[] for _ in range(n+1)]
-
-
+n, m = map(int, input().split())
+d = [0]
 for i in range(1, n+1):
-    arr = list(map(int, input().split()))
-    cost[i] = arr[0]
+    d.append(i)
 
-    for _ in range(arr[1]):
-        ind[i] += 1
+for _ in range(m):
+    a, b, c = map(int, input().split())
 
-    for j in arr[2:]:
-        v[j].append(i)
+    if a == 0:
+        d[find(b)] = find(c)
+    else:
+        if find(b) == find(c):
+            print("YES\n")
+        else:
+            print("NO\n")
 
 
-q = collections.deque()
-for i in range(1, n+1):
-    if ind[i] == 0:
-        q.append(i)
-        d[i] = cost[i]
-
-while q:
-    node = q.popleft()
-
-    for i in v[node]:
-        ind[i] -= 1
-        d[i] = max(d[i], d[node] + cost[i])
-
-        if ind[i] == 0:
-            q.append(i)
-
-result = 0
-for i in range(1, n+1):
-    result = max(result, d[i])
-
-print("%d\n" % result)
 
