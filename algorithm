@@ -14,19 +14,21 @@ def find(node):
 
 n, m = map(int, input().split())
 d = [0] * (n+1)
-
+v = []
 
 for i in range(1, n+1):
     d[i] = i
 
-
 for _ in range(m):
     a, b, c = map(int, input().split())
+    v.append((a, b, c))
 
-    if a == 0:
-        d[find(b)] = find(c)
-    else:
-        if find(b) == find(c): print("YES\n")
-        else: print("NO\n")
+v.sort(key = lambda element: element[2])
 
+result = 0;
+for i in v:
+    if find(i[0]) != find(i[1]):
+        d[find(i[0])] = find(i[1])
+        result += i[2]
 
+print("%d\n" % result)
