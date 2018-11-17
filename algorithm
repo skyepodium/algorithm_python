@@ -1,36 +1,33 @@
-import sys
-from heapq import heappush, heappop
+import sys, heapq
 input = sys.stdin.readline
 print = sys.stdout.write
 
-n = int(input())
-m = int(input())
-check = [False] * (n+1)
-v = [[] for i in range(n+1)]
+max_val = int(1e6)
+n, m = map(int, input().split())
+v = [[] for _ in range(n+1)]
+d = [max_val] * (n+1)
+
+start_node = int(input())
 
 for _ in range(m):
     a, b, c = map(int, input().split())
     v[a].append((c, b))
-    v[b].append((c, a))
 
-check[1] = True
+d[start_node] = 0
 pq = []
-for i in v[1]:
-    heappush(pq, i)
+heapq.heappush(pq, (d[start_node], start_node))
 
-result = 0
-for i in range(n-1):
+while pq:
 
-    next_node = 0
-    while pq:
-        cost, next = heappop(pq)
-        if check[next] == False:
-            check[next] = True
-            result += cost
-            cur_node = next
-            break
+    c_cost, cur = heapq.heappop(pq)
 
-    for i in v[cur_node]:
-        heappush(pq, i)
+    for n_cost, next in v[cur]:
+        if d[next] > d[cur] + n_cost:
+            d[next] = d[cur] + n_cost
+            heapq.heappush(pq, (d[next], next))
 
-print("%d\n" % result)
+for i in range(1, n+1):
+    if d[i] == max_val:
+        print("INF\n")
+    else:
+        print("%d\n" % d[i])
