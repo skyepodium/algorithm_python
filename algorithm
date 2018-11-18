@@ -3,30 +3,66 @@ input = sys.stdin.readline
 print = sys.stdout.write
 from heapq import heappush, heappop
 
+def dijkstra(start_node):
+    pq = []
+    d[start_node] = 0
+    heappush(pq, (d[start_node], start_node))
+
+    while pq:
+        cur_cost, cur_node = heappop(pq)
+        for next_cost, next_node in v[cur_node]:
+            if d[next_node] > d[cur_node] + next_cost:
+                d[next_node] = d[cur_node] + next_cost
+                heappush(pq, (d[next_node], next_node))
+
+
+
 max_val = 2147483647
 
-n = int(input())
-m = int(input())
-
+n, m = map(int, input().split())
 v = [[] for _ in range(n+1)]
-dist = [max_val] * (n+1)
+d = [max_val] * (n+1)
 
 for _ in range(m):
     a, b, c = map(int, input().split())
     v[a].append((c, b))
+    v[b].append((c, a))
 
-start_node, end_node = map(int, input().split())
+first_node, second_node = map(int, input().split())
 
-pq = []
-dist[start_node] = 0
-heappush(pq, (dist[start_node], start_node))
+path = []
+path.append((1, first_node))
+path.append((first_node, second_node))
+path.append((second_node, n))
 
-while pq:
-    cur_cost, cur_node = heappop(pq)
+first_result = 0
+first_possible = True
+for start_node, end_node in path:
+    d = [max_val] * (n+1)
+    dijkstra(start_node)
+    if d[end_node] == max_val:
+        first_possible = False
+        break
+    else: first_result += d[end_node]
 
-    for next_cost, next_node in v[cur_node]:
-        if dist[next_node] > dist[cur_node] + next_cost:
-            dist[next_node] = dist[cur_node] + next_cost
-            heappush(pq, (dist[next_node], next_node))
 
-print("%d\n" % dist[end_node])
+path.clear()
+path.append((1, second_node))
+path.append((second_node, first_node))
+path.append((first_node, n))
+
+second_result = 0
+second_possible = True
+for start_node, end_node in path:
+    d = [max_val] * (n+1)
+    dijkstra(start_node)
+    if d[end_node] == max_val:
+        second_possible = False
+        break
+    else: second_result += d[end_node]
+
+
+if first_possible and second_possible:
+    print("%d\n" % min(first_result, second_result))
+else:
+    print("-1\n")
