@@ -1,37 +1,32 @@
-#시간 복잡도: O(tnm)
-#공간 복잡도: O(n)
-#사용한 알고리즘: 벨만포드 알고리즘
-#사용한 자료구조: 리스트
-
-
 import sys
 input = sys.stdin.readline
 print = sys.stdout.write
+from heapq import heappush, heappop
 
 max_val = 2147483647
-t = int(input())
 
-for _ in range(t):
-    n, m, w = map(int, input().split())
-    dist = [max_val] * (n+1)
-    v = []
-    for _ in range(m):
-        a, b, c = map(int, input().split())
-        v.append((a, b, c))
-        v.append((b, a, c))
+n = int(input())
+m = int(input())
 
-    for _ in range(w):
-        a, b, c = map(int, input().split())
-        v.append((a, b, -c))
+v = [[] for _ in range(n+1)]
+dist = [max_val] * (n+1)
 
-    dist[1] = True
-    negative_cycle = False
-    for i in range(1, n+1):
-        for cur, next, cost in v:
+for _ in range(m):
+    a, b, c = map(int, input().split())
+    v[a].append((c, b))
 
-            if dist[cur] != max_val and dist[next] > dist[cur] + cost:
-                dist[next] = dist[cur] + cost
-                if i == n : negative_cycle = True
+start_node, end_node = map(int, input().split())
 
-    if negative_cycle: print("YES\n")
-    else: print("NO\n")
+pq = []
+dist[start_node] = 0
+heappush(pq, (dist[start_node], start_node))
+
+while pq:
+    cur_cost, cur_node = heappop(pq)
+
+    for next_cost, next_node in v[cur_node]:
+        if dist[next_node] > dist[cur_node] + next_cost:
+            dist[next_node] = dist[cur_node] + next_cost
+            heappush(pq, (dist[next_node], next_node))
+
+print("%d\n" % dist[end_node])
