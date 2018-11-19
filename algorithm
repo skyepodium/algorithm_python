@@ -1,27 +1,26 @@
-import sys
+import sys, collections
 input = sys.stdin.readline
 print = sys.stdout.write
-from heapq import heappush, heappop
 
+max_val = 2147483647
+n, m = map(int, input().split())
 
-m, n = map(int, input().split())
-
-d = [[2147483647 for _ in range(m+1)] for _ in range(n+1)]
 a = [[0 for _ in range(m+1)] for _ in range(n+1)]
+check = [[[max_val for _ in range(2)] for _ in range(m+1)] for _ in range(n+1)]
 dx = [0, 0, 1, -1]
 dy = [-1, 1, 0, 0]
 
 for i in range(n):
-    word = input()
+    map = input()
     for j in range(m):
-        a[i][j] = int(word[j])
+        a[i][j] = int(map[j])
 
-pq = []
-d[0][0] = 0
-heappush(pq, (d[0][0], 0, 0))
+q = collections.deque()
+check[0][0][0] = 1
+q.append((0, 0, 0))
 
-while pq:
-    cost, x, y = heappop(pq)
+while q:
+    x, y, use = q.popleft()
 
     for i in range(4):
         nx = x + dx[i]
@@ -29,12 +28,18 @@ while pq:
 
         if nx>=0 and nx<n and ny>=0 and ny<m:
 
-            n_cost = 0
-            if a[nx][ny] == 1: n_cost = 1
+            if a[nx][ny] == 0 and check[nx][ny][use] > check[x][y][use] + 1:
+                check[nx][ny][use] = check[x][y][use] + 1
+                q.append((nx, ny, use))
 
-            if d[nx][ny] > d[x][y] + n_cost:
-                d[nx][ny] = d[x][y] + n_cost
-                heappush(pq, (d[nx][ny], nx, ny))
+            if a[nx][ny] == 1 and use == 0 and check[nx][ny][1] > check[x][y][0] + 1:
+                check[nx][ny][1] = check[x][y][0] + 1
+                q.append((nx, ny, 1))
 
 
-print("%d\n" % d[n-1][m-1])
+if check[n-1][m-1][0] == max_val and check[n-1][m-1][1] == max_val:
+    print("-1\n")
+else:
+    print("%d\n" % min(check[n-1][m-1][0], check[n-1][m-1][1]))
+
+
