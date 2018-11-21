@@ -1,43 +1,38 @@
-import sys, collections
+import sys
 input = sys.stdin.readline
 print = sys.stdout.write
-
-tomato_cnt = 0
-day = 0
-m, n = map(int, input().split())
-d = [[0 for _ in range(m+1)] for _ in range(n+1)]
-check = [[-1 for _ in range(m+1)] for _ in range(n+1)]
-q = collections.deque()
-dx = [0, 0, 1, -1]
-dy = [-1, 1, 0, 0]
-
-for i in range(n):
-    arr = list(map(int, input().split()))
-    for j in range(m):
-        d[i][j] = arr[j]
-        if d[i][j] == 0:
-            tomato_cnt += 1
-        if d[i][j] == 1:
-            q.append((i, j))
-            check[i][j] = 0
+sys.setrecursionlimit(10 ** 6)
 
 
-while q:
-    x, y = q.popleft()
+def dfs(x, y):
+    check[x][y] = True
 
     for i in range(4):
         nx = x + dx[i]
         ny = y + dy[i]
 
-        if nx>=0 and nx<n and ny>=0 and ny<m:
-            if check[nx][ny] == -1 and d[nx][ny] == 0:
-                check[nx][ny] = check[x][y] + 1
-                day = max(day, check[nx][ny])
-                tomato_cnt -= 1
-                q.append((nx, ny))
+        if not check[nx][ny] and d[nx][ny]:
+            dfs(nx, ny)
 
 
-if tomato_cnt != 0:
-    print("-1\n")
-else:
-    print("%d\n" % day)
+t = int(input())
+dx = [0, 0, 1, -1]
+dy = [-1, 1, 0, 0]
+
+for _ in range(t):
+    m, n, k = map(int, input().split())
+    d = [[0 for _ in range(m + 1)] for _ in range(n + 1)]
+    check = [[False for _ in range(m + 1)] for _ in range(n + 1)]
+
+    for _ in range(k):
+        b, a = map(int, input().split())
+        d[a][b] = 1
+
+    cnt = 0
+    for i in range(n + 1):
+        for j in range(m + 1):
+            if not check[i][j] and d[i][j]:
+                dfs(i, j)
+                cnt += 1
+
+    print("%d\n" % cnt)
