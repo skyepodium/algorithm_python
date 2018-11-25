@@ -3,74 +3,66 @@ input = sys.stdin.readline
 print = sys.stdout.write
 
 
-def bfs(x, y):
+def topological_sorting():
     q = collections.deque()
-    q.append((x, y))
-    check[x][y] = 1
+    d[start_node] = 0
+    q.append((start_node, d[start_node]))
 
     while q:
-        x, y = q.popleft()
+        c_node, c_cost = q.popleft()
 
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
+        for n_node, n_cost in v[c_node]:
+            ind[n_node] -= 1
 
-            if nx>=0 and nx<n and ny>=0 and ny<m:
-                if check[nx][ny] == 0 and d[nx][ny] == 0:
-                    check[nx][ny] = check[x][y] + 1
-                    q.append((nx, ny))
+            d[n_node] = max(d[n_node], d[c_node] + n_cost)
 
-
-n, m = map(int, input().split())
-
-d = [[0 for _ in range(m)] for _ in range(n)]
-a = [[0 for _ in range(m)] for _ in range(n)]
-b = [[0 for _ in range(m)] for _ in range(n)]
-max_val = 2147483647
-result = max_val
-cnt = 0
-dx = [0, 0, 1, -1]
-dy = [-1, 1, 0, 0]
+            if ind[n_node] == 0:
+                q.append((n_node, d[n_node]))
 
 
-for i in range(n):
-    mp = input()
-    for j in range(m):
-        d[i][j] = int(mp[j])
+def reverse_topological_sorting():
+    check = [False] * (n+1)
+    q = collections.deque()
+    q.append((end_node, d[end_node]))
+    check[end_node] = True
 
-p = []
-for _ in range(3):
-    x, y = map(int, input().split())
-    p.append((x-1, y-1))
+    while q:
+        c_node, c_cost = q.popleft()
+        for n_node, n_cost in rv[c_node]:
+            rind[n_node] -= 1
 
-for x, y in p:
-    check = [[0 for _ in range(m)] for _ in range(n)]
-
-    bfs(x, y)
-
-    for i in range(n):
-        for j in range(m):
-
-            if d[i][j] == 0 and check[i][j] != 0:
-                a[i][j] = max(a[i][j], check[i][j])
-                b[i][j] += 1
-
-    for i in range(n):
-        for j in range(m):
-
-            if d[i][j] == 0 and b[i][j] == 3 and a[i][j] < result:
-                cnt = 1
-                result = a[i][j]
-            elif a[i][j] == result:
+            if check[c_node] and d[n_node] == d[c_node] - n_cost:
+                check[n_node] = True
+                global cnt
                 cnt += 1
 
-
-if result == max_val:
-    print("-1\n")
-else:
-    print("%d\n" % (result-1))
-    print("%d\n" % cnt)
+            if rind[n_node] == 0:
+                q.append((n_node, d[n_node]))
 
 
+n = int(input())
+m = int(input())
+cnt = 0
+
+v = [[] for _ in range(n+1)]
+rv = [[] for _ in range(n+1)]
+ind = [0] * (n+1)
+rind = [0] * (n+1)
+d = [0] * (n+1)
 
 
+for _ in range(m):
+    a, b, c = map(int, input().split())
+    v[a].append((b, c))
+    rv[b].append((a, c))
+
+    ind[b] += 1
+    rind[a] += 1
+
+start_node, end_node = map(int, input().split())
+
+topological_sorting()
+reverse_topological_sorting()
+
+print("%d\n" % d[end_node])
+print("%d\n" % cnt)
