@@ -2,24 +2,30 @@ import sys
 input = sys.stdin.readline
 print = sys.stdout.write
 
-n, m = map(int, input().split())
+n, s = map(int, input().split())
 a = list(map(int, input().split()))
 
 left = 0
 right = 0
 cur = a[0]
-cnt = 0
+result = n+1
 
 while left < n and right < n:
-    if cur < m:
-        right += 1
-        if right < n: cur += a[right]
-    elif cur > m:
-        if left < n: cur -= a[left]
-        left += 1
-    else:
-        cnt += 1
+
+    if cur < s:
         right += 1
         if right < n: cur += a[right]
 
-print("%d\n" % cnt)
+    elif cur > s:
+        result = min(result, right-left+1)
+        if left < n: cur -= a[left]
+        left +=1
+    else:
+        result = min(result, right-left+1)
+        right += 1
+        if right < n: cur += a[right]
+
+if result == n+1:
+    print("0\n")
+else:
+    print("%d\n" % result)
