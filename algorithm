@@ -1,61 +1,76 @@
-import sys
-from heapq import heappush, heappop
+import sys, collections
 input = sys.stdin.readline
 print = sys.stdout.write
 
 
+def bfs(x, y):
+    q = collections.deque()
+    q.append((x, y))
+    check[x][y] = 1
+
+    while q:
+        x, y = q.popleft()
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if nx>=0 and nx<n and ny>=0 and ny<m:
+                if check[nx][ny] == 0 and d[nx][ny] == 0:
+                    check[nx][ny] = check[x][y] + 1
+                    q.append((nx, ny))
+
+
+n, m = map(int, input().split())
+
+d = [[0 for _ in range(m)] for _ in range(n)]
+a = [[0 for _ in range(m)] for _ in range(n)]
+b = [[0 for _ in range(m)] for _ in range(n)]
 max_val = 2147483647
+result = max_val
+cnt = 0
+dx = [0, 0, 1, -1]
+dy = [-1, 1, 0, 0]
 
 
-def dijkstra():
-    pq = []
-    d[start_node] = 0
-    heappush(pq, (d[start_node], start_node))
+for i in range(n):
+    mp = input()
+    for j in range(m):
+        d[i][j] = int(mp[j])
 
-    while pq:
-        c_cost, c_node = heappop(pq)
+p = []
+for _ in range(3):
+    x, y = map(int, input().split())
+    p.append((x-1, y-1))
 
-        for n_cost, n_node in v[c_node]:
-            if check[c_node][n_node] == False and d[n_node] > d[c_node] + n_cost:
-                d[n_node] = d[c_node] + n_cost
-                heappush(pq, (d[n_node], n_node))
+for x, y in p:
+    check = [[0 for _ in range(m)] for _ in range(n)]
+
+    bfs(x, y)
+
+    for i in range(n):
+        for j in range(m):
+
+            if d[i][j] == 0 and check[i][j] != 0:
+                a[i][j] = max(a[i][j], check[i][j])
+                b[i][j] += 1
+
+    for i in range(n):
+        for j in range(m):
+
+            if d[i][j] == 0 and b[i][j] == 3 and a[i][j] < result:
+                cnt = 1
+                result = a[i][j]
+            elif a[i][j] == result:
+                cnt += 1
 
 
-def reverse_dijkstra():
-    pq = []
-    heappush(pq, (d[end_node], end_node))
-
-    while pq:
-        c_cost, c_node = heappop(pq)
-
-        for n_cost, n_node in rv[c_node]:
-            if d[n_node] == d[c_node] - n_cost:
-                check[n_node][c_node] = True
-                heappush(pq, (d[n_node], n_node))
+if result == max_val:
+    print("-1\n")
+else:
+    print("%d\n" % (result-1))
+    print("%d\n" % cnt)
 
 
-while True:
-    n, m = map(int, input().split())
-    if n == 0 and m == 0: break
-
-    d = [max_val] * (n+1)
-    check = [[False for _ in range(n+1)] for _ in range(n+1)]
-    v = [[] for _ in range(n+1)]
-    rv = [[] for _ in range(n+1)]
-
-    start_node, end_node = map(int, input().split())
-
-    for _ in range(m):
-        a, b, c = map(int, input().split())
-        v[a].append((c, b))
-        rv[b].append((c, a))
-
-    dijkstra()
-    reverse_dijkstra()
-    d = [max_val] * (n+1)
-    dijkstra()
-
-    if d[end_node] == max_val: print("-1\n")
-    else: print("%d\n" % d[end_node])
 
 
