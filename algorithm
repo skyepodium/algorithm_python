@@ -1,41 +1,71 @@
-import sys
+import sys, collections
 input = sys.stdin.readline
 print = sys.stdout.write
 
-max_val = 1000001
+
+def bfs():
+    q = collections.deque()
+    q.append((cur_x, cur_y))
+    while q:
+        x, y = q.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx>=0 and nx<n and ny>=0 and ny<n:
+                if check[nx][ny] == 0 and d[nx][ny] <= cur_size:
+                    check[nx][ny] = check[x][y] + 1
+                    if d[nx][ny] != 0 and d[nx][ny] < cur_size:
+                        fish.append((nx, ny, check[nx][ny], d[nx][ny]))
+                    q.append((nx, ny))
+
 
 n = int(input())
-d = [[max_val for _ in range(n+1)] for _ in range(n+1)]
-for i in range(1, n+1): d[i][i] = 0
+dx = [0, 0, 1, -1]
+dy = [-1, 1, 0, 0]
+cur_x = 0
+cur_y = 0
+cur_size = 2
+cur_eat = 0
+time = 0
+
+d = []
+fish = []
+for i in range(n):
+    arr = list(map(int, input().split()))
+    d.append(arr)
+    for j in range(n):
+        if arr[j] == 9:
+            cur_x = i
+            cur_y = j
+            d[i][j] = 0
+
 
 while True:
-    a, b = map(int, input().split())
-    if a == -1 and b == -1: break
-    d[a][b] = 1
-    d[b][a] = 1
+    check = [[0 for _ in range(n)] for _ in range(n)]
+    fish.clear()
+    bfs()
+    fish.sort(key=lambda element: (element[2], element[0], element[1]))
 
-for k in range(1, n+1):
-    for i in range(1, n+1):
-        for j in range(1, n+1):
-            if d[i][j] > d[i][k] + d[k][j]:
-                d[i][j] = d[i][k] + d[k][j]
+    # 1. 물고기가 전혀 없으면 종료
+    if len(fish) == 0: break
 
-list = []
-for i in range(1, n+1):
-    score = 0
-    for j in range(1, n+1):
-        score = max(score, d[i][j])
-    list.append((i, score))
+    # 2. 물고기가 1마리 있는데 먹을 수 없으면 종료
+    if len(fish) == 1 and fish[0][3] >= cur_size: break
 
-list.sort(key=lambda element: (element[1], element[0]))
+    # 3. 먹는다.
+    cur_eat += 1
+    fish_x = fish[0][0]
+    fish_y = fish[0][1]
+    time += check[fish_x][fish_y]
+    d[fish_x][fish_y] = 0
+    cur_x = fish_x
+    cur_y = fish_y
 
-max_score = list[0][1]
-cnt = 1
-for i in range(1, len(list)):
-    if max_score == list[i][1]: cnt += 1
-    else: break
+    # 4. 사이즈 증가
+    if cur_eat == cur_size:
+        cur_size += 1
+        cur_eat = 0
 
-print("%d %d\n" % (max_score, cnt))
-for i in range(cnt):
-    print("%d " % list[i][0])
-print("\n")
+
+print("%d\n" % time)
+
