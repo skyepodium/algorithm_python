@@ -1,28 +1,21 @@
-import sys
-input = sys.stdin.readline
-print = sys.stdout.write
+#import sys
+#input = sys.stdin.readline
+#print = sys.stdout.write
 
-n, t = map(int, input().split())
-d = [[0 for _ in range(t+1)] for _ in range(n+1)]
-k = []
-s = []
+t = int(input())
 
-for i in range(n):
-    a, b = map(int, input().split())
-    k.append(a)
-    s.append(b)
+for test_case in range(1, t+1):
+    n = int(input())
 
-if t-k[0] >=0: d[0][t-k[0]] = s[0]
-
-for i in range(1, n):
-    for j in range(t+1):
-
-        if j+k[i] <= t:
-            d[i][j] = max(d[i-1][j], d[i-1][j+k[i]] + s[i])
+    result = -1
+    i = 1
+    while(True):
+        if i*i*i == n:
+            result = i
+            break
+        elif i*i*i > n:
+            break
         else:
-            d[i][j] = max(d[i-1][j], d[i][j])
+            i += 1
 
-result = 0
-for j in range(t+1):
-    result = max(result, d[n-1][j])
-print("%d\n" % result)
+    print("#%d %d" % (test_case, result))
