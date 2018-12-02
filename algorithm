@@ -1,19 +1,69 @@
-#import sys
-#input = sys.stdin.readline
-#print = sys.stdout.write
+import sys, collections
+input = sys.stdin.readline
+print = sys.stdout.write
 
-t = int(input())
 
-for test_case in range(1, t+1):
-    n = int(input())
-    d = [0] * (n+1)
+def lca(first, second):
+    if depth[first] < depth[second]:
+        first, second = second, first
 
-    a = list(map(int, input().split()))
+    log = 1
+    while True:
+        if (1 << log) > depth[first]: break
+        else: log += 1
+    log -= 1
 
-    d[0] = a[0]
-    result = d[0]
-    for i in range(2, n):
-        d[i] = max(a[i], d[i-1] + a[i])
-        result = max(result, d[i])
+    for i in range(log, -1, -1):
+        if depth[first] - (1 << i) >= depth[second]:
+            first = p[first][i]
 
-    print("#%d %d" % (test_case, result))
+    if first == second:
+        return first
+    else:
+        for i in range(log, -1, -1):
+            if p[first][i] != 0 and p[first][i] != p[second][i]:
+                first = p[first][i]
+                second = p[second][i]
+        return parent[first]
+
+n = int(input())
+v = [[] for _ in range(n+1)]
+q = collections.deque()
+check = [False] * (n+1)
+parent = [0] * (n+1)
+depth = [0] * (n+1)
+p = [[0 for _ in range(18)] for _ in range(n+1)]
+
+for _ in range(n-1):
+    a, b = map(int, input().split())
+    v[a].append(b)
+    v[b].append(a)
+
+check[1] = True
+parent[1] = 0
+depth[1] = 0
+q.append(1)
+while q:
+    node = q.popleft()
+    for next in v[node]:
+        if not check[next]:
+            check[next] = True
+            parent[next] = node
+            depth[next] = depth[node] + 1
+            q.append(next)
+
+for i in range(1, n+1):
+    p[i][0] = parent[i]
+
+for j in range(n):
+    if (1 << j) < n:
+        for i in range(1, n+1):
+            if p[i][j-1] != 0:
+                p[i][j] = p[p[i][j-1]][j-1]
+    else:
+        break
+
+m = int(input())
+for _ in range(m):
+    a, b = map(int, input().split())
+    print("%d\n" % lca(a, b))
