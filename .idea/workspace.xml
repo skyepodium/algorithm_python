@@ -11,13 +11,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/algorithm$algorithm.coverage" NAME="algorithm Coverage Results" MODIFIED="1543755548419" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/algorithm$algorithm.coverage" NAME="algorithm Coverage Results" MODIFIED="1544331051985" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="519237397">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="19" />
+          <entry key="project.closed" value="20" />
           <entry key="project.open.time.0" value="4" />
           <entry key="project.open.time.2" value="3" />
           <entry key="project.open.time.3" value="9" />
@@ -38,12 +38,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="algorithm" value="63508" />
+          <entry key="algorithm" value="63515" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="63508" />
+          <entry key="Python" value="63515" />
         </counts>
       </usages-collector>
     </session>
@@ -53,8 +53,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/algorithm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="21" column="46" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
+            <state relative-caret-position="340">
+              <caret line="20" column="17" lean-forward="true" selection-end-line="26" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -85,8 +85,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="772" />
-    <option name="y" value="32" />
+    <option name="x" value="572" />
+    <option name="y" value="23" />
     <option name="width" value="868" />
     <option name="height" value="823" />
   </component>
@@ -257,13 +257,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="772" y="32" width="868" height="823" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.2533137" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.8412017" visible="true" weight="0.36798906" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8412017" weight="0.36798906" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -290,8 +291,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/algorithm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="21" column="46" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
+        <state relative-caret-position="340">
+          <caret line="20" column="17" lean-forward="true" selection-end-line="26" selection-end-column="41" />
         </state>
       </provider>
     </entry>
