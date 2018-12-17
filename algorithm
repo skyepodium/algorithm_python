@@ -1,17 +1,49 @@
-import sys
+import sys, collections
 input = sys.stdin.readline
 print = sys.stdout.write
 
+
+def bfs(x, y):
+    q = collections.deque()
+    check[x][y] = True
+    q.append((x, y))
+    while q:
+        x, y = q.popleft()
+        global sub_cnt
+        sub_cnt += 1
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx>=0 and nx<n and ny>=0 and ny<n:
+                if not check[nx][ny] and a[nx][ny] == 1:
+                    check[nx][ny] = True
+                    q.append((nx, ny))
+
+
 n = int(input())
-d = [0] * (n+1)
-d[1] = 0
+total_cnt = 0
+sub_cnt = 0
+result = []
+dx = [0, 0, 1, -1]
+dy = [-1, 1, 0, 0]
+a = [[0 for _ in range(n)] for _ in range(n)]
+check = [[False for _ in range(n)] for _ in range(n)]
 
-for i in range (2, n+1):
-    d[i] = d[i-1] + 1
-    if i%3 == 0: d[i] = min(d[i], d[int(i/3)] + 1)
-    if i%2 == 0: d[i] = min(d[i], d[int(i/2)] + 1)
+for i in range(n):
+    arr = input()
+    for j in range(n):
+        a[i][j] = int(arr[j])
 
-print("%d\n" % d[n])
+for i in range(n):
+    for j in range(n):
+        if not check[i][j] and a[i][j] == 1:
+            total_cnt += 1
+            sub_cnt = 0
+            bfs(i, j)
+            result.append(sub_cnt)
 
-
-
+print("%d\n" % total_cnt)
+result.sort()
+for i in result:
+    print("%d\n" % i)
