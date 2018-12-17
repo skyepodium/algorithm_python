@@ -4,38 +4,23 @@ print = sys.stdout.write
 sys.setrecursionlimit(10**6)
 
 
-def pre_order(node):
-    if node == '.': return
+def dfs(node):
+    check[node] = True
+    for next in v[node]:
+        if not check[next]:
+            parent[next] = node
+            dfs(next)
 
-    print(node)
-    pre_order(tree[ord(node) - ord('A')][0])
-    pre_order(tree[ord(node) - ord('A')][1])
-
-
-def in_order(node):
-    if node == '.': return
-
-    in_order(tree[ord(node) - ord('A')][0])
-    print(node)
-    in_order(tree[ord(node) - ord('A')][1])
-
-
-def post_order(node):
-    if node == '.': return
-
-    post_order(tree[ord(node) - ord('A')][0])
-    post_order(tree[ord(node) - ord('A')][1])
-    print(node)
 
 n = int(input())
-tree = [[0 for _ in range(2)] for _ in range(26)]
-for _ in range(n):
-    a, b, c = map(str, input().split())
-    tree[ord(a) - ord('A')][0] = b
-    tree[ord(a) - ord('A')][1] = c
+v = [[] for _ in range(n+1)]
+check = [False] * (n+1)
+parent = [False] * (n+1)
+for _ in range(n-1):
+    a, b = map(int, input().split())
+    v[a].append(b)
+    v[b].append(a)
 
-pre_order('A')
-print("\n")
-in_order('A')
-print("\n")
-post_order('A')
+dfs(1)
+for i in range(2, n+1):
+    print("%d\n" % parent[i])
