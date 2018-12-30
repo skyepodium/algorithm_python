@@ -2,13 +2,11 @@ import sys
 input = sys.stdin.readline
 print = sys.stdout.write
 
-n = int(input())
 d = []
+n = int(input())
 for _ in range(n):
-    d.append(int(input()))
+    a, b = map(int, input().split())
+    d.append((a, b))
 
-d.sort()
-for i in d:
-    print("%d\n" % i)
-
-
+for a, b in sorted(d):
+    print("%d %d\n" % (a, b))
