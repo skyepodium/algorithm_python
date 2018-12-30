@@ -2,9 +2,14 @@ import sys
 input = sys.stdin.readline
 print = sys.stdout.write
 
-a, b, c = map(int, input().split())
 
-print("%d\n" % ((a+b)%c))
-print("%d\n" % ((a%c+b%c)%c))
-print("%d\n" % ((a*b)%c))
-print("%d\n" % ((a%c * b%c)%c))
+def gcd(a, b):
+    if b == 0:
+        return a
+    else:
+        return gcd(b, a % b)
+
+
+a, b = map(int, input().split())
+print("%d\n" % gcd(a, b))
+print("%d\n" % ((a*b)/gcd(a, b)))
