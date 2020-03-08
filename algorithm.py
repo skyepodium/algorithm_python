@@ -1,45 +1,51 @@
-from socket import *
-clientSock = socket(AF_INET, SOCK_STREAM)
-clientSock.connect(('pwnable.kr', 9007))
-findCoin = 0
-while findCoin < 101:
-    data = clientSock.recv(2048).decode('utf-8')
-    print(data)
-    size = len(data)
-    if size != 0 and size != 1102 and size != 13 and size != 14:
-        data = data.split(" ")
-        data[0] = data[0].split("=")
-        data[1] = data[1].split("=")
-        n = data[0][1]
-        c = data[1][1]
-        n = int(n)
-        c = int(c)
-        start = 0
-        end = n-1
-        while 1:
-            mid = (start + end) // 2
-            if start != end and end != mid:
-                message = ""
-                sumValue = (mid - start + 1) * 10
-                for i in range(start, mid + 1):
-                    message = message + " " + str(i)
-                message += "\n"
-                c -= 1
-                clientSock.send(message.encode('utf-8'))
-                resultValue = clientSock.recv(2048).decode('utf-8')
-                resultValue = int(resultValue)
-                if sumValue > resultValue:
-                    end = mid
-                else:
-                    start = mid + 1
-            else:
-                result = str(start) + "\n"
-                clientSock.send(result.encode('utf-8'))
-                c -= 1
-                if c != -1:
-                    data = clientSock.recv(2048).decode('utf-8')
-                    clientSock.send(result.encode('utf-8'))
-                    c -= 1
-                findCoin += 1
-                print("coin!!! = " + str(findCoin))
-                break
+max_int = 101
+end_x = 0
+end_y = 0
+dx = [0, -1, 0, 1]
+dy = [1, 0, -1, 0]
+dragon = []
+result = 0
+a = [[False for col in range(max_int)] for row in range(max_int)]
+n = int(input())
+
+def make_genration():
+    size = len(dragon)
+    for i in range(size-1, -1, -1):
+        dir = (dragon[i] + 1) % 4
+
+        global end_x, end_y
+        end_x = end_x + dx[dir]
+        end_y = end_y + dy[dir]
+
+        global a
+        a[end_x][end_y] = True
+
+        dragon.append(dir)
+
+for i in range(n):
+    y, x, d, g = map(int, input().split())
+
+    dragon.clear()
+
+    end_x = x
+    end_y = y
+    
+    a[end_x][end_y] = True
+
+    end_x = x + dx[d]
+    end_y = y + dy[d]
+
+    a[end_x][end_y] = True
+
+    dragon.append(d)
+
+    for i in range(g):
+        make_genration()
+    
+for i in range(max_int - 1):
+    for j in range(max_int - 1):
+        if a[i][j] and a[i+1][j] and a[i][j+1] and a[i+1][j+1]:
+            result += 1
+    
+print(result) 
+
