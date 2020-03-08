@@ -10,6 +10,7 @@ n = int(input())
 
 def make_genration():
     size = len(dragon)
+    
     for i in range(size-1, -1, -1):
         dir = (dragon[i] + 1) % 4
 
@@ -17,7 +18,6 @@ def make_genration():
         end_x = end_x + dx[dir]
         end_y = end_y + dy[dir]
 
-        global a
         a[end_x][end_y] = True
 
         dragon.append(dir)
