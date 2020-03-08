@@ -1,16 +1,16 @@
-max_int = 101
-end_x = 0
-end_y = 0
+MAX_INT = 101
+end_x, end_y = 0, 0
+a = [[False for _ in range(MAX_INT)] for _ in range(MAX_INT)]
 dx = [0, -1, 0, 1]
 dy = [1, 0, -1, 0]
 dragon = []
 result = 0
-a = [[False for col in range(max_int)] for row in range(max_int)]
 n = int(input())
 
-def make_genration():
+def make_generation():
+
     size = len(dragon)
-    
+
     for i in range(size-1, -1, -1):
         dir = (dragon[i] + 1) % 4
 
@@ -29,7 +29,7 @@ for i in range(n):
 
     end_x = x
     end_y = y
-    
+
     a[end_x][end_y] = True
 
     end_x = x + dx[d]
@@ -40,12 +40,12 @@ for i in range(n):
     dragon.append(d)
 
     for i in range(g):
-        make_genration()
+        make_generation()
     
-for i in range(max_int - 1):
-    for j in range(max_int - 1):
-        if a[i][j] and a[i+1][j] and a[i][j+1] and a[i+1][j+1]:
-            result += 1
-    
-print(result) 
+for i in range(MAX_INT-1):
+    for j in range(MAX_INT-1):
 
+        if a[i][j] and a[i][j+1] and a[i+1][j] and a[i+1][j+1]:
+            result += 1
+
+print(result)
