@@ -1,51 +1,46 @@
-MAX_INT = 101
-end_x, end_y = 0, 0
-a = [[False for _ in range(MAX_INT)] for _ in range(MAX_INT)]
-dx = [0, -1, 0, 1]
-dy = [1, 0, -1, 0]
-dragon = []
+from collections import deque
+
+
+def bfs():
+    global result, cnt
+    while q:
+        x, y = q.popleft()
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if nx >= n or nx < 0 or ny >= m or ny < 0: continue
+
+            if check[nx][ny] == -1 and a[nx][ny] == 0:
+                check[nx][ny] = check[x][y] + 1
+                result = max(result, check[nx][ny])
+                cnt -= 1
+                q.append((nx, ny))
+
+
+m, n = map(int, input().split())
+a = []
+check = [[-1 for _ in range(m)] for _ in range(n)]
+cnt = 0
+q = deque()
+dx = [0, 0, 1, -1]
+dy = [-1, 1, 0, 0]
 result = 0
-n = int(input())
-
-def make_generation():
-
-    size = len(dragon)
-
-    for i in range(size-1, -1, -1):
-        dir = (dragon[i] + 1) % 4
-
-        global end_x, end_y
-        end_x = end_x + dx[dir]
-        end_y = end_y + dy[dir]
-
-        a[end_x][end_y] = True
-
-        dragon.append(dir)
 
 for i in range(n):
-    y, x, d, g = map(int, input().split())
+    arr = list(map(int, input().split()))
+    a.append(arr)
 
-    dragon.clear()
+    for j in range(m):
+        if a[i][j] == 0:
+            cnt += 1
+        elif a[i][j] == 1:
+            check[i][j] = 0
+            q.append((i, j))
 
-    end_x = x
-    end_y = y
-
-    a[end_x][end_y] = True
-
-    end_x = x + dx[d]
-    end_y = y + dy[d]
-
-    a[end_x][end_y] = True
-
-    dragon.append(d)
-
-    for i in range(g):
-        make_generation()
-    
-for i in range(MAX_INT-1):
-    for j in range(MAX_INT-1):
-
-        if a[i][j] and a[i][j+1] and a[i+1][j] and a[i+1][j+1]:
-            result += 1
+bfs()
+if cnt != 0:
+    result = -1
 
 print(result)
