@@ -1,39 +1,41 @@
-from collections import deque
+from heapq import heappush, heappop
 
 
-def bfs(x, y):
-    q = deque()
-    check[x][y] = True
-    q.append((x, y))
+def dijkstra(start_node):
+    pq = []
+    d[start_node] = 0
+    heappush(pq, (d[start_node], start_node))
 
-    while q:
-        cx, cy = q.popleft()
+    while pq:
+        c_cost, c_node = heappop(pq)
 
-        for i in range(4):
-            nx = cx + dx[i]
-            ny = cy + dy[i]
+        for idx in range(1, 7):
+            n_node = c_node + idx
 
-            if 0 <= nx < n and 0 <= ny < m:
-                if not check[nx][ny] and a[nx][ny] == 0:
-                    check[nx][ny] = True
-                    q.append((nx, ny))
+            if n_node > 100: continue
+
+            ladder_node = ladder[n_node]
+
+            if ladder_node == -1:
+                if d[n_node] > d[c_node] + 1:
+                    d[n_node] = d[c_node] + 1
+                    heappush(pq, (d[n_node], n_node))
+            else:
+                if d[ladder_node] > d[c_node] + 1:
+                    d[ladder_node] = d[n_node] = d[c_node] + 1
+                    heappush(pq, (d[ladder_node], ladder_node))
 
 
+max_val = max_int = 101
 n, m = map(int, input().split())
-a = []
-for i in range(n):
-    a.append(list(map(int, input())))
+ladder = [-1 for _ in range(max_int)]
+d = [max_val for _ in range(max_int)]
 
-check = [[False for _ in range(m)] for _ in range(n)]
-dx = [0, 0, 1, -1]
-dy = [-1, 1, 0, 0]
-result = 0
+for i in range(n+m):
+    start_point, end_point = map(int, input().split())
 
+    ladder[start_point] = end_point
 
-for i in range(n):
-    for j in range(m):
-        if not check[i][j] and a[i][j] == 0:
-            result += 1
-            bfs(i, j)
+dijkstra(1)
 
-print(result)
+print(d[100])
