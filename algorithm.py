@@ -1,41 +1,43 @@
-from heapq import heappush, heappop
+from collections import deque
 
+n, m, k = map(int, input().split())
 
-def dijkstra(start_node):
-    pq = []
-    d[start_node] = 0
-    heappush(pq, (d[start_node], start_node))
+max_val = 1001 * 1001
+a = []
+check = [[[max_val for _ in range(k + 1)] for _ in range(m)] for _ in range(n)]
+dx = [0, 0, 1, -1]
+dy = [-1, 1, 0, 0]
 
-    while pq:
-        c_cost, c_node = heappop(pq)
+for _ in range(n):
+    arr = list(map(int, input()))
+    a.append(arr)
 
-        for idx in range(1, 7):
-            n_node = c_node + idx
+q = deque()
+check[0][0][0] = 1
+q.append((0, 0, 0))
 
-            if n_node > 100: continue
+while q:
+    x, y, use = q.popleft()
 
-            ladder_node = ladder[n_node]
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
 
-            if ladder_node == -1:
-                if d[n_node] > d[c_node] + 1:
-                    d[n_node] = d[c_node] + 1
-                    heappush(pq, (d[n_node], n_node))
-            else:
-                if d[ladder_node] > d[c_node] + 1:
-                    d[ladder_node] = d[n_node] = d[c_node] + 1
-                    heappush(pq, (d[ladder_node], ladder_node))
+        if nx < 0 or nx >= n or ny < 0 or ny >= m: continue
 
+        if a[nx][ny] == 0 and check[nx][ny][use] > check[x][y][use] + 1:
+            check[nx][ny][use] = check[x][y][use] + 1
+            q.append((nx, ny, use))
 
-max_val = max_int = 101
-n, m = map(int, input().split())
-ladder = [-1 for _ in range(max_int)]
-d = [max_val for _ in range(max_int)]
+        if a[nx][ny] == 1 and use < k and check[nx][ny][use + 1] > check[x][y][use] + 1:
+            check[nx][ny][use + 1] = check[x][y][use] + 1
+            q.append((nx, ny, use + 1))
 
-for i in range(n+m):
-    start_point, end_point = map(int, input().split())
+result = max_val
+for value in check[n-1][m-1]:
+    result = min(result, value)
 
-    ladder[start_point] = end_point
+if result == max_val: result = -1
 
-dijkstra(1)
+print(result)
 
-print(d[100])
