@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="0f2620ab-27d6-4097-a358-b90230ee25f1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm.py" afterDir="false" />
     </list>
@@ -240,10 +257,10 @@
     </state>
     <state width="1415" height="279" key="GridCell.Tab.0.right/0.23.1680.947@0.23.1680.947" timestamp="1605414813170" />
     <state width="1415" height="279" key="GridCell.Tab.0.right/0.23.1680.949@0.23.1680.949" timestamp="1605421164518" />
-    <state x="168" y="107" key="SettingsEditor" timestamp="1606014939909">
+    <state x="168" y="107" key="SettingsEditor" timestamp="1606016846616">
       <screen x="0" y="23" width="1680" height="946" />
     </state>
-    <state x="168" y="107" key="SettingsEditor/0.23.1680.946@0.23.1680.946" timestamp="1606014939909" />
+    <state x="168" y="107" key="SettingsEditor/0.23.1680.946@0.23.1680.946" timestamp="1606016846616" />
     <state x="0" y="23" key="SettingsEditor/0.23.1680.947@0.23.1680.947" timestamp="1605414618436" />
     <state x="0" y="23" key="SettingsEditor/0.23.1680.949@0.23.1680.949" timestamp="1601611927201" />
     <state x="506" y="231" width="670" height="675" key="search.everywhere.popup" timestamp="1605414825374">
