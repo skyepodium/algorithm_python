@@ -1,43 +1,70 @@
 from collections import deque
 
-n, m, k = map(int, input().split())
 
-max_val = 1001 * 1001
-a = []
-check = [[[max_val for _ in range(k + 1)] for _ in range(m)] for _ in range(n)]
-dx = [0, 0, 1, -1]
-dy = [-1, 1, 0, 0]
+def sort_value(tx, ty, tz):
+    arr = [tx, ty, tz]
+    arr.sort()
 
-for _ in range(n):
-    arr = list(map(int, input()))
-    a.append(arr)
+    return arr
 
-q = deque()
-check[0][0][0] = 1
-q.append((0, 0, 0))
 
-while q:
-    x, y, use = q.popleft()
+max_int = 1501
+check = [[False for _ in range(max_int)] for _ in range(max_int)]
+a, b, c = map(int, input().split())
+a, b, c = sort_value(a, b, c)
+result = 0
 
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
 
-        if nx < 0 or nx >= n or ny < 0 or ny >= m: continue
+def bfs(x, y, z):
+    q = deque()
+    check[x][y] = True
+    q.append((x, y, z))
 
-        if a[nx][ny] == 0 and check[nx][ny][use] > check[x][y][use] + 1:
-            check[nx][ny][use] = check[x][y][use] + 1
-            q.append((nx, ny, use))
+    while q:
+        x, y, z = q.popleft()
 
-        if a[nx][ny] == 1 and use < k and check[nx][ny][use + 1] > check[x][y][use] + 1:
-            check[nx][ny][use + 1] = check[x][y][use] + 1
-            q.append((nx, ny, use + 1))
+        if x == y and y == z:
+            global result
+            result = 1
+            break
 
-result = max_val
-for value in check[n-1][m-1]:
-    result = min(result, value)
+        if y - x > 0:
+            nx = x * 2
+            ny = y - x
+            nz = z
 
-if result == max_val: result = -1
+            if nx < max_int and ny > 0:
+                nx, ny, nz = sort_value(nx, ny, nz)
+
+                if not check[nx][ny]:
+                    check[nx][ny] = True
+                    q.append((nx, ny, nz))
+
+        if z - x > 0:
+            nx = x * 2
+            ny = z - x
+            nz = y
+
+            if nx < max_int and ny > 0:
+                nx, ny, nz = sort_value(nx, ny, nz)
+
+                if not check[nx][ny]:
+                    check[nx][ny] = True
+                    q.append((nx, ny, nz))
+
+        if z - y > 0:
+            nx = y * 2
+            ny = z - y
+            nz = x
+
+            if nx < max_int and ny > 0:
+                nx, ny, nz = sort_value(nx, ny, nz)
+
+                if not check[nx][ny]:
+                    check[nx][ny] = True
+                    q.append((nx, ny, nz))
+
+
+bfs(a, b, c)
 
 print(result)
-
