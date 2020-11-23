@@ -1,70 +1,43 @@
-from collections import deque
-
-
-def sort_value(tx, ty, tz):
-    arr = [tx, ty, tz]
-    arr.sort()
-
-    return arr
-
-
-max_int = 1501
-check = [[False for _ in range(max_int)] for _ in range(max_int)]
-a, b, c = map(int, input().split())
-a, b, c = sort_value(a, b, c)
+max_int = 5
+a = []
+dx = 0, 0, 1, -1
+dy = -1, 1, 0, 0
+str_list = []
 result = 0
 
 
-def bfs(x, y, z):
-    q = deque()
-    check[x][y] = True
-    q.append((x, y, z))
+def go(x, y, s):
+    if len(s) >= 6:
 
-    while q:
-        x, y, z = q.popleft()
+        is_exist = False
+        for item in str_list:
+            if item == s:
+                is_exist = True
+                break
 
-        if x == y and y == z:
+        if not is_exist:
+            str_list.append(s)
             global result
-            result = 1
-            break
+            result += 1
 
-        if y - x > 0:
-            nx = x * 2
-            ny = y - x
-            nz = z
+        return False
 
-            if nx < max_int and ny > 0:
-                nx, ny, nz = sort_value(nx, ny, nz)
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
 
-                if not check[nx][ny]:
-                    check[nx][ny] = True
-                    q.append((nx, ny, nz))
+        if nx < 0 or nx >= max_int or ny < 0 or ny >= max_int: continue
 
-        if z - x > 0:
-            nx = x * 2
-            ny = z - x
-            nz = y
-
-            if nx < max_int and ny > 0:
-                nx, ny, nz = sort_value(nx, ny, nz)
-
-                if not check[nx][ny]:
-                    check[nx][ny] = True
-                    q.append((nx, ny, nz))
-
-        if z - y > 0:
-            nx = y * 2
-            ny = z - y
-            nz = x
-
-            if nx < max_int and ny > 0:
-                nx, ny, nz = sort_value(nx, ny, nz)
-
-                if not check[nx][ny]:
-                    check[nx][ny] = True
-                    q.append((nx, ny, nz))
+        go(nx, ny, s + str(a[nx][ny]))
 
 
-bfs(a, b, c)
+for i in range(max_int):
+    arr = list(map(int, input().split()))
+    a.append(arr)
+
+for i in range(max_int):
+    for j in range(max_int):
+        go(i, j, str(a[i][j]))
+
 
 print(result)
