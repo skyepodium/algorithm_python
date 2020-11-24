@@ -1,43 +1,37 @@
-max_int = 5
-a = []
-dx = 0, 0, 1, -1
-dy = -1, 1, 0, 0
-str_list = []
-result = 0
+from collections import deque
 
 
-def go(x, y, s):
-    if len(s) >= 6:
+def bfs(start_node):
+    q = deque()
+    check[start_node] = 0
+    q.append(start_node)
 
-        is_exist = False
-        for item in str_list:
-            if item == s:
-                is_exist = True
-                break
+    while q:
+        node = q.popleft()
 
-        if not is_exist:
-            str_list.append(s)
-            global result
-            result += 1
-
-        return False
-
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
-
-        if nx < 0 or nx >= max_int or ny < 0 or ny >= max_int: continue
-
-        go(nx, ny, s + str(a[nx][ny]))
+        for n_node in v[node]:
+            if check[n_node] == -1:
+                check[n_node] = check[node] + 1
+                q.append(n_node)
 
 
-for i in range(max_int):
-    arr = list(map(int, input().split()))
-    a.append(arr)
+n, m, k, x = map(int, input().split())
+v = [[] for _ in range(n+1)]
+check = [-1 for _ in range(n+1)]
+cnt = 0
 
-for i in range(max_int):
-    for j in range(max_int):
-        go(i, j, str(a[i][j]))
+for _ in range(m):
+    start_point, end_point = map(int, input().split())
+    v[start_point].append(end_point)
+
+bfs(x)
+
+for i in range(0, n+1):
+    if k == check[i]:
+        print(i)
+        cnt += 1
+
+if cnt == 0:
+    print(-1)
 
 
-print(result)
