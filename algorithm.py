@@ -1,37 +1,39 @@
-from collections import deque
+def dfs(x, y, soldier):
+    check[x][y] = True
+    global cnt
+    cnt += 1
+
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+
+        if nx < 0 or nx >= n or ny < 0 or ny >= m: continue
+
+        if not check[nx][ny] and a[nx][ny] == soldier:
+            dfs(nx, ny, a[nx][ny])
 
 
-def bfs(start_node):
-    q = deque()
-    check[start_node] = 0
-    q.append(start_node)
+m, n = map(int, input().split())
+a = []
+check = [[False for _ in range(m)] for _ in range(n)]
+w_result = b_result = 0
+dx = 0, 0, 1, -1
+dy = -1, 1, 0, 0
 
-    while q:
-        node = q.popleft()
+for _ in range(n):
+    arr = list(input())
+    a.append(arr)
 
-        for n_node in v[node]:
-            if check[n_node] == -1:
-                check[n_node] = check[node] + 1
-                q.append(n_node)
+for i in range(n):
+    for j in range(m):
+        if not check[i][j]:
+            cnt = 0
 
+            dfs(i, j, a[i][j])
 
-n, m, k, x = map(int, input().split())
-v = [[] for _ in range(n+1)]
-check = [-1 for _ in range(n+1)]
-cnt = 0
+            if a[i][j] == 'W':
+                w_result += cnt * cnt
+            else:
+                b_result += cnt * cnt
 
-for _ in range(m):
-    start_point, end_point = map(int, input().split())
-    v[start_point].append(end_point)
-
-bfs(x)
-
-for i in range(0, n+1):
-    if k == check[i]:
-        print(i)
-        cnt += 1
-
-if cnt == 0:
-    print(-1)
-
-
+print("{0} {1}".format(w_result, b_result))
