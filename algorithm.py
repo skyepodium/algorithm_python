@@ -1,32 +1,16 @@
-n, b, h, w = map(int, input().split())
+def solution(numbers):
+    answer = []
 
-h_list = []
-w_list = []
-max_val = 10001 * 200
-result = max_val
+    check = [False for _ in range(201)]
 
-for i in range(h):
-    pay = int(input())
-    h_list.append(pay)
+    for i in range(len(numbers)):
+        for j in range(len(numbers)):
+            if i != j:
+                sum_value = numbers[i] + numbers[j]
+                if not check[sum_value]:
+                    check[sum_value] = True
+                    answer.append(sum_value)
 
-    w_arr = list(map(int, input().split()))
-    w_list.append(w_arr)
+    answer.sort()
 
-for i in range(h):
-    if h_list[i] * n > b:
-        continue
-
-    check = False
-    for room_cnt in w_list[i]:
-        if room_cnt >= n:
-            check = True
-
-    if not check:
-        continue
-
-    result = min(result, h_list[i] * n)
-
-if result != max_val:
-    print(result)
-else:
-    print("stay home")
+    return answer
