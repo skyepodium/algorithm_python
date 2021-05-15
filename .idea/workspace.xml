@@ -20,8 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f2620ab-27d6-4097-a358-b90230ee25f1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/algorithm.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/algorithm.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,11 +136,20 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="algorithm" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="algorithm" />
+      </console-settings>
+    </option>
   </component>
   <component name="RunManager" selected="Python.algorithm (1)">
     <configuration name="algorithm (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -192,7 +204,7 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>$USER_HOME$/.subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -235,69 +247,6 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="1659" height="353" key="GridCell.Tab.0.bottom" timestamp="1614005541728">
-      <screen x="0" y="25" width="1680" height="948" />
-    </state>
-    <state width="1415" height="278" key="GridCell.Tab.0.bottom/0.23.1680.946@0.23.1680.946" timestamp="1606631518871" />
-    <state width="1415" height="278" key="GridCell.Tab.0.bottom/0.23.1680.947@0.23.1680.947" timestamp="1606914706971" />
-    <state width="1415" height="279" key="GridCell.Tab.0.bottom/0.23.1680.949@0.23.1680.949" timestamp="1605421164519" />
-    <state width="1415" height="273" key="GridCell.Tab.0.bottom/0.25.1680.939@0.25.1680.939" timestamp="1609891168929" />
-    <state width="1415" height="273" key="GridCell.Tab.0.bottom/0.25.1680.940@0.25.1680.940" timestamp="1610496639431" />
-    <state width="1659" height="353" key="GridCell.Tab.0.bottom/0.25.1680.948@0.25.1680.948" timestamp="1614005541728" />
-    <state width="1118" height="273" key="GridCell.Tab.0.bottom/0.25.1680.949@0.25.1680.949" timestamp="1612074186932" />
-    <state width="1659" height="79" key="GridCell.Tab.0.bottom/0.25.1680.951@0.25.1680.951" timestamp="1613234880293" />
-    <state width="1590" height="273" key="GridCell.Tab.0.bottom/0.25.1680.958@0.25.1680.958" timestamp="1610792669959" />
-    <state width="1659" height="353" key="GridCell.Tab.0.center" timestamp="1614005541727">
-      <screen x="0" y="25" width="1680" height="948" />
-    </state>
-    <state width="1415" height="278" key="GridCell.Tab.0.center/0.23.1680.946@0.23.1680.946" timestamp="1606631518871" />
-    <state width="1415" height="278" key="GridCell.Tab.0.center/0.23.1680.947@0.23.1680.947" timestamp="1606914706969" />
-    <state width="1415" height="279" key="GridCell.Tab.0.center/0.23.1680.949@0.23.1680.949" timestamp="1605421164518" />
-    <state width="1415" height="273" key="GridCell.Tab.0.center/0.25.1680.939@0.25.1680.939" timestamp="1609891168928" />
-    <state width="1415" height="273" key="GridCell.Tab.0.center/0.25.1680.940@0.25.1680.940" timestamp="1610496639431" />
-    <state width="1659" height="353" key="GridCell.Tab.0.center/0.25.1680.948@0.25.1680.948" timestamp="1614005541727" />
-    <state width="1118" height="273" key="GridCell.Tab.0.center/0.25.1680.949@0.25.1680.949" timestamp="1612074186932" />
-    <state width="1659" height="79" key="GridCell.Tab.0.center/0.25.1680.951@0.25.1680.951" timestamp="1613234880292" />
-    <state width="1590" height="273" key="GridCell.Tab.0.center/0.25.1680.958@0.25.1680.958" timestamp="1610792669958" />
-    <state width="1659" height="353" key="GridCell.Tab.0.left" timestamp="1614005541726">
-      <screen x="0" y="25" width="1680" height="948" />
-    </state>
-    <state width="1415" height="278" key="GridCell.Tab.0.left/0.23.1680.946@0.23.1680.946" timestamp="1606631518870" />
-    <state width="1415" height="278" key="GridCell.Tab.0.left/0.23.1680.947@0.23.1680.947" timestamp="1606914706955" />
-    <state width="1415" height="279" key="GridCell.Tab.0.left/0.23.1680.949@0.23.1680.949" timestamp="1605421164504" />
-    <state width="1415" height="273" key="GridCell.Tab.0.left/0.25.1680.939@0.25.1680.939" timestamp="1609891168927" />
-    <state width="1415" height="273" key="GridCell.Tab.0.left/0.25.1680.940@0.25.1680.940" timestamp="1610496639428" />
-    <state width="1659" height="353" key="GridCell.Tab.0.left/0.25.1680.948@0.25.1680.948" timestamp="1614005541726" />
-    <state width="1118" height="273" key="GridCell.Tab.0.left/0.25.1680.949@0.25.1680.949" timestamp="1612074186931" />
-    <state width="1659" height="79" key="GridCell.Tab.0.left/0.25.1680.951@0.25.1680.951" timestamp="1613234880292" />
-    <state width="1590" height="273" key="GridCell.Tab.0.left/0.25.1680.958@0.25.1680.958" timestamp="1610792669958" />
-    <state width="1659" height="353" key="GridCell.Tab.0.right" timestamp="1614005541728">
-      <screen x="0" y="25" width="1680" height="948" />
-    </state>
-    <state width="1415" height="278" key="GridCell.Tab.0.right/0.23.1680.946@0.23.1680.946" timestamp="1606631518871" />
-    <state width="1415" height="278" key="GridCell.Tab.0.right/0.23.1680.947@0.23.1680.947" timestamp="1606914706970" />
-    <state width="1415" height="279" key="GridCell.Tab.0.right/0.23.1680.949@0.23.1680.949" timestamp="1605421164518" />
-    <state width="1415" height="273" key="GridCell.Tab.0.right/0.25.1680.939@0.25.1680.939" timestamp="1609891168929" />
-    <state width="1415" height="273" key="GridCell.Tab.0.right/0.25.1680.940@0.25.1680.940" timestamp="1610496639431" />
-    <state width="1659" height="353" key="GridCell.Tab.0.right/0.25.1680.948@0.25.1680.948" timestamp="1614005541728" />
-    <state width="1118" height="273" key="GridCell.Tab.0.right/0.25.1680.949@0.25.1680.949" timestamp="1612074186932" />
-    <state width="1659" height="79" key="GridCell.Tab.0.right/0.25.1680.951@0.25.1680.951" timestamp="1613234880293" />
-    <state width="1590" height="273" key="GridCell.Tab.0.right/0.25.1680.958@0.25.1680.958" timestamp="1610792669959" />
-    <state x="168" y="107" key="SettingsEditor" timestamp="1606216061876">
-      <screen x="0" y="23" width="1680" height="946" />
-    </state>
-    <state x="168" y="107" key="SettingsEditor/0.23.1680.946@0.23.1680.946" timestamp="1606216061876" />
-    <state x="0" y="23" key="SettingsEditor/0.23.1680.947@0.23.1680.947" timestamp="1605414618436" />
-    <state x="506" y="233" width="670" height="679" key="search.everywhere.popup" timestamp="1612068352969">
-      <screen x="0" y="25" width="1680" height="948" />
-    </state>
-    <state x="506" y="231" width="670" height="675" key="search.everywhere.popup/0.23.1680.946@0.23.1680.946" timestamp="1606647466177" />
-    <state x="506" y="231" width="670" height="675" key="search.everywhere.popup/0.23.1680.947@0.23.1680.947" timestamp="1605414825374" />
-    <state x="506" y="231" width="670" height="671" key="search.everywhere.popup/0.25.1680.939@0.25.1680.939" timestamp="1609489558806" />
-    <state x="506" y="233" width="670" height="679" key="search.everywhere.popup/0.25.1680.948@0.25.1680.948" timestamp="1612068352969" />
-    <state x="506" y="235" width="670" height="684" key="search.everywhere.popup/0.25.1680.956@0.25.1680.956" timestamp="1610640657838" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
