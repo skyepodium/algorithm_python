@@ -1,56 +1,59 @@
-import numpy as np
+# and gate
+def and_gate(x1, x2):
+    # 입력값 x1에 대한 가중치 w1, x2에 대한 가중치 w2
+    w1, w2 = 0.6, 0.6
+
+    # bias 편향값
+    b = -0.7
+
+    # 연산 결과
+    result = x1*w1 + x2*w2 + b
+
+    # 결과가 0보다 작거나 같으면 0, 0보다 크면 1을 반환합니다.
+    return 0 if result <= 0 else 1
 
 
-class LinearRegression:
-    def __init__(self, learning_rate=0.01, epochs=5000):
-        self.learning_rate = learning_rate
-        self.epochs = epochs
-        self.w = 0.0
-        self.b = 0.0
+# or gate
+def or_gate(x1, x2):
+    # 입력값 x1에 대한 가중치 w1, x2에 대한 가중치 w2
+    w1, w2 = 0.6, 0.6
 
-    def fit(self, x_train, y_train):
-        w = self.w
-        b = self.b
-        learning_rate = self.learning_rate
-        epochs = self.epochs
+    # bias 편향값
+    b = -0.5
 
-        n_data = len(x_train)
+    # 연산 결과
+    result = x1*w1 + x2*w2 + b
 
-        for i in range(epochs):
-            hypothesis = x_train * w + b
-            cost = np.sum((hypothesis - y_train) ** 2) / n_data
-            gradient_w = np.sum((w * x_train - y_train + b) * 2 * x_train) / n_data
-            gradient_b = np.sum((w * x_train - y_train + b) * 2) / n_data
-
-            w -= learning_rate * gradient_w
-            b -= learning_rate * gradient_b
-
-            if i % 100 == 0:
-                print('Epoch ({:10d}/{:10d}) cost: {:10f}, W: {:10f}, b:{:10f}'.format(i, epochs, cost, w, b))
-
-        self.w = w
-        self.b = b
-
-    def predict(self, test_x):
-        w = self.w
-        b = self.b
-
-        y_pred = test_x * w + b
-        return y_pred
+    # 결과가 0보다 작거나 같으면 0, 0보다 크면 1을 반환합니다.
+    return 0 if result <= 0 else 1
 
 
-lr = LinearRegression()
+def nand_gate(x1, x2):
+    # 입력값 x1에 대한 가중치 w1, x2에 대한 가중치 w2
+    w1, w2 = 0.6, 0.6
 
-train_x = np.array([1., 2., 3., 4., 5., 6.])
-train_y = np.array([9., 16., 23., 30., 37., 44.])
-test_x = np.array([2, 3, 4, 5, 6, 7])
-print(lr)
-lr.fit(train_x, train_y)
+    # bias 편향값
+    b = -0.7
+    # 연산 결과
+    result = x1*w1 + x2*w2 + b
 
-result = lr.predict(test_x)
-print('result', result)
-from sklearn.linear_model import LinearRegression as real
-lo = real()
-lo.fit(train_x.reshape(-1, 1), train_y)
-real_pred = lo.predict(test_x.reshape(-1, 1))
-print("real_pred", real_pred)
+    # 결과가 0보다 작거나 같으면 1, 0보다 크면 0을 반환합니다.
+    return 1 if result <= 0 else 0
+
+
+# 입력값 목록을 튜플 리스트로 만듭니다.
+input_list = [(0, 0), (0, 1), (1, 0), (1, 1)]
+
+
+# 반복문을 순회하면서 입력값을 가져옵니다.
+for x1, x2 in input_list:
+    # or gate의 결과를 저장하고s
+    or_result = or_gate(x1, x2)
+
+    # nand gate의 결과를 저장하고
+    nand_result = nand_gate(x1, x2)
+
+    xor_result = and_gate(or_result, nand_result)
+
+    # 출력합니다.
+    print(f"입력값: {x1} {x2} / 결과: {xor_result}")
