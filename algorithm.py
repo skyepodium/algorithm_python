@@ -1,41 +1,37 @@
 # numpy를 불러옵니다.
 import numpy as np
 
-# 직접 logloss를 계산할 함수를 생성합니다.
-# answer_array는 정답 array
-# proba_array는 확률 array
-def my_logloss(answer_array, proba_array):
+# 학습 시킬 train 데이터
+# 1일때 1, 2일때 2, 3일때 3을 내놓도록 만들었습니다.
+train_x = np.array([1, 2, 3])
+train_y = np.array([1, 2, 3])
 
-    # array의 크기를 가져옵니다.
-    size = answer_array.shape[0]
+# 검증에 사용할 데이터
+# 마찬가지로 1일때 1, 2일때 2, 3일때 3을 내놓도록 만들었습니다.
+valid_x = np.array([3, 2, 1])
+valid_y = np.array([3, 2, 1])
 
-    # 반복문을 사용해서 logloss의 합을 계산합니다.
-    logloss_sum = 0
-    # zip함수로 묶으면 함께 순회할 수 있습니다.
-    for answer, arr in zip(answer_array, proba_array):
-        proba = arr[answer - 1]
-        # 음의 로그함수에 넣어서 logloss 계산
-        logloss_sum += -np.log(proba)
+# 사이킷런의 RandomForestClassifier를 가져옵니다.
+from sklearn.ensemble import RandomForestClassifier
 
-    # logloss의 평균 계산
-    result = logloss_sum / size
+# 모델 생성
+rf = RandomForestClassifier()
 
-    # 반환
-    return result
+# 학습
+rf.fit(train_x.reshape(-1, 1), train_y)
 
-# answer_array는 정답 array
-# proba_array는 확률 array
-answer_list = np.array([1, 3, 2])
-proba_list = np.array([[0.99, 0, 0.01], [0, 0.5, 0.5], [0.9, 0.1, 0]])
+# predict_proba로 확률 예측
+proba_result = rf.predict_proba(valid_x.reshape(-1, 1))
+print("proba_result", proba_result)
 
-# my_logloss 결과 출력
-my_logloss_result = my_logloss(answer_list, proba_list)
-print('my_logloss', my_logloss_result)
+# 확률에 대해 가장 큰값 가져오기
+res_list = []
+for arr in proba_result:
+    res_class = np.argmax(arr) + 1
+    res_list.append(res_class)
 
+print("res_list", res_list)
 
-# 비교를 위해 사이킷런의 log_loss 함수를 불러옵니다.
-from sklearn.metrics import log_loss
-
-# 사이킷런 결과 확인
-sklearn_reslt = log_loss(answer_list, proba_list)
-print("sklearn_reslt", sklearn_reslt)
+# class 예측
+predict_result = rf.predict(valid_x.reshape(-1, 1))
+print("predict_result", predict_result)
