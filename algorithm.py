@@ -36,7 +36,7 @@ def my_logloss(answer_array, proba_array):
 answer_list = np.array([1, 3, 2])
 proba_list = np.array([[0.99, 0, 0.01], [0, 0.5, 0.5], [0.9, 0.1, 0]])
 
-# my_logloss 결과 출력
+# my_logloss 결과 출력    z
 my_logloss_result = my_logloss(answer_list, proba_list)
 print('my_logloss', my_logloss_result)
 
