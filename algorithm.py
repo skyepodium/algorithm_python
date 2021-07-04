@@ -1,96 +1,30 @@
-from collections import deque
-
-
-d = []
-check = []
-v = []
-
-
-def find(node):
-    if node == d[node]:
-        return node
-    else:
-        d[node] = find(d[node])
-        return d[node]
-
-
-def bfs(start_x, start_y, num, size, land, height):
-
-    dx = 0, 0, 1, -1
-    dy = -1, 1, 0, 0
-
-    q = deque()
-    check[start_x][start_y] = num
-    q.append((start_x, start_y))
-    while q:
-        x, y = q.popleft()
-
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-
-            if nx < 0 or nx >= size or ny < 0 or ny >= size:
-                continue
-
-            diff = abs(land[nx][ny] - land[x][y])
-            if check[nx][ny] == -1 and diff <= height:
-                check[nx][ny] = num
-                q.append((nx, ny))
-
-
-def solution(land, height):
+def solution(dirs):
     answer = 0
-    size = len(land)
-    max_val = 2147483647
+    max_int = 11
 
-    num = -1
-    global check
-    check = [[-1 for _ in range(size+1)] for _ in range(size+1)]
-    for i in range(size):
-        for j in range(size):
-            if check[i][j] == -1:
-                num += 1
-                bfs(i, j, num, size, land, height)
+    check = [[[[False for _ in range(max_int)] for _ in range(max_int)] for _ in range(max_int)] for _ in range(max_int)]
 
-    global d
-    d = []
-    for i in range(num+1):
-        d.append(i)
+    x, y = 5, 5
+    d = [(0, -1), (0, 1), (1, 0), (-1, 0)]
 
-    dx = 0, 0, 1, -1
-    dy = -1, 1, 0, 0
-    global v
-    for i in range(size):
-        for j in range(size):
-            for idx in range(4):
-                nx = i + dx[idx]
-                ny = j + dy[idx]
-                if nx < 0 or nx >= size or ny < 0 or ny >= size:
-                    continue
-                c_group = check[i][j]
-                n_group = check[nx][ny]
-                if c_group != n_group:
-                    diff = abs(land[i][j] - land[nx][ny])
-                    v.append((c_group, n_group, diff))
+    for cur in dirs:
+        dir_num = 0
+        if cur == 'R': dir_num = 1
+        elif cur == 'D': dir_num = 2
+        elif cur == 'L': dir_num = 0
+        else: dir_num = 3
 
-    v = sorted(v, key=lambda a: a[2])
-    for start_node, end_node, cost in v:
-        start_node = find(start_node)
-        end_node = find(end_node)
+        dx, dy = d[dir_num]
+        nx, ny = x + dx, y + dy
 
-        if start_node != end_node:
-            d[start_node] = end_node
-            answer += cost
+        if nx < 0 or nx > 10 or ny < 0 or ny > 10:
+            continue
+
+        if not check[x][y][nx][ny]:
+            check[x][y][nx][ny] = True
+            check[nx][ny][x][y] = True
+            answer += 1
+
+        x, y = nx, ny
 
     return answer
-
-
-# land = [[1, 4, 8, 10], [5, 5, 5, 5], [10, 10, 10, 10], [10, 10, 10, 20]]
-# height = 3
-
-land = [[10, 11, 10, 11], [2, 21, 20, 10], [1, 20, 21, 11], [2, 1, 2, 1]]
-height = 1
-
-res = solution(land, height)
-
-print('res', res)
