@@ -1,30 +1,18 @@
-def solution(dirs):
-    answer = 0
-    max_int = 11
+import re
 
-    check = [[[[False for _ in range(max_int)] for _ in range(max_int)] for _ in range(max_int)] for _ in range(max_int)]
 
-    x, y = 5, 5
-    d = [(0, -1), (0, 1), (1, 0), (-1, 0)]
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        s = s.lower()
 
-    for cur in dirs:
-        dir_num = 0
-        if cur == 'R': dir_num = 1
-        elif cur == 'D': dir_num = 2
-        elif cur == 'L': dir_num = 0
-        else: dir_num = 3
+        s = re.sub('[^a-z0-9]', '', s)
 
-        dx, dy = d[dir_num]
-        nx, ny = x + dx, y + dy
+        return s == s[::-1]import re
 
-        if nx < 0 or nx > 10 or ny < 0 or ny > 10:
-            continue
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        s = s.lower()
 
-        if not check[x][y][nx][ny]:
-            check[x][y][nx][ny] = True
-            check[nx][ny][x][y] = True
-            answer += 1
+        s = re.sub('[^a-z0-9]', '', s)
 
-        x, y = nx, ny
-
-    return answer
+        return s == s[::-1]
