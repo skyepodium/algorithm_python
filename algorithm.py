@@ -1,18 +1,9 @@
-import re
-
-
 class Solution:
-    def isPalindrome(self, s: str) -> bool:
-        s = s.lower()
+    def lengthOfLastWord(self, s: str) -> int:
+        res = s.strip().split(" ")
 
-        s = re.sub('[^a-z0-9]', '', s)
+        size = len(res)
 
-        return s == s[::-1]import re
+        if size - 1 < 0: return 0
 
-class Solution:
-    def isPalindrome(self, s: str) -> bool:
-        s = s.lower()
-
-        s = re.sub('[^a-z0-9]', '', s)
-
-        return s == s[::-1]
+        return len(res[size - 1])
