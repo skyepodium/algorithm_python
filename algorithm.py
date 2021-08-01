@@ -1,18 +1,15 @@
 class Solution:
-    def plusOne(self, digits: List[int]) -> List[int]:
-        idx = len(digits) - 1
-        digits[idx] += 1
+    def climbStairs(self, n: int) -> int:
 
-        while idx >= 0:
-            val = digits[idx]
+        if n <= 2: return n
 
-            if val >= 10:
-                digits[idx] = 0
-                if idx == 0:
-                    digits = [1] + digits
-                else:
-                    digits[idx - 1] += 1
+        d = [0 for _ in range(n + 1)]
 
-            idx -= 1
+        d[0] = 0
+        d[1] = 1
+        d[2] = 2
 
-        return digits;   
+        for i in range(3, n + 1):
+            d[i] = d[i - 1] + d[i - 2]
+
+        return d[n]
