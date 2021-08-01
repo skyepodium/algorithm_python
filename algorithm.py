@@ -1,15 +1,20 @@
 class Solution:
-    def climbStairs(self, n: int) -> int:
+    def mySqrt(self, x: int) -> int:
+        l = 0
+        r = x
+        result = 0
 
-        if n <= 2: return n
+        while l <= r:
+            mid = (l + r) // 2
 
-        d = [0 for _ in range(n + 1)]
+            val = mid * mid
 
-        d[0] = 0
-        d[1] = 1
-        d[2] = 2
+            if val > x:
+                r = mid - 1
+            elif val == x:
+                return mid
+            else:
+                result = mid
+                l = mid + 1
 
-        for i in range(3, n + 1):
-            d[i] = d[i - 1] + d[i - 2]
-
-        return d[n]
+        return result
