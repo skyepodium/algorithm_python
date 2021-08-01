@@ -1,9 +1,18 @@
 class Solution:
-    def lengthOfLastWord(self, s: str) -> int:
-        res = s.strip().split(" ")
+    def plusOne(self, digits: List[int]) -> List[int]:
+        idx = len(digits) - 1
+        digits[idx] += 1
 
-        size = len(res)
+        while idx >= 0:
+            val = digits[idx]
 
-        if size - 1 < 0: return 0
+            if val >= 10:
+                digits[idx] = 0
+                if idx == 0:
+                    digits = [1] + digits
+                else:
+                    digits[idx - 1] += 1
 
-        return len(res[size - 1])
+            idx -= 1
+
+        return digits;   
