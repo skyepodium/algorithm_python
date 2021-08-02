@@ -1,20 +1,15 @@
-class Solution:
-    def mySqrt(self, x: int) -> int:
-        l = 0
-        r = x
-        result = 0
 
-        while l <= r:
-            mid = (l + r) // 2
+def solution(price, money, count):
+    result = (count * (count + 1)) // 2 * price - money
 
-            val = mid * mid
+    return result if result > 0 else 0
 
-            if val > x:
-                r = mid - 1
-            elif val == x:
-                return mid
-            else:
-                result = mid
-                l = mid + 1
 
-        return result
+p = 3
+m = 20000
+c = 4
+
+res = solution(p, m, c)
+
+print(res)
+
