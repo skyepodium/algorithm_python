@@ -1,4 +1,9 @@
-
+"""
+시간 복잡도: O(1)
+공간 복잡도: O(1)
+사용한 알고리즘: 가우스 공식
+사용한 자료구조: ..
+"""
 def solution(price, money, count):
     result = (count * (count + 1)) // 2 * price - money
 
