@@ -1,20 +1,15 @@
-"""
-시간 복잡도: O(1)
-공간 복잡도: O(1)
-사용한 알고리즘: 가우스 공식
-사용한 자료구조: ..
-"""
-def solution(price, money, count):
-    result = (count * (count + 1)) // 2 * price - money
+class Solution:
+    def reorderLogFiles(self, logs: List[str]) -> List[str]:
 
-    return result if result > 0 else 0
+        letters = []
+        digits = []
 
+        for log in logs:
+            if log.split(" ")[1].isdigit():
+                digits.append(log)
+            else:
+                letters.append(log)
 
-p = 3
-m = 20000
-c = 4
+        letters.sort(key=lambda x: (x.split(" ")[1:], x.split(" ")[0]))
 
-res = solution(p, m, c)
-
-print(res)
-
+        return letters + digits
