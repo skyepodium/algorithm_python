@@ -1,30 +1,25 @@
 class Solution:
     def longestCommonPrefix(self, strs: list[str]) -> str:
 
+        strs.sort(key=lambda x: len(x))
+
         base = strs[0]
         res = ""
         size = 0
 
-        for i in range(0, len(base) + 1):
-            cur = base[:i]
-            notSame = False
+        for i in range(0, len(base)):
+            cur = base[i]
             for word in strs:
-                if word[:i] != cur:
-                    notSame = True
-                    break
-            if notSame:
-                continue
+                if word[i] != cur:
+                    return res
 
-            if len(cur) > size:
-                size = len(cur)
-                res = cur
+            if len(word[:i + 1]) > size:
+                size = i + 1
+                res = word[:i + 1]
 
         return res
 
 sl = Solution()
-
-strs = ["flower","flow","flight"]
-strs = ["a"]
-res = sl.longestCommonPrefix(strs)
-
-print(res)
+input = ["flower","flow","flight"]
+res = sl.longestCommonPrefix(input)
+print('res', res)
