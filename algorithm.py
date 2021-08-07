@@ -1,26 +1,33 @@
 import collections
 
+
 class Solution:
-    def groupAnagrams(self, strs: list[str]) -> list[list[str]]:
+    def longestPalindrome(self, s: str) -> int:
 
         d = collections.defaultdict(int)
-        idx = 0
-        res_list = []
-        for word in strs:
-            val = "".join(sorted(word))
-            if val in d:
-                cur_idx = d[val]
-                res_list[cur_idx].append(word)
+
+        for c in s:
+            d[c] += 1
+
+        result = 0
+        max_odd_cnt = 0
+        for val in d.values():
+            if val % 2 == 0:
+                result += val
             else:
-                d[val] = idx
-                res_list.append([word])
-                idx += 1
+                max_odd_cnt = max(max_odd_cnt, val)
+                if val - 1 >= 2:
+                    result += val - 1
 
-        return res_list
+        if max_odd_cnt >= 1:
+            result += 1
 
-s = Solution()
+        return result
 
-ss = ["eat","tea","tan","ate","nat","bat"]
-res = s.groupAnagrams(ss)
+sl = Solution()
+
+s = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth"
+s = "c"
+res = sl.longestPalindrome(s)
 
 print('res', res)
