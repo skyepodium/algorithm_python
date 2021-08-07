@@ -1,18 +1,26 @@
+import collections
+
 class Solution:
-    def mostCommonWord(self, paragraph: str, banned: List[str]) -> str:
-        paragraph = re.sub("[^a-zA-Z]", " ", paragraph).lower()
+    def groupAnagrams(self, strs: list[str]) -> list[list[str]]:
 
-        words = [word for word in paragraph.split() if word not in banned]
+        d = collections.defaultdict(int)
+        idx = 0
+        res_list = []
+        for word in strs:
+            val = "".join(sorted(word))
+            if val in d:
+                cur_idx = d[val]
+                res_list[cur_idx].append(word)
+            else:
+                d[val] = idx
+                res_list.append([word])
+                idx += 1
 
-        count = collections.defaultdict(int)
+        return res_list
 
-        res = ""
-        cnt = 0
+s = Solution()
 
-        for word in words:
-            count[word] += 1
-            if count[word] > cnt:
-                cnt = count[word]
-                res = word
+ss = ["eat","tea","tan","ate","nat","bat"]
+res = s.groupAnagrams(ss)
 
-        return res
+print('res', res)
