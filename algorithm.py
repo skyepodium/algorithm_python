@@ -1,28 +1,30 @@
 class Solution:
-    def productExceptSelf(self, nums: list[int]) -> list[int]:
+    def trap(self, height: list[int]) -> int:
 
-        result = []
-        size = len(nums)
+        result = 0;
 
-        # 1. 자기 자신을 제외한 왼쪽 곱셈을 저장한다.
-        base = 1
-        for i in range(0, size):
-            result.append(base)
-            base *= nums[i]
+        # 1. 왼쪽, 오른쪽 최대 높이 저장할 변수 생성
+        l, r = 0, len(height) - 1
+        left_max, right_max = height[l], height[r]
 
-        # 2. 1번 결과에 자기 자시을 제외한 오른쪽 곰셉을 곱해준다.
-        base = 1
-        for i in range(size - 1, -1, -1):
-            result[i] = result[i] * base
-            base *= nums[i]
+        while l <= r:
+            # 2. 투 포인터 왼쪽, 오른쪽 최대값 갱신
+            left_max = max(left_max, height[l])
+            right_max = max(right_max, height[r])
+
+            # 3. 최대 높이를 향해 투 포인터 이동
+            if left_max <= right_max:
+                result += left_max - height[l]
+                l += 1
+            else:
+                result += right_max - height[r]
+                r -= 1
 
         return result
 
 
 sl = Solution()
+height = [4,2,0,3,2,5]
+res = sl.trap(height)
 
-nums = [1, 2, 3, 4]
-
-res = sl.productExceptSelf(nums)
-
-print('res', res)
+print(res)
