@@ -1,37 +1,28 @@
 class Solution:
-    def longestPalindrome(self, s: str) -> str:
+    def productExceptSelf(self, nums: list[int]) -> list[int]:
 
-        result = ""
+        result = []
+        size = len(nums)
 
-        # 1. 예외 처리
-        if len(s) < 2 or s == s[::-1]:
-            return s
+        # 1. 자기 자신을 제외한 왼쪽 곱셈을 저장한다.
+        base = 1
+        for i in range(0, size):
+            result.append(base)
+            base *= nums[i]
 
-        # 2. 투 포인터
-        def expand(l, r):
-            while l >= 0 and r <= len(s) and s[l] == s[r-1]:
-                l -= 1
-                r += 1
-
-            # 현재 투포인터가 있는 위치가 팰린드롬이 아니거나
-            # 인덱스를 넘어갔기 때문에 바로 이전 상태로 돌아간다.
-            # 처음부터 팰린드롬이 아닌경우, 홀수개는 문자 1개, 짝수개는 빈문자열을 반환한다.
-            return s[l+1: r-1]
-
-        # 3. 한개씩 중심 탐색
-        for i in range(len(s) - 1):
-            result = max(result,
-                         expand(i, i+1),
-                         expand(i, i+2),
-                         key=len
-                         )
+        # 2. 1번 결과에 자기 자시을 제외한 오른쪽 곰셉을 곱해준다.
+        base = 1
+        for i in range(size - 1, -1, -1):
+            result[i] = result[i] * base
+            base *= nums[i]
 
         return result
 
+
 sl = Solution()
 
-s = "abb"
+nums = [1, 2, 3, 4]
 
-res = sl.longestPalindrome(s)
+res = sl.productExceptSelf(nums)
 
 print('res', res)
