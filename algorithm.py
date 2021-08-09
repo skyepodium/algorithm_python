@@ -1,34 +1,19 @@
 class Solution:
-    def letterCombinations(self, digits: str) -> list[str]:
-
-        nums = [
-            "",
-            "",
-            "abc",
-            "def",
-            "ghi",
-            "jkl",
-            "mno",
-            "pqrs",
-            "tuv",
-            "wxyz"
-        ]
+    def permute(self, nums: list[int]) -> list[list[int]]:
 
         result = []
-        size = len(digits)
+        size = len(nums)
 
-        def go(idx, val):
+        def go(idx, stack):
             if idx >= size:
-                if len(val) > 0:
-                    result.append("".join(val))
+                result.append(list(stack))
                 return
 
-            cur = int(digits[idx])
-
-            for num in nums[cur]:
-                val.append(num)
-                go(idx + 1, val)
-                val.pop()
+            for num in nums:
+                if num not in stack:
+                    stack.append(num)
+                    go(idx + 1, stack)
+                    stack.pop()
 
         go(0, [])
 
@@ -36,10 +21,7 @@ class Solution:
 
 
 sl = Solution()
-
-digits = "23"
-digits = ""
-
-res = sl.letterCombinations(digits)
+nums = [1,2,3]
+res = sl.permute(nums)
 
 print(res)
