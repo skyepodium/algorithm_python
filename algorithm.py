@@ -3,6 +3,7 @@ class Solution:
 
         result = []
         size = len(nums)
+        check = [False for _ in range(21)]
 
         def go(idx, stack):
             if idx >= size:
@@ -10,9 +11,13 @@ class Solution:
                 return
 
             for num in nums:
-                if num not in stack:
+                if not check[num+10]:
+                    check[num+10] = True
                     stack.append(num)
+
                     go(idx + 1, stack)
+
+                    check[num+10] = False
                     stack.pop()
 
         go(0, [])
