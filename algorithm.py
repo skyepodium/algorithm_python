@@ -1,52 +1,45 @@
-import collections
-
-
 class Solution:
-    def maxAreaOfIsland(self, grid: list[list[int]]) -> int:
+    def letterCombinations(self, digits: str) -> list[str]:
 
-        d = (0, -1), (0, 1), (1, 0), (-1, 0)
+        nums = [
+            [],
+            [],
+            ["a", "b", "c"],
+            ["d", "e", "f"],
+            ["g", "h", "i"],
+            ["j", "k", "l"],
+            ["m", "n", "o"],
+            ["p", "q", "r", "s"],
+            ["t", "u", "v"],
+            ["w", "x", "y", "z"]
+        ]
 
-        n = len(grid)
-        m = len(grid[0])
+        result = []
+        size = len(digits)
 
-        check = [[False for _ in range(m)] for _ in range(n)]
-        result = 0
+        def go(idx, val):
+            if idx >= size:
+                if len(val) > 0:
+                    result.append("".join(val))
+                return
 
-        def bfs(x, y):
-            q = collections.deque()
-            check[x][y] = True
-            q.append((x, y))
-            cnt = 0
+            cur = int(digits[idx])
 
-            while q:
-                x, y, = q.popleft()
-                cnt += 1
-                for dx, dy in d:
-                    nx, ny = x + dx, y + dy
+            for num in nums[cur]:
+                val.append(num)
+                go(idx + 1, val)
+                val.pop()
 
-                    if nx < 0 or nx >= n or ny < 0 or ny >= m:
-                        continue
-
-                    if grid[nx][ny] == 1 and not check[nx][ny]:
-                        check[nx][ny] = True
-                        q.append((nx, ny))
-
-            return cnt
-
-        for i in range(n):
-            for j in range(m):
-                if grid[i][j] == 1 and not check[i][j]:
-                    result = max(result, bfs(i, j))
+        go(0, [])
 
         return result
 
 
-
-
 sl = Solution()
 
-grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],[0,1,0,0,1,1,0,0,1,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0]]
-grid = [[1,1,0,0,0],[1,1,0,0,0],[0,0,0,1,1],[0,0,0,1,1]]
-res = sl.maxAreaOfIsland(grid)
+digits = "23"
+digits = ""
+
+res = sl.letterCombinations(digits)
 
 print(res)
