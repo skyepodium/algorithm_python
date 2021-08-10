@@ -1,32 +1,25 @@
 class Solution:
-    def combinationSum(self, candidates: list[int], target: int) -> list[list[int]]:
+    def subsets(self, nums: list[int]) -> list[list[int]]:
 
         result = []
+        size = len(nums)
 
-        size = len(candidates)
-
-        def go(idx, sumVal, stack):
-            if sumVal >= target:
-                if sumVal == target:
-                    result.append(stack[:])
-                return
+        def go(idx, stack):
+            result.append(stack[:])
 
             for i in range(idx, size):
-                stack.append(candidates[i])
-                go(i, sumVal + candidates[i], stack)
+                stack.append(nums[i])
+                go(i + 1, stack)
                 stack.pop()
 
-        go(0, 0, [])
+        go(0, [])
 
         return result
 
-
-
 sl = Solution()
 
-candidates = [2,3,6,7]
-target = 7
+nums = [1, 2, 3]
 
-res = sl.combinationSum(candidates, target)
+res = sl.subsets(nums)
 
 print(res)
