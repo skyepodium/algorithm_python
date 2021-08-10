@@ -1,31 +1,32 @@
 class Solution:
-    def combine(self, n: int, k: int) -> list[list[int]]:
+    def combinationSum(self, candidates: list[int], target: int) -> list[list[int]]:
 
         result = []
 
-        def go(idx, stack, remain):
-            if remain == 0:
-                result.append(stack[:])
+        size = len(candidates)
+
+        def go(idx, sumVal, stack):
+            if sumVal >= target:
+                if sumVal == target:
+                    result.append(stack[:])
                 return
 
-            for i in range(idx + 1, n + 1):
-                stack.append(i)
-                go(i, stack, remain - 1)
+            for i in range(idx, size):
+                stack.append(candidates[i])
+                go(i, sumVal + candidates[i], stack)
                 stack.pop()
 
-        go(0, [], k)
+        go(0, 0, [])
 
         return result
 
 
+
 sl = Solution()
 
-n = 4
-k = 2
+candidates = [2,3,6,7]
+target = 7
 
-# n = 1
-# k = 1
-
-res = sl.combine(n, k)
+res = sl.combinationSum(candidates, target)
 
 print(res)
