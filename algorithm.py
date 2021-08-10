@@ -1,32 +1,31 @@
 class Solution:
-    def permute(self, nums: list[int]) -> list[list[int]]:
+    def combine(self, n: int, k: int) -> list[list[int]]:
 
         result = []
-        size = len(nums)
-        check = [False for _ in range(21)]
 
-        def go(idx, stack):
-            if idx >= size:
-                result.append(list(stack))
+        def go(idx, stack, remain):
+            if remain == 0:
+                result.append(stack[:])
                 return
 
-            for num in nums:
-                if not check[num+10]:
-                    check[num+10] = True
-                    stack.append(num)
+            for i in range(idx + 1, n + 1):
+                stack.append(i)
+                go(i, stack, remain - 1)
+                stack.pop()
 
-                    go(idx + 1, stack)
-
-                    check[num+10] = False
-                    stack.pop()
-
-        go(0, [])
+        go(0, [], k)
 
         return result
 
 
 sl = Solution()
-nums = [1,2,3]
-res = sl.permute(nums)
+
+n = 4
+k = 2
+
+# n = 1
+# k = 1
+
+res = sl.combine(n, k)
 
 print(res)
