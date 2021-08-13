@@ -1,5 +1,7 @@
-import string
+def solution(array, commands):
+    answer = []
 
-c_list = string.ascii_uppercase
+    for s, e, n in commands:
+        answer.append(sorted(array[s - 1:e])[n - 1])
 
-print(c_list[1::2xee])
+    return answer
