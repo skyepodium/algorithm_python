@@ -1,22 +1,33 @@
-def solution(s, n):
-    answer = ""
-    for c in s:
-        if c == " ":
-            answer += c
-        elif c.islower():
-            n_ord = ord(c) + n
-            answer += chr(n_ord - 26) if n_ord > ord('z') else chr(n_ord)
-        else:
-            n_ord = ord(c) + n
-            answer += chr(n_ord - 26) if n_ord > ord('Z') else chr(n_ord)
-    return answer
+def solution(n, results):
+    max_val = 101
+    max_cnt = 0
+    d = [[max_val for _ in range(n+1)] for _ in range(n+1)]
 
-s = "AB"
-n = 1
-s = "a B z"
-n = 4
-res = solution(s, n)
+    for e, s in results:
+        d[s][e] = 1
 
-print(res)
+    for k in range(1, n+1):
+        for i in range(1, n+1):
+            for j in range(1, n+1):
+                if d[i][j] > d[i][k] + d[k][j]:
+                    d[i][j] = d[i][k] + d[k][j]
 
-print(chr(97))
+    for i in range(1, n+1):
+        for j in range(1, n+1):
+            if i == j: continue
+
+            if d[i][j] == max_val and d[j][i] == max_val:
+                max_cnt += 1
+                break
+
+    return n - max_cnt
+
+
+n = 5
+results = [[4, 3], [4, 2], [3, 2], [1, 2], [2, 5]]
+
+1 < 2
+
+res = solution(n, results)
+
+print('res', res)
