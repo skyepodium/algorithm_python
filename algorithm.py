@@ -1,33 +1,25 @@
-def solution(n, results):
-    max_val = 101
-    max_cnt = 0
-    d = [[max_val for _ in range(n+1)] for _ in range(n+1)]
+def solution(s):
+    answer = 0
 
-    for e, s in results:
-        d[s][e] = 1
+    d = {
+        "zero": "0",
+        "one": "1",
+        "two": "2",
+        "three": "3",
+        "four": "4",
+        "five": "5",
+        "six": "6",
+        "seven": "7",
+        "eight": "8",
+        "nine": "9",
+    }
 
-    for k in range(1, n+1):
-        for i in range(1, n+1):
-            for j in range(1, n+1):
-                if d[i][j] > d[i][k] + d[k][j]:
-                    d[i][j] = d[i][k] + d[k][j]
+    for key, val in d.items():
+        s = s.replace(key, val)
 
-    for i in range(1, n+1):
-        for j in range(1, n+1):
-            if i == j: continue
+    return int(s)
 
-            if d[i][j] == max_val and d[j][i] == max_val:
-                max_cnt += 1
-                break
+ss = "one4seveneight"
 
-    return n - max_cnt
-
-
-n = 5
-results = [[4, 3], [4, 2], [3, 2], [1, 2], [2, 5]]
-
-1 < 2
-
-res = solution(n, results)
-
-print('res', res)
+res = solution(ss)
+print(res)
