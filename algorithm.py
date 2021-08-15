@@ -1,12 +1,11 @@
-def solution(n):
-    if n <= 1:
-        return n
+def solution(A, B):
+    answer = 0
 
-    mod = 1234567
-    d = [0 for _ in range(n + 1)]
-    d[0] = 0
-    d[1] = 1
-    for i in range(2, n + 1):
-        d[i] = (d[i - 1] + d[i - 2]) % mod
+    A.sort()
+    B.sort(reverse=True)
 
-    return d[n]
+    res = 0
+    for i in range(len(A)):
+        res += A[i] * B[i]
+
+    return res
