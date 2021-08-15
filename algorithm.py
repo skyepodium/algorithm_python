@@ -1,20 +1,22 @@
-def solution(s):
-    res = ""
-    s = s.lower()
-    is_new = True
-    for c in s:
-        val = c
-        if c == " ":
-            is_new = True
-        else:
-            if is_new:
-                val = c.upper()
-            is_new = False
-        res += val
-    return res
+import collections
 
-s = "3people unFollowed me"
 
-res = solution(s)
+def solution(n, lost, reserve):
+    answer = 0
 
-print(res)
+    remain_diff = collections.Counter(reserve) - collections.Counter(lost)
+    remains = list(remain_diff.keys())
+
+    lost_diff = collections.Counter(lost) - collections.Counter(reserve)
+    losts = list(lost_diff.keys())
+
+    cnt = 0
+    for val in losts:
+        if val + 1 in remains:
+            cnt += 1
+            remains.remove(val + 1)
+        elif val - 1 in remains:
+            cnt += 1
+            remains.remove(val - 1)
+
+    return n - len(losts) + cnt
