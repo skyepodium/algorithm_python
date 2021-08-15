@@ -1,11 +1,2 @@
-def solution(A, B):
-    answer = 0
-
-    A.sort()
-    B.sort(reverse=True)
-
-    res = 0
-    for i in range(len(A)):
-        res += A[i] * B[i]
-
-    return res
+def solution(A,B):
+    return sum(x*y for x, y in zip(sorted(A), sorted(B, reverse=True)))
