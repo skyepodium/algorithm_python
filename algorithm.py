@@ -1,23 +1,19 @@
-import re
+from heapq import heappush, heappop, heapify
 
-def main(s):
-    return re.fullmatch("01\d-\d{3,4}-\d{4}|01\d\d{3,4}\d{4}", s)
 
-s_list = [
-    "010-1234-5678",
-    "01012345678",
-    "017-1234-5678",
-    "01712345678",
-    "010-123-5678",
-    "0101235678",
-    "안녕하세요",
-    "123",
-    "abcde",
-    "010-1235678",
-    "0101234-5678",
-    "011322345"
-]
+def solution(scoville, K):
+    # 1. init
+    answer = 0
 
-for s in s_list:
-    res = "correct" if main(s) else "error"
-    print(res, s)
+    # 2. list to heap
+    heapify(scoville)
+
+    # 3. loop
+    while len(scoville) >= 2 and scoville[0] < K:
+        a = heappop(scoville)
+        b = heappop(scoville)
+
+        heappush(scoville, a + b * 2)
+        answer += 1
+
+    return answer if scoville[0] >= K else -1
