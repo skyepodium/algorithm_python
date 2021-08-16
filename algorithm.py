@@ -1,22 +1,13 @@
-def solution(nums):
-    # 0. init
-    answer = 0
+n, k = map(int, input().split())
 
-    # 1. sort
-    nums.sort()
+d = [True for _ in range(n+1)]
+cnt = 0
 
-    # 2. prime
-    def is_prime(num):
-        for i in range(2, int(num ** 0.5) + 1):
-            if num % i == 0:
-                return False
-        return True
-
-    # 3 two pointer
-    for i in range(len(nums) - 2):
-        for j in range(i + 1, len(nums) - 1):
-            for k in range(j + 1, len(nums)):
-                if is_prime(nums[i] + nums[j] + nums[k]):
-                    answer += 1
-
-    return answer
+for i in range(2, n+1):
+    for j in range(i, n+1, i):
+        if d[j]:
+            d[j] = False
+            cnt += 1
+            if cnt == k:
+                print(j)
+                break
