@@ -1,18 +1,17 @@
 def solution(numbers):
     # 1. init
-    answer = 0
     size = len(numbers)
+    max_int = int("".join(sorted(numbers, reverse=True))) + 1
+    d = [True for _ in range(max_int)]
 
-    # 2. check prime
-    def is_prime(num):
-        if num <= 1:
-            return False
-
-        end = int(num ** 0.5) + 1
-        for i in range(2, end):
-            if num % i == 0:
-                return False
-        return True
+    # 2. eratos
+    def eratos(n):
+        m = int(n ** 0.5) + 1
+        for i in range(2, m):
+            for j in range(i+i, max_int, i):
+                if d[j]:
+                    d[j] = False
+    eratos(max_int)
 
     # 3. dfs
     check = [False for _ in range(size)]
@@ -20,7 +19,7 @@ def solution(numbers):
     def dfs(idx, stack):
         if not (len(stack) >= 2 and stack[0] == "0") and stack:
             val = int("".join(stack))
-            if val not in ss and is_prime(val):
+            if val not in ss and val >= 2 and d[val]:
                 ss.add(val)
 
         if idx == size:
@@ -38,10 +37,10 @@ def solution(numbers):
 
     return len(ss)
 
-    return len(ss)
 
-
-s = "17"
+s = "011"
 res = solution(s)
 
-print("res", res)
+print(res)
+
+
