@@ -1,46 +1,22 @@
-def solution(numbers):
-    # 1. init
-    size = len(numbers)
-    max_int = int("".join(sorted(numbers, reverse=True))) + 1
-    d = [True for _ in range(max_int)]
+class Solution:
+    def search(self, nums: list[int], target: int) -> int:
 
-    # 2. eratos
-    def eratos(n):
-        m = int(n ** 0.5) + 1
-        for i in range(2, m):
-            for j in range(i+i, max_int, i):
-                if d[j]:
-                    d[j] = False
-    eratos(max_int)
+        # 1. init
+        l = 0
+        r = len(nums) - 1
 
-    # 3. dfs
-    check = [False for _ in range(size)]
-    ss = set()
-    def dfs(idx, stack):
-        if not (len(stack) >= 2 and stack[0] == "0") and stack:
-            val = int("".join(stack))
-            if val not in ss and val >= 2 and d[val]:
-                ss.add(val)
+        # 2. binary search
+        def binary_search(l, r):
+            while l <= r:
+                mid = (l + r) // 2
 
-        if idx == size:
-            return
+                if nums[mid] < target:
+                    l += 1
+                elif nums[mid] > target:
+                    r -= 1
+                else:
+                    return mid
 
-        for i in range(size):
-            if not check[i]:
-                check[i] = True
-                stack.append(numbers[i])
-                dfs(idx + 1, stack)
-                check[i] = False
-                stack.pop()
+            return -1
 
-    dfs(0, [])
-
-    return len(ss)
-
-
-s = "011"
-res = solution(s)
-
-print(res)
-
-
+        return binary_search(l, r)
