@@ -1,22 +1,19 @@
 class Solution:
-    def search(self, nums: list[int], target: int) -> int:
+    def search(self, nums: List[int], target: int) -> int:
 
-        # 1. init
-        l = 0
-        r = len(nums) - 1
-
-        # 2. binary search
+        # 1. binary_search
         def binary_search(l, r):
-            while l <= r:
-                mid = (l + r) // 2
+            # not overflow
+            if l <= r:
+                mid = l + (r - l) // 2
 
                 if nums[mid] < target:
-                    l += 1
+                    return binary_search(mid + 1, r)
                 elif nums[mid] > target:
-                    r -= 1
+                    return binary_search(l, mid - 1)
                 else:
                     return mid
+            else:
+                return -1
 
-            return -1
-
-        return binary_search(l, r)
+        return binary_search(0, len(nums) - 1)
