@@ -1,15 +1,17 @@
-from typing import List
-
-
 class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        # 1. init
-        d = [0 for _ in range(len(nums))]
-        res = d[0] = nums[0]
+    def climbStairs(self, n: int) -> int:
 
-        # 2. tabulation
-        for i in range(1, len(nums)):
-            d[i] = max(nums[i], d[i - 1] + nums[i])
-            res = max(res, d[i])
+        d = [0 for _ in range(n + 1)]
 
-        return res
+        def go(i):
+            if i <= 2:
+                return i
+
+            if d[i] > 0:
+                return d[i]
+
+            d[i] = go(i - 2) + go(i - 1)
+
+            return d[i]
+
+        return go(n)
