@@ -4,23 +4,12 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         # 1. init
         rev = None
-        slow = fast = head
 
-        # 2. runnter
-        while fast and fast.next:
-            fast = fast.next.next
+        # 2. loop
+        while head:
+            rev, rev.next, head = head, rev, head.next
 
-            rev, rev.next, slow = slow, rev, slow.next
-
-        # if length is a odd number, go one step forward
-        if fast:
-            slow = slow.next
-
-        # 3. palindrome check
-        while rev and rev.val == slow.val:
-            slow, rev = slow.next, rev.next
-
-        return not rev
+        return rev
