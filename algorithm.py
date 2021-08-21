@@ -4,13 +4,23 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def mergeTwoLists(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        # 1. init
+        rev = None
+        slow = fast = head
 
-        if (not l1) or (l2 and l1.val > l2.val):
-            l1, l2 = l2, l1
+        # 2. runnter
+        while fast and fast.next:
+            fast = fast.next.next
 
-        if l1:
-            l1.next = self.mergeTwoLists(l1.next, l2)
+            rev, rev.next, slow = slow, rev, slow.next
 
-        return l1
+        # if length is a odd number, go one step forward
+        if fast:
+            slow = slow.next
 
+        # 3. palindrome check
+        while rev and rev.val == slow.val:
+            slow, rev = slow.next, rev.next
+
+        return not rev
