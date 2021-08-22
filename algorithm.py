@@ -1,21 +1,17 @@
-class MyQueue:
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        # 1. init
+        stack = []
+        res = [0 for _ in range(len(temperatures))]
 
-    def __init__(self):
-        self.left = []
-        self.right = []
+        # 2. loop
+        for i in range(len(temperatures)):
+            cur = temperatures[i]
 
-    def push(self, x: int) -> None:
-        self.right.append(x)
+            while stack and temperatures[stack[-1]] < cur:
+                top = stack.pop()
+                res[top] = i - top
 
-    def pop(self) -> int:
-        self.peek()
-        return self.left.pop()
+            stack.append(i)
 
-    def peek(self) -> int:
-        if not self.left:
-            while self.right:
-                self.left.append(self.right.pop())
-        return self.left[-1]
-
-    def empty(self) -> bool:
-        return len(self.left) == 0 and len(self.right) == 0
+        return res
