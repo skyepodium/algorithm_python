@@ -1,10 +1,18 @@
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
 
-        for c in sorted(set(s)):
-            suffix = s[s.index(c):]
+        stack, counter, seen = [], Counter(s), set()
 
-            if set(s) == set(suffix):
-                return c + self.removeDuplicateLetters(suffix.replace(c, ""))
+        for c in s:
+            counter[c] -= 1
 
-        return ""
+            if c in seen:
+                continue
+
+            while stack and c < stack[-1] and counter[stack[-1]] > 0:
+                seen.remove(stack.pop())
+
+            stack.append(c)
+            seen.add(c)
+
+        return "".join(stack)
