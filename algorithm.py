@@ -1,19 +1,21 @@
-class MyStack:
+class MyQueue:
 
     def __init__(self):
-        self.q = collections.deque()
+        self.left = []
+        self.right = []
 
     def push(self, x: int) -> None:
-        self.q.append(x)
-
-        for _ in range(len(self.q) - 1):
-            self.q.append(self.q.popleft())
+        self.right.append(x)
 
     def pop(self) -> int:
-        return self.q.popleft()
+        self.peek()
+        return self.left.pop()
 
-    def top(self) -> int:
-        return self.q[0]
+    def peek(self) -> int:
+        if not self.left:
+            while self.right:
+                self.left.append(self.right.pop())
+        return self.left[-1]
 
     def empty(self) -> bool:
-        return len(self.q) == 0
+        return len(self.left) == 0 and len(self.right) == 0
