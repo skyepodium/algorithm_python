@@ -1,11 +1,11 @@
 class Solution:
-    def maxDepth(self, root: Optional[TreeNode]) -> int:
+    def minDepth(self, root: Optional[TreeNode]) -> int:
         # 1. exception
         if not root:
             return 0
 
         # 2. init
-        self.res = 0
+        self.res = 100001
 
         # 3. dfs
         def dfs(node, cnt):
@@ -13,7 +13,7 @@ class Solution:
                 return
 
             if not node.left and not node.right:
-                self.res = max(self.res, cnt)
+                self.res = min(self.res, cnt)
                 return
 
             dfs(node.left, cnt + 1)
@@ -21,4 +21,4 @@ class Solution:
 
         dfs(root, 1)
 
-        return self.res   
+        return self.res 
