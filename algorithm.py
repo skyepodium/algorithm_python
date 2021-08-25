@@ -1,25 +1,57 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from typing import Optional
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+
 class Solution:
-    def addStrings(self, num1: str, num2: str) -> str:
-        # 1. init
-        n = len(num1) - 1
-        m = len(num2) - 1
+    def hasPathSum(root, targetSum) -> bool:
+        # 1. exception
+        if not root:
+            return False
 
-        # 2. loop
-        carry = 0
-        res = ""
-        while n >= 0 or m >= 0 or carry > 0:
-            a = 0
-            if n >= 0:
-                a = ord(num1[n]) - ord('0')
-                n -= 1
+        global is_exist
+        is_exist = False
 
-            b = 0
-            if m >= 0:
-                b = ord(num2[m]) - ord('0')
-                m -= 1
+        # 2. dfs
+        def dfs(node, val):
+            if not node:
+                return
 
-            carry, val = divmod(a + b + carry, 10)
-            res += str(val)
+            if node and not node.left and not node.right and val + node.val == targetSum:
+                global is_exist
+                is_exist = True
+                return
 
-        # 3. reverse
-        return res[::-1]
+            if node.left:
+                dfs(node.left, val + node.val)
+
+            if node.right:
+                dfs(node.right, val + node.val)
+
+        dfs(root, 0)
+
+        return is_exist
+
+
+
+root = TreeNode(1, None, None)
+left = TreeNode(2, None, None)
+root.left = left
+
+sl = Solution
+
+res = sl.hasPathSum(root, 1)
+
+print('res', res)
