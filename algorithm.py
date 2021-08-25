@@ -1,31 +1,25 @@
 class Solution:
     def addStrings(self, num1: str, num2: str) -> str:
         # 1. init
-        num1 = num1[::-1]
-        num2 = num2[::-1]
+        n = len(num1) - 1
+        m = len(num2) - 1
 
-        # 2. swap with length
-        if len(num1) < len(num2):
-            num1, num2 = num2, num1
-
-        n = len(num1)
-        m = len(num2)
+        # 2. loop
         carry = 0
         res = ""
+        while n >= 0 or m >= 0 or carry > 0:
+            a = 0
+            if n >= 0:
+                a = ord(num1[n]) - ord('0')
+                n -= 1
 
-        # 3. loop
-        for i in range(n):
-            cur = 0
+            b = 0
+            if m >= 0:
+                b = ord(num2[m]) - ord('0')
+                m -= 1
 
-            cur += ord(num1[i]) - ord('0')
-
-            if i < m:
-                cur += ord(num2[i]) - ord('0')
-
-            carry, val = divmod(cur + carry, 10)
+            carry, val = divmod(a + b + carry, 10)
             res += str(val)
 
-        if carry > 0:
-            res += str(carry)
-
-        return str(res)[::-1]
+        # 3. reverse
+        return res[::-1]
