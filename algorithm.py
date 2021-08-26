@@ -1,31 +1,22 @@
+from math import sqrt
+
 class Solution:
-    def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
+    def judgeSquareSum(self, c: int) -> bool:
         # 1. init
-        res = []
+        n = int(sqrt(c)) + 1
+        d = [x*x for x in range(n)] 
+        size = len(d)
+        l = 0
+        r = size - 1
         
-        # 2. exception
-        if not root:
-            return []
+        while l <= r:
+            sum_val = d[l] + d[r]
+            
+            if sum_val < c:
+                l += 1
+            elif sum_val > c:
+                r -= 1
+            else:
+                return True
         
-        # 3. dfs
-        def dfs(node, stack):
-            if not node:
-                return
-            
-            if not node.left and not node.right:
-                stack.append(str(node.val))
-                res.append("->".join(stack))
-                stack.pop()
-                return
-            
-            stack.append(str(node.val))
-            dfs(node.left, stack)
-            stack.pop()
-            
-            stack.append(str(node.val))
-            dfs(node.right, stack)
-            stack.pop()
-            
-        dfs(root, [])
-        
-        return res
+        return False
