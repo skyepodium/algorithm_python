@@ -1,22 +1,26 @@
-from math import sqrt
-
 class Solution:
-    def judgeSquareSum(self, c: int) -> bool:
-        # 1. init
-        n = int(sqrt(c)) + 1
-        d = [x*x for x in range(n)] 
-        size = len(d)
-        l = 0
-        r = size - 1
+    def majorityElement(self, nums: List[int]) -> int:
         
-        while l <= r:
-            sum_val = d[l] + d[r]
-            
-            if sum_val < c:
-                l += 1
-            elif sum_val > c:
-                r -= 1
+        cnt = 0
+        max_cnt = 0
+        res = -1
+        cur = -2147483646
+        nums.sort()
+        
+        for num in nums:
+            if cur != num:
+                if cnt > max_cnt:
+                    max_cnt = cnt
+                    res = cur
+                
+                cur = num
+                cnt = 1
             else:
-                return True
-        
-        return False
+                cnt += 1
+            
+        if cnt > max_cnt:
+            max_cnt = cnt
+            res = cur
+                           
+        return res
+            
