@@ -1,24 +1,11 @@
 class Solution:
-    def minDepth(self, root: Optional[TreeNode]) -> int:
-        # 1. exception
-        if not root:
-            return 0
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        root = head
 
-        # 2. init
-        self.res = 100001
+        while head:
+            if head.next and head.val == head.next.val:
+                head.next = head.next.next
+            else:
+                head = head.next
 
-        # 3. dfs
-        def dfs(node, cnt):
-            if not node:
-                return
-
-            if not node.left and not node.right:
-                self.res = min(self.res, cnt)
-                return
-
-            dfs(node.left, cnt + 1)
-            dfs(node.right, cnt + 1)
-
-        dfs(root, 1)
-
-        return self.res 
+        return root
