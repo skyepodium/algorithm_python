@@ -1,11 +1,23 @@
 class Solution:
-    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        root = head
+    def isHappy(self, n: int) -> bool:
+        # 1. init
+        s = set()
 
-        while head:
-            if head.next and head.val == head.next.val:
-                head.next = head.next.next
-            else:
-                head = head.next
+        # 2. squared_sum
+        def squared_sum(num: int) -> int:
+            num = str(num)
+            res = 0
 
-        return root
+            for c in num:
+                res += (ord(c) - ord('0')) ** 2
+
+            return res
+
+        # 3. loop
+        while n not in s:
+            s.add(n)
+            n = squared_sum(n)
+            if n == 1:
+                return True
+
+        return False
