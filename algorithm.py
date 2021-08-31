@@ -19,4 +19,4 @@ def solution(n):
         if one_cnt == to_binary(i).count("1"):
             return i
     
-    return -1
+    return -1   
