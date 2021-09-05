@@ -1,5 +1,11 @@
 class Solution:
-    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
-        total_sum = int("".join([str(x) for x in num])) + k
+    def countBits(self, n: int) -> List[int]:
+        # 1. init
+        res = []
 
-        return [int(x) for x in str(total_sum)]
+        # 2. loop
+        for i in range(n + 1):
+            val = bin(i)
+            res.append(str(val).count('1'))
+
+        return res
