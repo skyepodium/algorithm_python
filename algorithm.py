@@ -1,19 +1,17 @@
 class Solution:
-    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+    def fizzBuzz(self, n: int) -> List[str]:
         # 1. init
-        self.res = 0
+        res = []
 
-        # 2. preorder
-        def go(node, is_left):
-            if not node:
-                return
+        # 2. loop
+        for i in range(1, n + 1):
+            if i % 3 == 0 and i % 5 == 0:
+                res.append("FizzBuzz")
+            elif i % 3 == 0:
+                res.append("Fizz")
+            elif i % 5 == 0:
+                res.append("Buzz")
+            else:
+                res.append(str(i))
 
-            if not node.left and not node.right and is_left:
-                self.res += node.val
-
-            go(node.left, True)
-            go(node.right, False)
-
-        go(root, False)
-
-        return self.res
+        return res
