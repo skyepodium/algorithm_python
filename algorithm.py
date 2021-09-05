@@ -1,21 +1,21 @@
 class Solution:
-    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        # 1. exception
-        if not root:
-            return []
-
-        # 2. init
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        # 1. init
         res = []
 
-        # 3. inorder
-        def go(node):
+        # 2. exception
+        if not root:
+            return res
+
+        # 3. pre_order
+        def pre_order(node):
             if not node:
                 return
 
-            go(node.left)
             res.append(node.val)
-            go(node.right)
+            pre_order(node.left)
+            pre_order(node.right)
 
-        go(root)
+        pre_order(root)
 
         return res
