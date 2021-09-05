@@ -1,17 +1,8 @@
 class Solution:
-    def fizzBuzz(self, n: int) -> List[str]:
-        # 1. init
-        res = []
+    def thirdMax(self, nums: List[int]) -> int:
+        # 1. sort
+        nums = list(set(nums))
+        nums.sort(reverse=True)
 
-        # 2. loop
-        for i in range(1, n + 1):
-            if i % 3 == 0 and i % 5 == 0:
-                res.append("FizzBuzz")
-            elif i % 3 == 0:
-                res.append("Fizz")
-            elif i % 5 == 0:
-                res.append("Buzz")
-            else:
-                res.append(str(i))
-
-        return res
+        # 2. return
+        return nums[0] if len(nums) < 3 else nums[2]
