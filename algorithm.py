@@ -1,5 +1,5 @@
 class Solution:
-    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         # 1. init
         res = []
 
@@ -7,15 +7,15 @@ class Solution:
         if not root:
             return res
 
-        # 3. pre_order
-        def pre_order(node):
+        # 3. post_order
+        def post_order(node):
             if not node:
                 return
 
+            post_order(node.left)
+            post_order(node.right)
             res.append(node.val)
-            pre_order(node.left)
-            pre_order(node.right)
 
-        pre_order(root)
+        post_order(root)
 
         return res
