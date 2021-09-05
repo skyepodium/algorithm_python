@@ -1,10 +1,5 @@
 class Solution:
-    def addBinary(self, a: str, b: str) -> str:
-        c = int(a, 2) + int(b, 2)
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        total_sum = int("".join([str(x) for x in num])) + k
 
-        res = ""
-        while c > 0:
-            res += str(c % 2)
-            c //= 2
-
-        return "0" if res == "" else res[::-1]        
+        return [int(x) for x in str(total_sum)]
