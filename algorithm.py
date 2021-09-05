@@ -1,11 +1,19 @@
 class Solution:
-    def countBits(self, n: int) -> List[int]:
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
         # 1. init
-        res = []
+        self.res = 0
 
-        # 2. loop
-        for i in range(n + 1):
-            val = bin(i)
-            res.append(str(val).count('1'))
+        # 2. preorder
+        def go(node, is_left):
+            if not node:
+                return
 
-        return res
+            if not node.left and not node.right and is_left:
+                self.res += node.val
+
+            go(node.left, True)
+            go(node.right, False)
+
+        go(root, False)
+
+        return self.res
