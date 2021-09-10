@@ -1,12 +1,12 @@
 class Solution:
-    def removeDuplicates(self, nums: List[int]) -> int:
-        count = 0
+    def removeElement(self, nums: List[int], val: int) -> int:
+        cnt = 0
         n = len(nums)
 
-        for i in range(1, n):
-            if nums[i] == nums[i - 1]:
-                count += 1
+        for i in range(n):
+            if nums[i] == val:
+                cnt += 1
             else:
-                nums[i - count] = nums[i]
+                nums[i - cnt] = nums[i]
 
-        return n - count
+        return n - cnt
