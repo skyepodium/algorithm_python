@@ -1,16 +1,10 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
 class Solution:
-    def singleNumber(self, nums: list[int]) -> int:
-        # 1. init
-        res = nums[0]
-
-        # 2. xor
-        for i in range(1, len(nums)):
-            res ^= nums[i]
-            print(nums[i], res)
-
-        return res
-
-sl = Solution()
-nums = [4,1,2,1,2]
-res = sl.singleNumber(nums)
-print('res')
+    def deleteNode(self, node):
+        node.val = node.next.val
+        node.next = node.next.next
