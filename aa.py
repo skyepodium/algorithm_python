@@ -1,7 +1,7 @@
 import hashlib
 from itertools import chain
 
-probably_public_bits = [
+probably_public_bits = [.    
     'root',  # username
     'flask.app',  # modname 고정
     'Flask',  # getattr(app, '__name__', getattr(app.__class__, '__name__')) 고정
