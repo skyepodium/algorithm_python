@@ -1,17 +1,25 @@
 class Solution:
-    def binaryGap(self, n: int) -> int:
-        # 1. init
-        max_dist = 0
-        cnt = 0
+    def isIsomorphic(self, s: str, t: str) -> bool:
 
-        # 2. loop
-        while n > 0:
-            if n % 2 == 1:
-                max_dist = max(max_dist, cnt)
-                cnt = 1
+        a_d = {}
+        a_set = set()
+        b_d = {}
+        b_set = set()
+
+        for a, b in zip(s, t):
+            if a not in a_set:
+                a_d[a] = b
+                a_set.add(a)
             else:
-                if cnt > 0: cnt += 1
+                if a_d[a] != b:
+                    return False
 
-            n //= 2
+        for a, b in zip(s, t):
+            if b not in b_set:
+                b_d[b] = a
+                b_set.add(b)
+            else:
+                if b_d[b] != a:
+                    return False
 
-        return max_dist
+        return True
