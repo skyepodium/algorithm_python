@@ -1,25 +1,11 @@
-class Solution:
-    def isIsomorphic(self, s: str, t: str) -> bool:
+def solution(sizes):
+    # 1. init
+    x_max, y_max = 0, 0
 
-        a_d = {}
-        a_set = set()
-        b_d = {}
-        b_set = set()
+    # 2. loop
+    for x, y in sizes:
+        if x > y:
+            x, y = y, x
+        x_max, y_max = max(x, x_max), max(y, y_max)
 
-        for a, b in zip(s, t):
-            if a not in a_set:
-                a_d[a] = b
-                a_set.add(a)
-            else:
-                if a_d[a] != b:
-                    return False
-
-        for a, b in zip(s, t):
-            if b not in b_set:
-                b_d[b] = a
-                b_set.add(b)
-            else:
-                if b_d[b] != a:
-                    return False
-
-        return True
+    return x_max * y_max
