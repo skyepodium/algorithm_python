@@ -1,12 +1,18 @@
 class Solution:
-    def numberOfSteps(self, num: int) -> int:
-        result = 0
+    def subtractProductAndSum(self, n: int) -> int:
+        def go(num):
+            p = 1
+            s = 0
 
-        while num > 0:
-            result += 1
-            if num % 2 == 0:
-                num /= 2
-            else:
-                num -= 1
+            while num > 0:
+                x = num % 10
+                p *= x
+                s += x
+                num //= 10
 
-        return result
+            return p - s
+
+        return go(n)
+
+
+
