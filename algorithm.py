@@ -1,17 +1,6 @@
 class Solution:
-    def selfDividingNumbers(self, left: int, right: int) -> List[int]:
-        # 1. check
-        def check(num):
-            str_num = str(num)
+    def sortArrayByParity(self, nums: List[int]) -> List[int]:
+        def is_even(num):
+            return -1 if num % 2 == 0 else 1
 
-            if '0' in str_num:
-                return False
-
-            for a in str_num:
-                if num % int(a) != 0:
-                    return False
-
-            return True
-
-        # 2. list comprehension
-        return [x for x in range(left, right+1) if check(x)]
+        return sorted(nums, key=lambda x: is_even(x))
