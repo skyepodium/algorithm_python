@@ -1,18 +1,9 @@
 class Solution:
-    def subtractProductAndSum(self, n: int) -> int:
-        def go(num):
-            p = 1
-            s = 0
+    def getDecimalValue(self, head: ListNode) -> int:
+        res = 0
 
-            while num > 0:
-                x = num % 10
-                p *= x
-                s += x
-                num //= 10
+        while head:
+            res = res * 2 + head.val
+            head = head.next
 
-            return p - s
-
-        return go(n)
-
-
-
+        return res
