@@ -1,9 +1,6 @@
 class Solution:
     def selfDividingNumbers(self, left: int, right: int) -> List[int]:
-        # 1. init
-        result = []
-
-        # 2. check
+        # 1. check
         def check(num):
             str_num = str(num)
 
@@ -16,9 +13,5 @@ class Solution:
 
             return True
 
-        # 3. loop
-        for i in range(left, right + 1):
-            if check(i):
-                result.append(i)
-
-        return result
+        # 2. list comprehension
+        return [x for x in range(left, right+1) if check(x)]
