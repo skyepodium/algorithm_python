@@ -1,15 +1,24 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def sortColors(self, nums: List[int]) -> None:
-        # 1. init
-        n = len(nums)
+    result = 0
 
-        # 2. bubble sort
-        for i in range(n - 1, 0, -1):
-            for j in range(i):
-                if nums[j] > nums[i]:
-                    temp = nums[i]
-                    nums[i] = nums[j]
-                    nums[j] = temp
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        def go(node):
+            if not node:
+                return 0
 
+            left_depth = go(node.left)
+            right_depth = go(node.right)
 
+            self.result = max(self.result, left_depth + right_depth)
 
+            return max(left_depth, right_depth) + 1
+
+        go(root)
+
+        return self.result
