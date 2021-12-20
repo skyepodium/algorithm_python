@@ -1,3 +1,4 @@
 class Solution:
-    def arrayStringsAreEqual(self, word1: List[str], word2: List[str]) -> bool:
-        return "".join(word1) == "".join(word2)
+    def sortSentence(self, s: str) -> str:
+
+        return " ".join([x[:len(x)-1] for x in sorted(s.split(" "), key=lambda x: int(x[-1]))])
