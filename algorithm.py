@@ -1,4 +1,13 @@
 class Solution:
-    def sortSentence(self, s: str) -> str:
-
-        return " ".join([x[:len(x)-1] for x in sorted(s.split(" "), key=lambda x: int(x[-1]))])
+    def numIdenticalPairs(self, nums: List[int]) -> int:
+        # 1. init
+        n = len(nums)
+        result = 0
+        
+        # 2. loop
+        for i in range(n):
+            for j in range(i+1, n):
+                if nums[i] == nums[j]:
+                    result += 1
+        
+        return result
