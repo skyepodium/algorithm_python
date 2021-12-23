@@ -1,4 +1,8 @@
 class Solution:
-    def restoreString(self, s: str, indices: List[int]) -> str:
-
-        return "".join([x[0] for x in sorted([x for x in zip(s, indices)], key=lambda x: x[1])])
+    def firstPalindrome(self, words: List[str]) -> str:
+        
+        for w in words:
+            if w == w[::-1]:
+                return w
+            
+        return ""
