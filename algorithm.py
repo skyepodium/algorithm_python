@@ -1,14 +1,13 @@
 class Solution:
-    def titleToNumber(self, columnTitle: str) -> int:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
         # 1. init
-        result = 0
+        res = []
 
-        # 2. getNum
-        def getNum(c):
-            return ord(c) - ord('A') + 1
+        # 2. loop
+        for x in nums:
+            if nums[abs(x) - 1] < 0:
+                res.append(abs(x))
+            else:
+                nums[abs(x) - 1] *= -1
 
-        # 3. loop
-        for c in columnTitle:
-            result = result * 26 + getNum(c)
-
-        return result
+        return res
