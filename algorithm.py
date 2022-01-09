@@ -1,13 +1,24 @@
 class Solution:
-    def findDuplicates(self, nums: List[int]) -> List[int]:
+    def wordPattern(self, pattern: str, s: str) -> bool:
         # 1. init
-        res = []
+        d = {}
+        e = set()
+        p_list = [x for x in pattern]
+        s_list = s.split(" ")
 
-        # 2. loop
-        for x in nums:
-            if nums[abs(x) - 1] < 0:
-                res.append(abs(x))
+        # 2. exception
+        if len(p_list) != len(s_list):
+            return False
+
+        # 3. loop
+        for a, b in zip(p_list, s_list):
+            if a in d:
+                if d[a] != b:
+                    return False
             else:
-                nums[abs(x) - 1] *= -1
+                d[a] = b
+                if b in e:
+                    return False
+                e.add(b)
 
-        return res
+        return True
