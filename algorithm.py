@@ -1,24 +1,15 @@
 class Solution:
-    def wordPattern(self, pattern: str, s: str) -> bool:
+    def sortArrayByParityII(self, nums: List[int]) -> List[int]:
         # 1. init
-        d = {}
-        e = set()
-        p_list = [x for x in pattern]
-        s_list = s.split(" ")
+        even_list = [x for x in nums if x % 2 == 0]
+        odd_list = [x for x in nums if x % 2 == 1]
+        res = []
 
-        # 2. exception
-        if len(p_list) != len(s_list):
-            return False
+        # 2. loop
+        for a, b in zip(even_list, odd_list):
+            res.append(a)
+            res.append(b)
 
-        # 3. loop
-        for a, b in zip(p_list, s_list):
-            if a in d:
-                if d[a] != b:
-                    return False
-            else:
-                d[a] = b
-                if b in e:
-                    return False
-                e.add(b)
+        return res
 
-        return True
+
