@@ -2,7 +2,6 @@ class Solution:
     def sumOddLengthSubarrays(self, arr: List[int]) -> int:
         # 1. init
         n = len(arr)
-        cnt = n // 2 + 1 if n % 2 == 1 else n // 2
         res = 0
 
         # 2. loop
