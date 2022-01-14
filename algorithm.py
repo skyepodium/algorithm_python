@@ -1,15 +1,13 @@
 class Solution:
-    def sortArrayByParityII(self, nums: List[int]) -> List[int]:
+    def sumOddLengthSubarrays(self, arr: List[int]) -> int:
         # 1. init
-        even_list = [x for x in nums if x % 2 == 0]
-        odd_list = [x for x in nums if x % 2 == 1]
-        res = []
+        n = len(arr)
+        cnt = n // 2 + 1 if n % 2 == 1 else n // 2
+        res = 0
 
         # 2. loop
-        for a, b in zip(even_list, odd_list):
-            res.append(a)
-            res.append(b)
+        for i in range(1, n + 1, 2):
+            for j in range(n - i + 1):
+                res += sum(arr[j:j + i])
 
         return res
-
-
