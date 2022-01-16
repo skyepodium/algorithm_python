@@ -1,12 +1,34 @@
-class Solution:
-    def sumOddLengthSubarrays(self, arr: List[int]) -> int:
-        # 1. init
-        n = len(arr)
-        res = 0
+from collections import OrderedDict
 
-        # 2. loop
-        for i in range(1, n + 1, 2):
-            for j in range(n - i + 1):
-                res += sum(arr[j:j + i])
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.d = OrderedDict()
+        self.n = capacity
 
-        return res
+    def get(self, key: int) -> int:
+        if key not in self.d:
+            return -1
+
+        value = self.d.pop(key)
+        self.d[key] = value
+        return value
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.d:
+            self.d.pop(key)
+        else:
+            if self.n > 0:
+                self.n -= 1
+            else:
+                self.d.popitem(last=False)
+        self.d[key] = value
+
+lr = LRUCache(2)
+print(None)
+print(lr.get(2))
+print(lr.put(2, 6))
+print(lr.get(1))
+print(lr.put(1, 5))
+print(lr.put(1, 2))
+print(lr.get(1))
+print(lr.get(2))
