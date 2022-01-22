@@ -1,34 +1,30 @@
-from collections import OrderedDict
+from typing import List
 
-class LRUCache:
-    def __init__(self, capacity: int):
-        self.d = OrderedDict()
-        self.n = capacity
 
-    def get(self, key: int) -> int:
-        if key not in self.d:
-            return -1
+class Solution:
+    def reorderLogFiles(self, logs: List[str]) -> List[str]:
+        # 1. init
+        letter = []
+        digit = []
 
-        value = self.d.pop(key)
-        self.d[key] = value
-        return value
-
-    def put(self, key: int, value: int) -> None:
-        if key in self.d:
-            self.d.pop(key)
-        else:
-            if self.n > 0:
-                self.n -= 1
+        # 2. loop
+        for log in logs:
+            is_numberic = True
+            for i in log.split(" ")[1:]:
+                if not i.isnumeric():
+                    is_numberic = False
+            if is_numberic:
+                digit.append(log)
             else:
-                self.d.popitem(last=False)
-        self.d[key] = value
+                letter.append(log)
 
-lr = LRUCache(2)
-print(None)
-print(lr.get(2))
-print(lr.put(2, 6))
-print(lr.get(1))
-print(lr.put(1, 5))
-print(lr.put(1, 2))
-print(lr.get(1))
-print(lr.get(2))
+        # 3. sort
+        letter.sort(key=lambda x: (x.split(" ")[1:], x.split(" ")[0]))
+
+        return letter + digit
+
+sl = Solution()
+logs = ["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act zoo"]
+res = sl.reorderLogFiles(logs)
+
+print('res', res)
