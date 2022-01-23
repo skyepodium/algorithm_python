@@ -1,13 +1,18 @@
 class Solution:
-    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
-        # 1. init
-        d = {}
+    def addDigits(self, num: int) -> int:
+        # 1. loop
+        while num >= 10:
+            n = num
+            res = 0
+            while n > 0:
+                res += n % 10
+                n //= 10
+            num = res
 
-        # 2. loop
-        for idx, num in enumerate(nums):
-            if num in d and idx - d[num] <= k:
-                return True
+        return num
 
-            d[num] = idx
+sl = Solution()
 
-        return False
+res = sl.addDigits(0)
+
+print('res', res)
