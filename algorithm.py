@@ -11,5 +11,5 @@ class Solution:
                     q, w, e = arr[i], arr[j], arr[k]
                     if abs(q - w) <= a and abs(w - e) <= b and abs(q - e) <= c:
                         res += 1
-
+    
         return res
