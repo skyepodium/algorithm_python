@@ -1,3 +1,4 @@
 class Solution:
-    def sumZero(self, n: int) -> List[int]:
-        return range(1-n, n, 2)
+    def defangIPaddr(self, address: str) -> str:
+        return address.replace(".", "[.]")
+
