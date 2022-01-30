@@ -1,19 +1,16 @@
 class Solution:
-    def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+    def canBeTypedWords(self, text: str, brokenLetters: str) -> int:
         # 1. init
-        d = {}
-        a = []
-        b = []
+        res = 0
 
         # 2. loop
-        for idx, num in enumerate(arr2):
-            d[num] = idx
+        for w in text.split(" "):
+            isOk = True
+            for a in w:
+                if a in brokenLetters:
+                    isOk = False
+                    break
+            if isOk:
+                res += 1
 
-        # 3. search
-        for num in arr1:
-            if num in d:
-                a.append(num)
-            else:
-                b.append(num)
-
-        return sorted(a, key=lambda x: d[x]) + sorted(b)
+        return res
