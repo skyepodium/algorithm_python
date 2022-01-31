@@ -1,21 +1,25 @@
 from typing import List
-from collections import Counter
+
 
 class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
         # 1. init
+        d = {}
         res = []
-        c = sorted(Counter(nums).items(), key=lambda x: -x[1])
         cnt = 0
+
+        # 2. cnt
+        for w in words:
+            if w in d: d[w] += 1
+            else: d[w] = 1
+
+        # 3. sort
+        c = sorted(d.items(), key=lambda x: (-x[1], x[0]))
+
+        # 4. result
         for x in c:
-            cnt += 1
+            if cnt >= k: break
             res.append(x[0])
-            if cnt >= k:
-                break
+            cnt += 1
 
         return res
-
-sl = Solution()
-res = sl.topKFrequent([1, 1, 1, 2, 2, 3], 2)
-
-print('res', res)
