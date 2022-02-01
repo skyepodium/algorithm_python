@@ -5,20 +5,12 @@ class Solution:
 
         # 1. init
         res = 0
+        base = 0
 
-        # 2. dec_to_bit
-        def dec_to_bit(num):
-            res = ""
-            while num > 0:
-                res += str(num % 2)
-                num //= 2
-            return res
-
-        str_num = dec_to_bit(n)
-
-        # 3. loop
-        for i in range(len(str_num)):
-            if str_num[i] == '0':
-                res += 2 ** i
+        # 2. loop
+        while n > 0:
+            res += 2 ** base if n % 2 == 0 else 0
+            n //= 2
+            base += 1
 
         return res
