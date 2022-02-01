@@ -1,25 +1,24 @@
-from typing import List
-
-
 class Solution:
-    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+    def bitwiseComplement(self, n: int) -> int:
+        # 0. exception
+        if n == 0: return 1
+
         # 1. init
-        d = {}
-        res = []
-        cnt = 0
+        res = 0
 
-        # 2. cnt
-        for w in words:
-            if w in d: d[w] += 1
-            else: d[w] = 1
+        # 2. dec_to_bit
+        def dec_to_bit(num):
+            res = ""
+            while num > 0:
+                res += str(num % 2)
+                num //= 2
+            return res
 
-        # 3. sort
-        c = sorted(d.items(), key=lambda x: (-x[1], x[0]))
+        str_num = dec_to_bit(n)
 
-        # 4. result
-        for x in c:
-            if cnt >= k: break
-            res.append(x[0])
-            cnt += 1
+        # 3. loop
+        for i in range(len(str_num)):
+            if str_num[i] == '0':
+                res += 2 ** i
 
         return res
