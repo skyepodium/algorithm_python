@@ -1,13 +1,13 @@
 class Solution:
-    def maximumDifference(self, nums: List[int]) -> int:
+    def countCharacters(self, words: List[str], chars: str) -> int:
         # 1. init
-        n = len(nums)
-        res = -1
+        c = Counter(chars)
+        res = 0
 
         # 2. loop
-        for i in range(n):
-            for j in range(i):
-                if nums[i] > nums[j]:
-                    res = max(res, nums[i] - nums[j])
+        for w in words:
+            temp = (c | Counter(w)) - c
+            if len(temp) == 0:
+                res += len(w)
 
-        return res    
+        return res
