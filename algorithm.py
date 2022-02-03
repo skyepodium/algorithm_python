@@ -11,7 +11,7 @@ class Solution:
         # 2. loop
         for i in range(n):
             # 1) over size
-            if dq and dq[0] == i - k: dq.popleft()
+            if dq and dq[0] <= i - k: dq.popleft()
 
             # 2) make front biggest
             while dq and nums[dq[-1]] < nums[i]: dq.pop()
