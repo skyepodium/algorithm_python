@@ -1,37 +1,35 @@
+import bisect
 from typing import List
-from collections import deque
+
 
 class Solution:
-    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+    def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:
         # 1. init
-        res = []
-        n = len(nums)
-        dq = deque()
+        res = 0
+        f = []
+        s = []
 
         # 2. loop
-        for i in range(n):
-            # 1) over size
-            if dq and dq[0] <= i - k: dq.popleft()
+        for i in nums1:
+            for j in nums2:
+                f.append(i+j)
+        for i in nums3:
+            for j in nums4:
+                s.append(i+j)
 
-            # 2) make front biggest
-            while dq and nums[dq[-1]] < nums[i]: dq.pop()
+        # 3. sort
+        f.sort()
+        s.sort()
 
-            # 3) insert
-            dq.append(i)
+        # 4. loop
+        for num in f:
+            target = -num
 
-            # 4) update
-            if i >= k - 1:
-                res.append(nums[dq[0]])
+            l_idx = bisect.bisect_left(s, target)
+            r_idx = bisect.bisect_right(s, target)
+            res += r_idx - l_idx
 
         return res
 
-sl = Solution()
-nums = [1,3,-1,-3,5,3,6,7]
-k = 3
-# nums = [1]
-# k = 1
-# nums = [1,3,1,2,0,5]
-# k = 3
-res = sl.maxSlidingWindow(nums, k)
 
-print('res', res)
+

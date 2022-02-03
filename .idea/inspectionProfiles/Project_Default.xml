@@ -10,5 +10,13 @@
       </option>
     </inspection_tool>
     <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="_bisect.bisect_right.bisect_left" />
+          <option value="_bisect.bisect_right.bisect_right" />
+        </list>
+      </option>
+    </inspection_tool>
   </profile>
 </component>
