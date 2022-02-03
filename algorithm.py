@@ -1,21 +1,37 @@
+from typing import List
+from collections import deque
+
 class Solution:
-    def minimumAbsDifference(self, arr: List[int]) -> List[List[int]]:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         # 1. init
-        diff = 2147483647
-        n = len(arr)
         res = []
+        n = len(nums)
+        dq = deque()
 
-        # 2. sort
-        arr.sort()
+        # 2. loop
+        for i in range(n):
+            # 1) over size
+            if dq and dq[0] == i - k: dq.popleft()
 
-        # 3. loop
-        for i in range(n - 1):
-            if arr[i] < arr[i + 1]:
-                diff = min(diff, arr[i + 1] - arr[i])
+            # 2) make front biggest
+            while dq and nums[dq[-1]] < nums[i]: dq.pop()
 
-        for i in range(n - 1):
-            if arr[i] < arr[i + 1]:
-                if diff == arr[i + 1] - arr[i]:
-                    res.append((arr[i], arr[i + 1]))
+            # 3) insert
+            dq.append(i)
+
+            # 4) update
+            if i >= k - 1:
+                res.append(nums[dq[0]])
 
         return res
+
+sl = Solution()
+nums = [1,3,-1,-3,5,3,6,7]
+k = 3
+# nums = [1]
+# k = 1
+# nums = [1,3,1,2,0,5]
+# k = 3
+res = sl.maxSlidingWindow(nums, k)
+
+print('res', res)
