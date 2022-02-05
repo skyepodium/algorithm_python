@@ -1,36 +1,24 @@
-from typing import List, Optional
-
-from Cython.Compiler.ExprNodes import ListNode
-from heapq import heappush, heappop
-
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         # 1. init
-        pq = []
         head = node = None
-        l = []
+        nums = []
 
-        # 2. make pq
-        for idx, node in enumerate(lists):
-            cur = []
-            while node:
-                cur.append(node.val)
-                node = node.next
-            l.append(cur)
-            if len(cur) > 0:
-                heappush(pq, (cur[0], 0, idx))
+        # 2. loop
+        for c in lists:
+            while c:
+                nums.append(c.val)
+                c = c.next
 
-        # 3. search
-        while pq:
-            val, inner_idx, list_idx = heappop(pq)
-            if inner_idx < len(l[list_idx]) - 1:
-                heappush(pq, (l[list_idx][inner_idx + 1], inner_idx + 1, list_idx))
+        # 3. sort
+        nums.sort()
 
+        # 4. loop
+        for n in nums:
             if node:
-                node.next = ListNode(val, None)
+                node.next = ListNode(n, None)
                 node = node.next
             else:
-                node = ListNode(val, None)
-                head = node
+                head = node = ListNode(n, None)
 
         return head
