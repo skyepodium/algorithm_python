@@ -1,9 +1,11 @@
 class Solution:
     def checkIfExist(self, arr: List[int]) -> bool:
+        d = {}
         for i, a in enumerate(arr):
-            for j, b in enumerate(arr):
-                if i == j: continue
+            d[a] = i
 
-                if a * 2 == b:
-                    return True
+        for j, b in enumerate(arr):
+            c = b * 2
+            if c in d and d[c] != j:
+                return True
         return False
