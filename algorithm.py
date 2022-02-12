@@ -1,8 +1,14 @@
 class Solution:
-    def checkIfExist(self, arr: List[int]) -> bool:
-        s = set()
-        for a in arr:
-            if a * 2 in s or a / 2 in s:
-                return True
-            s.add(a)
-        return False
+    def maximum69Number (self, num: int) -> int:
+        nums = []
+        origin = num
+        while num > 0:
+            nums.append(str(num%10))
+            num //= 10
+        nums = nums[::-1]
+        for i, val in enumerate(nums):
+            if val == '6':
+                print(i, val)
+                return int("".join(nums[:i]) + "9" + "".join(nums[i+1:]))
+
+        return origin
