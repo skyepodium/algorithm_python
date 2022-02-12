@@ -4,12 +4,8 @@ class Solution:
         slow = fast = head
 
         # 2. runner
-        while fast and fast.next and fast.next.next:
+        while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
-
-        # 3. exception
-        if fast and fast.next:
-            slow = slow.next
 
         return slow
