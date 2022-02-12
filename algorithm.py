@@ -1,14 +1,15 @@
 class Solution:
-    def maximum69Number (self, num: int) -> int:
-        nums = []
-        origin = num
-        while num > 0:
-            nums.append(str(num%10))
-            num //= 10
-        nums = nums[::-1]
-        for i, val in enumerate(nums):
-            if val == '6':
-                print(i, val)
-                return int("".join(nums[:i]) + "9" + "".join(nums[i+1:]))
+    def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # 1. init
+        slow = fast = head
 
-        return origin
+        # 2. runner
+        while fast and fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        # 3. exception
+        if fast and fast.next:
+            slow = slow.next
+
+        return slow
