@@ -1,18 +1,15 @@
 class Solution:
     def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
         # 1. init
-        fast = slow = head
-        s = []
+        node = slow = fast = ListNode(None)
+        node.next = head
 
         # 2. runner
-        while fast and fast.next:
-            s.append(slow.val)
+        while fast.next and fast.next.next:
             slow = slow.next
             fast = fast.next.next
 
-        # 3. stack
-        res = slow.next
-        while s:
-            res = ListNode(s.pop(), res)
+        # 3. delete
+        slow.next = slow.next.next
 
-        return res
+        return node.next
