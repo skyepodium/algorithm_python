@@ -1,15 +1,28 @@
+from typing import List
+
+from collections import defaultdict
+
 class Solution:
-    def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    def numEquivDominoPairs(self, dominoes: List[List[int]]) -> int:
         # 1. init
-        node = slow = fast = ListNode(None)
-        node.next = head
+        d = defaultdict(int)
+        res = 0
 
-        # 2. runner
-        while fast.next and fast.next.next:
-            slow = slow.next
-            fast = fast.next.next
+        # 2. counter
+        for a, b in dominoes:
+            if a > b: a, b = b, a
+            d[f"{a}{b}"] += 1
 
-        # 3. delete
-        slow.next = slow.next.next
+        # 3. count
+        for x in d.values():
+            if x > 1:
+                res += (x * (x - 1)) // 2
 
-        return node.next
+        return res
+
+sl = Solution()
+dominoes = [[1,2],[2,1],[3,4],[5,6]]
+dominoes = [[1,2],[1,2],[1,1],[1,2],[2,2]]
+res = sl.numEquivDominoPairs(dominoes)
+
+print('res', res)
