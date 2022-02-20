@@ -1,12 +1,12 @@
-from typing import List
-
+import re
 
 class Solution:
-    def getNoZeroIntegers(self, n: int) -> List[int]:
-        return [[x, n-x] for x in range(1, n//2 + 1) if not "0" in str(x) and not "0" in str(n-x)][0]
+    def reformatDate(self, date: str) -> str:
+        # 1. init
+        d = {"Jan": '1', "Feb": '2', "Mar": '3', "Apr": '4', "May": '5', "Jun": '6', "Jul": '7', "Aug": '8', "Sep": '9', "Oct": '10', "Nov": '11', "Dec": '12'}
 
-sl = Solution()
+        # 2. split
+        day, month, year = date.split(" ")
+        day = re.sub("[a-zA-Z]+", "", day)
 
-res = sl.getNoZeroIntegers(11)
-
-print('res', res)
+        return f"{year}-{d[month].zfill(2)}-{day.zfill(2)}"
