@@ -1,18 +1,22 @@
 class Solution:
-    def balancedStringSplit(self, s: str) -> int:
+    def reverseParentheses(self, s: str) -> str:
         # 1. init
-        r_cnt, l_cnt = 0, 0
-        res = 0
+        st = []
 
-        # 2. loop
-        for c in s:
-            if r_cnt >= 0 and l_cnt >= 0 and r_cnt == l_cnt:
-                res += 1
-                r_cnt, l_cnt = 0, 0
+        for i, c in enumerate(s):
+            if c == '(':
+                st.append(i)
+            elif c == ')':
+                l, r = st[-1] + 1, i
+                s = s[:l] + s[l:r][::-1] + s[r:]
+                st.pop()
 
-            if c == "R":
-                r_cnt += 1
-            else:
-                l_cnt += 1
+        return s.replace("(", "").replace(")", "")
 
-        return res
+sl = Solution()
+s = "(abcd)"
+# s = "(u(love)i)"
+s = "(ed(et(oc))el)"
+res = sl.reverseParentheses(s)
+
+print('res', res)
