@@ -1,14 +1,18 @@
-from typing import List
-
-
 class Solution:
-    def threeConsecutiveOdds(self, arr: List[int]) -> bool:
-        cnt = 0
-        for i in range(len(arr)):
-            if arr[i] & 1 == 0:
-                cnt = 0
-            else:
-                cnt += 1
-                if cnt >= 3: return True
+    def balancedStringSplit(self, s: str) -> int:
+        # 1. init
+        r_cnt, l_cnt = 0, 0
+        res = 0
 
-        return False
+        # 2. loop
+        for c in s:
+            if r_cnt >= 0 and l_cnt >= 0 and r_cnt == l_cnt:
+                res += 1
+                r_cnt, l_cnt = 0, 0
+
+            if c == "R":
+                r_cnt += 1
+            else:
+                l_cnt += 1
+
+        return res
