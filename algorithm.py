@@ -1,22 +1,24 @@
+from typing import List
+
+
 class Solution:
-    def reverseParentheses(self, s: str) -> str:
+    def replaceElements(self, arr: List[int]) -> List[int]:
         # 1. init
-        st = []
+        n = len(arr)
+        res = [-1 for _ in range(n)]
+        cur_max = arr[n-1]
 
-        for i, c in enumerate(s):
-            if c == '(':
-                st.append(i)
-            elif c == ')':
-                l, r = st[-1] + 1, i
-                s = s[:l] + s[l:r][::-1] + s[r:]
-                st.pop()
+        # 2. loop
+        for i in reversed(range(n)):
+            if i == n - 1: continue
+            if arr[i+1] > cur_max: cur_max = arr[i+1]
+            res[i] = cur_max
 
-        return s.replace("(", "").replace(")", "")
+        return res
+
 
 sl = Solution()
-s = "(abcd)"
-# s = "(u(love)i)"
-s = "(ed(et(oc))el)"
-res = sl.reverseParentheses(s)
+arr = [17,18,5,4,6,1]
+res = sl.replaceElements(arr)
 
 print('res', res)
