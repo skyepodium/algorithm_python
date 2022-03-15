@@ -1,17 +1,28 @@
 class Solution:
-    def duplicateZeros(self, arr: List[int]) -> None:
+    def minRemoveToMakeValid(self, s: str) -> str:
         # 1. init
-        origin = arr[::]
-        n = len(arr)
-        arr_idx = 0
+        res = ""
+        cnt = 0
 
         # 2. loop
-        for cur in origin:
-            if arr_idx >= n: break
+        for c in s:
+            if c == '(':
+                cnt += 1
+                res += c
+            elif c == ')':
+                if cnt > 0:
+                    cnt -= 1
+                    res += c
+            else:
+                res += c
 
-            arr[arr_idx] = cur
-            arr_idx += 1
+        # 3. exception
+        origin = res
+        res = ""
+        for c in reversed(origin):
+            if c == '(' and cnt > 0:
+                cnt -= 1
+            else:
+                res += c
 
-            if cur == 0 and arr_idx < n:
-                arr[arr_idx] = cur
-                arr_idx += 1
+        return res[::-1]
