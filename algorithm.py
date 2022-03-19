@@ -1,19 +1,29 @@
-from typing import List
-from collections import defaultdict
-
 class Solution:
-    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+
         # 1. init
-        d = defaultdict(list)
+        l = 0
+        c = head
+        while c:
+            c = c.next
+            l += 1
 
-        # 2. loop
-        for idx, s in enumerate(strs):
-            d["".join(sorted(s))].append(s)
+        # 2. exception
+        if n == 1 and l == 1: return None
 
-        return d.values()
+        # 3. loop
+        idx = l - n
+        i = 0
 
-sl = Solution()
-strs = ["eat","tea","tan","ate","nat","bat"]
-res = sl.groupAnagrams(strs)
+        node = pointer = ListNode(None)
+        node.next = head
+        while pointer:
 
-print('res', res)
+            if i >= idx:
+                pointer.next = pointer.next.next
+                break
+
+            pointer = pointer.next
+            i += 1
+
+        return node.next
