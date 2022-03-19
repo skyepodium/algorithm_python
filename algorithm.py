@@ -1,29 +1,32 @@
-class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+from collections import defaultdict
 
-        # 1. init
-        l = 0
-        c = head
-        while c:
-            c = c.next
-            l += 1
 
-        # 2. exception
-        if n == 1 and l == 1: return None
+class Node:
+    def __init__(self):
+        self.is_end = False
+        self.child = defaultdict(Node)
 
-        # 3. loop
-        idx = l - n
-        i = 0
 
-        node = pointer = ListNode(None)
-        node.next = head
-        while pointer:
+class Trie:
+    def __init__(self):
+        self.root = Node()
 
-            if i >= idx:
-                pointer.next = pointer.next.next
-                break
+    def insert(self, word: str) -> None:
+        c = self.root
+        for w in word:
+            c = c.child[w]
+        c.is_end = True
 
-            pointer = pointer.next
-            i += 1
+    def search(self, word: str) -> bool:
+        c = self.root
+        for w in word:
+            c = c.child.get(w)
+            if not c: return False
+        return c.is_end
 
-        return node.next
+    def startsWith(self, prefix: str) -> bool:
+        c = self.root
+        for w in prefix:
+            c = c.child.get(w)
+            if not c: return False
+        return True
