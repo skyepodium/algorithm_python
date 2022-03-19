@@ -1,17 +1,16 @@
 class Solution:
-    def duplicateZeros(self, arr: List[int]) -> None:
-        # 1. init
-        origin = arr[::]
-        n = len(arr)
-        arr_idx = 0
+    def search(self, nums: List[int], target: int) -> int:
 
-        # 2. loop
-        for cur in origin:
-            if arr_idx >= n: break
+        def binary_search(s, e, target):
+            if s > e:
+                return -1
 
-            arr[arr_idx] = cur
-            arr_idx += 1
+            mid = s + (e - s) // 2
+            if nums[mid] < target:
+                return binary_search(mid + 1, e, target)
+            elif nums[mid] > target:
+                return binary_search(s, mid - 1, target)
+            else:
+                return mid
 
-            if cur == 0 and arr_idx < n:
-                arr[arr_idx] = cur
-                arr_idx += 1
+        return binary_search(0, len(nums) - 1, target)
