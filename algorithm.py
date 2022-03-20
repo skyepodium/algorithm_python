@@ -3,6 +3,7 @@ class Solution:
         # 1. sort
         nums.sort()
         n = len(nums)
+        res = []
 
         # 2. lower_bound
         def lower_bound(t):
@@ -26,6 +27,13 @@ class Solution:
                     e = mid
             return e
 
+        # 4. check
         l, r = lower_bound(target), upper_bound(target) - 1
+        if l == r:
+            res = [l]
+        elif l < r:
+            res = [x for x in range(l, r + 1)]
+        else:
+            res = []
 
-        return [l, r] if l != r else [l]
+        return res
