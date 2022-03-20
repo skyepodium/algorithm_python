@@ -1,26 +1,16 @@
-from collections import defaultdict
+from heapq import heappush, heappop, heapify
 
 
-def solution(id_list, report, k):
+def solution(scoville, K):
     # 1. init
-    email = defaultdict(set)
-    idx = defaultdict(int)
+    heapify(scoville)
+    res = 0
 
-    # 2. id count
-    for id in id_list:
-        idx[id] = 0
+    # 2. loop
+    while len(scoville) >= 2 and scoville[0] < K:
+        res += 1
+        f = heappop(scoville)
+        s = heappop(scoville)
+        heappush(scoville, f + s)
 
-    # 3. loop
-    for r in report:
-        start, end = r.split(" ")
-        if start not in email[end]:
-            email[end].add(start)
-
-    # 4. check
-    for reported, s in email.items():
-        sender = list(s)
-        if (len(sender)) >= k:
-            for se in sender:
-                idx[se] += 1
-
-    return list(idx.values())
+    return res if scoville[0] >= K else -1
