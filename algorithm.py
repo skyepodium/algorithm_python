@@ -1,32 +1,26 @@
 from collections import defaultdict
 
 
-class Node:
-    def __init__(self):
-        self.is_end = False
-        self.child = defaultdict(Node)
+def solution(id_list, report, k):
+    # 1. init
+    email = defaultdict(set)
+    idx = defaultdict(int)
 
+    # 2. id count
+    for id in id_list:
+        idx[id] = 0
 
-class Trie:
-    def __init__(self):
-        self.root = Node()
+    # 3. loop
+    for r in report:
+        start, end = r.split(" ")
+        if start not in email[end]:
+            email[end].add(start)
 
-    def insert(self, word: str) -> None:
-        c = self.root
-        for w in word:
-            c = c.child[w]
-        c.is_end = True
+    # 4. check
+    for reported, s in email.items():
+        sender = list(s)
+        if (len(sender)) >= k:
+            for se in sender:
+                idx[se] += 1
 
-    def search(self, word: str) -> bool:
-        c = self.root
-        for w in word:
-            c = c.child.get(w)
-            if not c: return False
-        return c.is_end
-
-    def startsWith(self, prefix: str) -> bool:
-        c = self.root
-        for w in prefix:
-            c = c.child.get(w)
-            if not c: return False
-        return True
+    return list(idx.values())
