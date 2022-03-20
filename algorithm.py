@@ -1,11 +1,18 @@
-from collections import Counter
-
 class Solution:
-    def kthDistinct(self, arr: List[str], k: int) -> str:
-        cnt = 0
-        c = Counter(arr)
-        for key, val in c.items():
-            if val == 1: cnt += 1
-            if cnt >= k:
-                return key
-        return ""
+    def countWords(self, words1: List[str], words2: List[str]) -> int:
+        # 1. init
+        a = Counter(words1)
+        b = Counter(words2)
+        s = set()
+        res = 0
+
+        # 2. loop
+        for key, val in a.items():
+            if val == 1:
+                s.add(key)
+
+        for key, val in b.items():
+            if val == 1 and key in s:
+                res += 1
+
+        return res
