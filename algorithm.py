@@ -1,11 +1,17 @@
 class Solution:
-    def areAlmostEqual(self, s1: str, s2: str) -> bool:
-        # 1. exception
-        if s1 == s2: return True
+    def maxAscendingSum(self, nums: List[int]) -> int:
+        # 1. init
+        res = 0
+        cur = 0
+        prev = -1
 
         # 2. loop
-        for i in range(len(s1)):
-            for j in range(i + 1, len(s1)):
-                if s1[0:i] + s1[j] + s1[i+1:j] + s1[i] + s1[j+1:] == s2: return True
+        for num in nums:
+            if num > prev:cur += num
+            else:
+                cur = num
+            prev = num
 
-        return False
+            res = max(res, cur)
+
+        return res
