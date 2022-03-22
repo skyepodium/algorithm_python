@@ -1,22 +1,11 @@
-from typing import List
-from collections import Counter
-
 class Solution:
-    def findCenter(self, edges: List[List[int]]) -> int:
-        # 1. init
-        c = Counter()
+    def areAlmostEqual(self, s1: str, s2: str) -> bool:
+        # 1. exception
+        if s1 == s2: return True
 
         # 2. loop
-        for a, b in edges:
-            c[a] += 1
-            c[b] += 1
+        for i in range(len(s1)):
+            for j in range(i + 1, len(s1)):
+                if s1[0:i] + s1[j] + s1[i+1:j] + s1[i] + s1[j+1:] == s2: return True
 
-        return c.most_common()[0][0]
-
-
-sl = Solution()
-edges = [[1,2],[2,3],[4,2]]
-edges = [[1,2],[5,1],[1,3],[1,4]]
-res = sl.findCenter(edges)
-
-print('res', res)
+        return False
