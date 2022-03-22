@@ -1,10 +1,22 @@
-import re
+from typing import List
+from collections import Counter
 
 class Solution:
-    def checkString(self, s: str) -> bool:
-        return len(re.findall("ba", s)) < 1
+    def findCenter(self, edges: List[List[int]]) -> int:
+        # 1. init
+        c = Counter()
+
+        # 2. loop
+        for a, b in edges:
+            c[a] += 1
+            c[b] += 1
+
+        return c.most_common()[0][0]
+
 
 sl = Solution()
-s = "aaabbb"
-res = sl.checkString(s)
+edges = [[1,2],[2,3],[4,2]]
+edges = [[1,2],[5,1],[1,3],[1,4]]
+res = sl.findCenter(edges)
+
 print('res', res)
