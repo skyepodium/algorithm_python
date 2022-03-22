@@ -1,16 +1,10 @@
+import re
+
 class Solution:
-    def countMatches(self, items: List[List[str]], ruleKey: str, ruleValue: str) -> int:
-        # 1. init
-        d = {
-            "type": 0,
-            "color": 1,
-            "name": 2
-        }
-        res = 0
+    def checkString(self, s: str) -> bool:
+        return len(re.findall("ba", s)) < 1
 
-        # 2. loop
-        for i in items:
-            if i[d[ruleKey]] == ruleValue:
-                res += 1
-
-        return res
+sl = Solution()
+s = "aaabbb"
+res = sl.checkString(s)
+print('res', res)
