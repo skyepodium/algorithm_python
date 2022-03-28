@@ -1,46 +1,21 @@
-import re
-
 class Solution:
-    def myAtoi(self, s: str) -> int:
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
         # 1. init
-        MIN_INT = -2147483648
-        MAX_INT = 2147483647
+        n = len(triangle)
+        MAX_VAL = float(2e6 + 1)
+        d = [[MAX_VAL for i in range(_+1)] for _ in range(n)]
+        d[0][0] = triangle[0][0]
 
-        # 2. def
-        def check(val):
-            res = int(val.strip())
-            if res < MIN_INT: res = MIN_INT
-            elif res > MAX_INT: res = MAX_INT
-            return res
+        # 2. loop
+        for i, l in enumerate(triangle):
+            if i == 0: continue
 
-        # step 1
-        a = re.findall("^ +[0-9]+", s)
-        if a:
-            return check(a[0])
+            for j, t in enumerate(l):
+                if j == 0:
+                    d[i][j] = d[i-1][j] + t
+                elif j == i:
+                    d[i][j] = d[i-1][j-1] + t
+                else:
+                    d[i][j] = min(d[i-1][j-1], d[i-1][j]) + t
 
-        # step 2
-        b = re.findall("^ *[-+][0-9]+", s)
-        if b:
-            return check(b[0])
-
-        # step 3
-        c = re.findall("^[0-9]+ *", s)
-        if c:
-            return check(c[0])
-
-        return 0
-
-
-sl = Solution()
-s = "42"
-s = "-42"
-s = "+42"
-s = "+-12"
-# s = "4193 with words"
-# s = "words and 987"
-# s = "   123 with  3"
-s = "-91283472332"
-# s = "   -42"
-res = sl.myAtoi(s)
-
-print('res', res)
+        return int(min(d[n-1]))
