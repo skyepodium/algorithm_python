@@ -78,3 +78,44 @@ class Dequeue:
 
     def last(self):
         return self.__tail.val
+
+
+n, m, start_node = map(int, input().split())
+v = [[] for _ in range(n+1)]
+check = [False for _ in range(n+1)]
+
+for _ in range(m):
+    a, b = map(int, input().split())
+    v[a].append(b)
+    v[b].append(a)
+
+for _ in range(n+1):
+    v[_].sort()
+
+
+def dfs(node):
+    print(node, end=" ")
+    check[node] = True
+    for n_node in v[node]:
+        if not check[n_node]:
+            dfs(n_node)
+
+def bfs(start):
+    q = Dequeue()
+    q.push(start)
+    check[start] = True
+
+    while not q.is_empty():
+        node = q.pop_left()
+        print(node, end=" ")
+
+        for n_node in v[node]:
+            if not check[n_node]:
+                check[n_node] = True
+                q.push(n_node)
+
+dfs(start_node)
+print()
+check = [False for _ in range(n+1)]
+bfs(start_node)
+print()
