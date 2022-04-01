@@ -1,31 +1,29 @@
-from typing import List
-
-
 class Solution:
-    def buildArray(self, target: List[int], n: int) -> List[str]:
-        res = []
-        max_val = max(target)
-        idx = 0
+    def reverseVowels(self, s: str) -> str:
+        # 1. init
+        vowel_list = []
+        vowel_set = set(list("aeiouAEIOU"))
+        s_list = list(s)
 
-        for t in range(1, n + 1):
-            if t > max_val: break
+        # 2. make vowel_list
+        for idx, val in enumerate(s):
+            if val in vowel_set:
+                vowel_list.append(idx)
 
-            res.append("Push")
-            if t is not target[idx]:
-                res.append("Pop")
-            else:
-                idx += 1
+        # 3. loop
+        l, r = 0, len(vowel_list) - 1
+        while l < r:
+            l_idx, r_idx = vowel_list[l], vowel_list[r]
+            s_list[l_idx], s_list[r_idx] = s_list[r_idx], s_list[l_idx]
+            l += 1
+            r -= 1
 
-        return res
+        return "".join(s_list)
 
 sl = Solution()
-
-target = [1,3]
-n = 3
-target = [1,2]
-n = 4
-target = [2, 3, 4]
-n = 4
-res = sl.buildArray(target, n)
+s = "hello"
+s = "leetcode"
+s = "aA"
+res = sl.reverseVowels(s)
 
 print('res', res)
