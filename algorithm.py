@@ -1,25 +1,31 @@
-class Node:
-    def __init__(self, val, min_val):
-        self.val = val
-        self.next = None
-        self.min_val = min_val
+from typing import List
 
 
-class MinStack:
+class Solution:
+    def buildArray(self, target: List[int], n: int) -> List[str]:
+        res = []
+        max_val = max(target)
+        idx = 0
 
-    def __init__(self):
-        self.head = None
+        for t in range(1, n + 1):
+            if t > max_val: break
 
-    def push(self, val: int) -> None:
-        node = Node(val, min(val, self.head.min_val) if self.head else val)
-        node.next = self.head
-        self.head = node
+            res.append("Push")
+            if t is not target[idx]:
+                res.append("Pop")
+            else:
+                idx += 1
 
-    def pop(self) -> None:
-        self.head = self.head.next
+        return res
 
-    def top(self) -> int:
-        return self.head.val
+sl = Solution()
 
-    def getMin(self) -> int:
-        return self.head.min_val
+target = [1,3]
+n = 3
+target = [1,2]
+n = 4
+target = [2, 3, 4]
+n = 4
+res = sl.buildArray(target, n)
+
+print('res', res)
