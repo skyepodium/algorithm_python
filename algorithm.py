@@ -1,16 +1,25 @@
-from typing import List
-from collections import Counter
+class Node:
+    def __init__(self, val, min_val):
+        self.val = val
+        self.next = None
+        self.min_val = min_val
 
-class Solution:
-    def findErrorNums(self, nums: List[int]) -> List[int]:
-        base = Counter([x for x in range(1, len(nums) + 1)])
-        cur = Counter(nums)
 
-        return [(cur - base).most_common()[0][0], (base - cur).most_common()[0][0]]
+class MinStack:
 
-sl = Solution()
-nums = [1,2,2,4]
-nums = [1, 1]
-res = sl.findErrorNums(nums)
+    def __init__(self):
+        self.head = None
 
-print('res', res)
+    def push(self, val: int) -> None:
+        node = Node(val, min(val, self.head.min_val) if self.head else val)
+        node.next = self.head
+        self.head = node
+
+    def pop(self) -> None:
+        self.head = self.head.next
+
+    def top(self) -> int:
+        return self.head.val
+
+    def getMin(self) -> int:
+        return self.head.min_val
