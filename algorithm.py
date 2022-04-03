@@ -1,9 +1,14 @@
+import re
+
 class Solution:
-    def arraySign(self, nums: List[int]) -> int:
-        res = 1
+    def countSegments(self, s: str) -> int:
+        if s.strip() == "": return 0
 
-        for num in nums:
-            if num == 0: res = 0
-            elif num < 0: res *= -1
+        return len(re.split(" +", s.strip()))
 
-        return res
+
+sl = Solution()
+s = "Of all the gin joints in all the towns in all the world,   "
+res = sl.countSegments(s)
+
+print('res', res)
