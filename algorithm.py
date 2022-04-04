@@ -1,25 +1,20 @@
+import re
+
 class Solution:
-    def licenseKeyFormatting(self, s: str, k: int) -> str:
-        s = s.replace("-", "")[::-1].upper()
-        n = len(s)
+    def freqAlphabets(self, s: str) -> str:
 
-        t = ""
-        for i in range(0, n, k):
-            t += s[i:i+k] + "-"
+        def get_alphabet(n):
+            return f"{chr(ord('a') + n - 1)}"
 
-        t = t[0:len(t) - 1]
+        for num in range(26, -1, -1):
+            pattern = f"{num}#" if num >= 10 else f"{num}"
+            s = re.sub(pattern, get_alphabet(num), s)
 
-        return t[::-1]
-
-
-
+        return s
 
 sl = Solution()
-s = "5F3Z-2e-9-w"
-k = 4
-
-s = "2-5g-3-J"
-k = 2
-res = sl.licenseKeyFormatting(s, k)
+s = "10#11#12"
+s = "1326#"
+res = sl.freqAlphabets(s)
 
 print('res', res)
