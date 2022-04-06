@@ -1,15 +1,19 @@
 from typing import List
-from collections import Counter
+
 
 class Solution:
-    def sumOfUnique(self, nums: List[int]) -> int:
-        return sum([x for x, cnt in Counter(nums).items() if cnt == 1])
+    def divideString(self, s: str, k: int, fill: str) -> List[str]:
 
-
-nums = [1,2,3,2]
+        return [s[i:i+k] if i+k <= len(s) else s[i:i+k] + fill * (i+k - len(s)) for i in range(0, len(s), k)]
 
 sl = Solution()
+s = "abcdefghi"
+k = 3
+fill = "x"
 
-res = sl.sumOfUnique(nums)
+s = "abcdefghij"
+k = 3
+fill = "x"
+res = sl.divideString(s, k, fill)
 
 print('res', res)
