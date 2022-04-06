@@ -1,20 +1,15 @@
-import re
+from typing import List
+from collections import Counter
 
 class Solution:
-    def freqAlphabets(self, s: str) -> str:
+    def sumOfUnique(self, nums: List[int]) -> int:
+        return sum([x for x, cnt in Counter(nums).items() if cnt == 1])
 
-        def get_alphabet(n):
-            return f"{chr(ord('a') + n - 1)}"
 
-        for num in range(26, -1, -1):
-            pattern = f"{num}#" if num >= 10 else f"{num}"
-            s = re.sub(pattern, get_alphabet(num), s)
-
-        return s
+nums = [1,2,3,2]
 
 sl = Solution()
-s = "10#11#12"
-s = "1326#"
-res = sl.freqAlphabets(s)
+
+res = sl.sumOfUnique(nums)
 
 print('res', res)
