@@ -2,18 +2,13 @@ from typing import List
 
 
 class Solution:
-    def divideString(self, s: str, k: int, fill: str) -> List[str]:
-
-        return [s[i:i+k] if i+k <= len(s) else s[i:i+k] + fill * (i+k - len(s)) for i in range(0, len(s), k)]
+    def prefixCount(self, words: List[str], pref: str) -> int:
+        return sum([1 if w.find(pref) == 0 else 0 for w in words])
+    
 
 sl = Solution()
-s = "abcdefghi"
-k = 3
-fill = "x"
-
-s = "abcdefghij"
-k = 3
-fill = "x"
-res = sl.divideString(s, k, fill)
+words = ["leetcode","win","loops","success"]
+pref = "code"
+res = sl.prefixCount(words, pref)
 
 print('res', res)
