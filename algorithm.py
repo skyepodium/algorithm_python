@@ -1,2 +1,18 @@
-def prefixCount(self, words: List[str], pref: str) -> int:
-    return sum([1 if w.find(pref) == 0 else 0 for w in words])
+from typing import List
+from heapq import heappop, heappush, heapify
+
+class KthLargest:
+    def __init__(self, k: int, nums: List[int]):
+        self.k = k
+        self.l = nums
+        heapify(self.l)
+        while len(self.l) > self.k:
+            heappop(self.l)
+
+    def add(self, val: int) -> int:
+        heappush(self.l, val)
+
+        if len(self.l) > self.k:
+            heappop(self.l)
+
+        return self.l[0]
