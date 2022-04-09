@@ -1,18 +1,16 @@
 from typing import List
-from heapq import heappop, heappush, heapify
+from collections import Counter
 
-class KthLargest:
-    def __init__(self, k: int, nums: List[int]):
-        self.k = k
-        self.l = nums
-        heapify(self.l)
-        while len(self.l) > self.k:
-            heappop(self.l)
 
-    def add(self, val: int) -> int:
-        heappush(self.l, val)
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        return [a for a, b in sorted(Counter(words).items(), key=lambda x: -x[1])][:k]
 
-        if len(self.l) > self.k:
-            heappop(self.l)
+sl = Solution()
+nums = [1,1,1,2,2,3]
+k = 2
+nums = [1]
+k = 1
+res = sl.topKFrequent(nums, k)
 
-        return self.l[0]
+print('res', res)
