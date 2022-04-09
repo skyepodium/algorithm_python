@@ -1,25 +1,13 @@
-from typing import List
+import collections
 
 
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-        # 1. init
-        n = len(nums)
-        d = [1 for _ in range(n)]
-
-        for i in range(n):
-            for j in range(i):
-                if nums[j] < nums[i] and d[j] + 1 > d[i]:
-                    d[i] = d[j] + 1
-
-        return max(d)
+def solution(participant, completion):
+    return list((collections.Counter(participant) - collections.Counter(completion)).keys())[0]
 
 
+p = ["leo", "kiki", "eden"]
+c = ["eden", "kiki"]
 
-sl = Solution()
-nums = [10,9,2,5,3,7,101,18]
-nums = [0,1,0,3,2,3]
-nums = [7,7,7,7,7,7,7]
-res = sl.lengthOfLIS(nums)
+res = solution(p, c)
 
 print('res', res)
