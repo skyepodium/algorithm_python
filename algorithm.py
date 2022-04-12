@@ -1,15 +1,12 @@
 class Solution:
-    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
+    def countPairs(self, nums: List[int], k: int) -> int:
         # 1. init
-        res = letters[0]
-        t = ord(target)
-        val = 1000
+        n = len(nums)
+        res = 0
 
         # 2. loop
-        for l in letters:
-            c = ord(l)
-            if c > t and c < val:
-                res = l
-                val = c
+        for i in range(n - 1):
+            for j in range(i + 1, n):
+                if nums[i] == nums[j] and (i * j) % k == 0: res += 1
 
         return res
