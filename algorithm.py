@@ -1,13 +1,15 @@
 class Solution:
-    def countElements(self, nums: List[int]) -> int:
+    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
         # 1. init
-        c = Counter(nums)
-        s = set(nums)
-        l = sorted(list(s))[1:len(s) - 1]
-        res = 0
+        res = letters[0]
+        t = ord(target)
+        val = 1000
 
         # 2. loop
-        for a in l:
-            res += c[a]
+        for l in letters:
+            c = ord(l)
+            if c > t and c < val:
+                res = l
+                val = c
 
         return res
