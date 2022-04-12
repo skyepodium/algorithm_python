@@ -1,25 +1,13 @@
-from typing import List
-from heapq import heappop, heappush
-
-
 class Solution:
-    def minimumCost(self, cost: List[int]) -> int:
+    def countElements(self, nums: List[int]) -> int:
         # 1. init
-        pq = []
+        c = Counter(nums)
+        s = set(nums)
+        l = sorted(list(s))[1:len(s) - 1]
         res = 0
 
-        for c in cost:
-            heappush(pq, -c)
-
         # 2. loop
-        while pq:
-            if len(pq) >= 2:
-                a = -heappop(pq)
-                b = -heappop(pq)
-                res += a + b
+        for a in l:
+            res += c[a]
 
-                if len(pq) >= 1: heappop(pq)
-            else:
-                break
-
-        return res - sum(pq)
+        return res
