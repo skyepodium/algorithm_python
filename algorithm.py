@@ -1,4 +1,8 @@
 class Solution:
-    def findOcurrences(self, text: str, first: str, second: str) -> List[str]:
+    def createTargetArray(self, nums: List[int], index: List[int]) -> List[int]:
+        res = []
 
-        return re.findall(f"(?= {first} {second} (\w+))", f" {text}")
+        for num, idx in zip(nums, index):
+            res.insert(idx, num)
+
+        return res
