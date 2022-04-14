@@ -1,7 +1,4 @@
 class Solution:
-    def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
-        if not root: return
-        
-        if root.val == val: return root
-        
-        return self.searchBST(root.left, val) if root.val > val else self.searchBST(root.right, val)
+    def findOcurrences(self, text: str, first: str, second: str) -> List[str]:
+
+        return re.findall(f"(?= {first} {second} (\w+))", f" {text}")
