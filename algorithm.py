@@ -1,12 +1,21 @@
 class Solution:
-    def countPairs(self, nums: List[int], k: int) -> int:
+    res = 0
+
+    def sumRootToLeaf(self, root: Optional[TreeNode]) -> int:
         # 1. init
-        n = len(nums)
-        res = 0
+        self.res = 0
 
-        # 2. loop
-        for i in range(n - 1):
-            for j in range(i + 1, n):
-                if nums[i] == nums[j] and (i * j) % k == 0: res += 1
+        # 2. dfs
+        def dfs(node, val):
+            if not node: return
 
-        return res
+            if not node.left and not node.right:
+                self.res += int(f"{val}{node.val}", 2)
+                return
+
+            dfs(node.left, f"{val}{node.val}")
+            dfs(node.right, f"{val}{node.val}")
+
+        dfs(root, "")
+
+        return self.res
