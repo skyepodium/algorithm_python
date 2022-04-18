@@ -1,21 +1,27 @@
 class Solution:
-    res = 0
-
-    def sumRootToLeaf(self, root: Optional[TreeNode]) -> int:
+    def shortestToChar(self, s: str, c: str) -> List[int]:
         # 1. init
-        self.res = 0
+        idx_list = [idx for idx, w in enumerate(s) if w == c]
+        n = len(s)
+        check = [-1 for _ in range(n)]
 
-        # 2. dfs
-        def dfs(node, val):
-            if not node: return
+        # 2. bfs
+        def bfs():
+            q = deque(idx_list)
+            for idx in idx_list:
+                check[idx] = 0
 
-            if not node.left and not node.right:
-                self.res += int(f"{val}{node.val}", 2)
-                return
+            while q:
+                node = q.popleft()
 
-            dfs(node.left, f"{val}{node.val}")
-            dfs(node.right, f"{val}{node.val}")
+                n_node_list = [node - 1, node + 1]
+                for n_node in n_node_list:
+                    if n_node < 0 or n_node >= n: continue
 
-        dfs(root, "")
+                    if check[n_node] != -1: continue
+                    check[n_node] = check[node] + 1
+                    q.append(n_node)
 
-        return self.res
+        bfs()
+
+        return check
