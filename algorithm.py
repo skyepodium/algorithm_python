@@ -1,16 +1,29 @@
 from typing import List
-
+from collections import defaultdict
 
 class Solution:
-    def isMonotonic(self, nums: List[int]) -> bool:
+    def destCity(self, paths: List[List[str]]) -> str:
+        # 1. init
+        d = defaultdict(str)
 
-        increased = sorted(nums)
-        decreased = sorted(nums, reverse=True)
+        # 2. make graph
+        for s, e in paths:
+            d[s] = e
 
-        return nums == increased or nums == decreased
+        # 3. search
+        node = paths[0][0]
+        while d[node]:
+            n_node = d[node]
+            node = n_node
+
+        return node
+
 
 sl = Solution()
-nums = [1, 2, 2, 3]
-res = sl.isMonotonic(nums)
+
+paths = [["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]]
+paths = [["B","C"],["D","B"],["C","A"]]
+paths = [["A","Z"]]
+res = sl.destCity(paths)
 
 print('res', res)
