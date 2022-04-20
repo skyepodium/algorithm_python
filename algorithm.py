@@ -1,10 +1,8 @@
 class Solution:
-    def findGCD(self, nums: List[int]) -> int:
+    def mostWordsFound(self, sentences: List[str]) -> int:
+        res = 0
 
-        def gcd(a, b):
-            if b == 0:
-                return a
-            else:
-                return gcd(b, a % b)
+        for s in sentences:
+            res = max(res, len(s.split(" ")))
 
-        return gcd(min(nums), max(nums))
+        return res
