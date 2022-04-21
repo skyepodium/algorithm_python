@@ -1,37 +1,23 @@
-from typing import List
-
+import re
 
 class Solution:
-    def findEvenNumbers(self, digits: List[int]) -> List[int]:
-        # 1. init
-        n = len(digits)
-        digits.sort()
-        s = set()
-        res = []
+    def areNumbersAscending(self, s: str) -> bool:
 
-        # 2. get_num
-        def get_num(a, b, c):
-            return a * 100 + b * 10 + c
+        s = re.sub("[^0-9 ]", "", s).strip()
+        s_list = [int(x) for x in re.split(" +", s)]
 
-        # 3. loop
-        for i, a in enumerate(digits):
-            if a == 0: continue
-            for j, b in enumerate(digits):
-                if i == j: continue
-                for k, c in enumerate(digits):
-                    if i == j or j == k or i == k: continue
+        prev = -1
+        for c in s_list:
+            if not prev < c: return False
+            prev = c
 
-                    cur = get_num(a, b, c)
-                    if cur not in s and cur % 2 == 0:
-                        res.append(cur)
-                        s.add(cur)
+        return True
 
-        return res
 
 sl = Solution()
-
-digits = [2,1,3,0]
-digits = [2,2,8,8,2]
-res = sl.findEvenNumbers(digits)
+s = "1 box has 3 blue 4 red 6 green and 12 yellow marbles"
+s = "hello world 5 x 5"
+res = sl.areNumbersAscending(s)
 
 print('res', res)
+
