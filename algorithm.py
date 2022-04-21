@@ -1,26 +1,37 @@
-import re
+from typing import List
+
 
 class Solution:
-    def countValidWords(self, sentence: str) -> int:
+    def findEvenNumbers(self, digits: List[int]) -> List[int]:
         # 1. init
-        res = 0
+        n = len(digits)
+        digits.sort()
+        s = set()
+        res = []
 
-        # 2. loop
-        for r in re.split(" +", sentence):
-            if re.fullmatch("[a-z]+", r) and r.lower() == r:
-                res += 1
-            elif re.fullmatch("[a-z]+-[a-z]+[\\.!, ]*", r):
-                res += 1
-            elif re.fullmatch("[a-z]*[\\.!, ]", r):
-                res += 1
+        # 2. get_num
+        def get_num(a, b, c):
+            return a * 100 + b * 10 + c
+
+        # 3. loop
+        for i, a in enumerate(digits):
+            if a == 0: continue
+            for j, b in enumerate(digits):
+                if i == j: continue
+                for k, c in enumerate(digits):
+                    if i == j or j == k or i == k: continue
+
+                    cur = get_num(a, b, c)
+                    if cur not in s and cur % 2 == 0:
+                        res.append(cur)
+                        s.add(cur)
 
         return res
 
 sl = Solution()
-sentence = "cat and  dog"
-# sentence = "!this  1-s b8d!"
-# sentence = "alice and  bob are playing stone-game10"
-# sentence = "he bought 2 pencils, 3 erasers, and 1  pencil-sharpener."
-res = sl.countValidWords(sentence)
+
+digits = [2,1,3,0]
+digits = [2,2,8,8,2]
+res = sl.findEvenNumbers(digits)
 
 print('res', res)
