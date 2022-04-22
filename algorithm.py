@@ -1,19 +1,30 @@
 from typing import List
-
+from heapq import heappush, heappop
 
 class Solution:
-    def findFinalValue(self, nums: List[int], original: int) -> int:
-        s = set(nums)
+    def dominantIndex(self, nums: List[int]) -> int:
+        # 1. exception
+        if len(nums) < 2: return 0
 
-        while original in s:
-            original *= 2
+        # 2. init
+        pq = []
 
-        return original
+        # 3. loop
+        for idx, val in enumerate(nums):
+            heappush(pq, (-val, idx))
 
+        first, idx = heappop(pq)
+        second, _ = heappop(pq)
+        first, second = -first, -second
+
+        return idx if first >= second * 2 else -1
 
 sl = Solution()
-nums = [1,16,13,19,12,10]
-original = 2
-res = sl.findFinalValue(nums, original)
+nums = [3,6,1,0]
+nums = [1,2,3,4]
+nums = [1]
+res = sl.dominantIndex(nums)
 
 print('res', res)
+
+
