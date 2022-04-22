@@ -1,39 +1,51 @@
-def solution(n, t, m, p):
+from collections import defaultdict, deque
 
-    def int_to_base_str(num, base):
-        res = ""
-        while num > 0:
-            remain = num % base
-            if remain >= 10:
-                res += chr(ord('A') + remain % 10)
-            else:
-                res += str(remain)
-            num //= base
+def solution(begin, target, words):
+    # 1. init
+    d = defaultdict(list)
+    check = defaultdict(int)
+    words.append(begin)
 
-        if res == "":
-            res = "0"
+    # 2. get_diff
+    def get_diff(a, b):
+        res = 0
+        for q, w in zip(a, b):
+            if q != w: res += 1
+        return res
 
-        return res[::-1]
+    # 3. loop
+    for i, a in enumerate(words):
+        for j, b in enumerate(words):
+            if i == j: continue
+            if get_diff(a, b) == 1:
+                d[a].append(b)
+                d[b].append(a)
 
-    r = ""
-    for i in range(t * m):
-        r += int_to_base_str(i, n)
+    # 4. bfs
+    def bfs(start):
+        q = deque()
+        q.append(start)
+        check[start] = 0
 
-    res = ""
-    for i in range(p, t*m+1, m):
-        idx = i - 1
-        res += r[idx]
+        while q:
+            node = q.popleft()
+            for n_node in d[node]:
+                if n_node not in check:
+                    check[n_node] = check[node] + 1
+                    q.append(n_node)
 
-    return res
+    bfs(begin)
 
+    return check[target]
 
-n, t, m, p = 2, 4, 2, 1
-n, t, m, p = 16, 16, 2, 1
-n, t, m, p = 16, 16, 2, 2
+begin = "hit"
+target = "cog"
+words = ["hot", "dot", "dog", "lot", "log", "cog"]
 
-res = solution(n, t, m, p)
+# begin = "hit"
+# target = "cog"
+# words = ["hot", "dot", "dog", "lot", "log"]
+
+res = solution(begin, target, words)
 
 print('res', res)
-
-print(len("13579BDF01234567"))
-
