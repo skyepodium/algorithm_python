@@ -1,51 +1,40 @@
-from collections import defaultdict, deque
-
-def solution(begin, target, words):
+def solution(s):
     # 1. init
-    d = defaultdict(list)
-    check = defaultdict(int)
-    words.append(begin)
+    n = len(s)
+    res = n
 
-    # 2. get_diff
-    def get_diff(a, b):
-        res = 0
-        for q, w in zip(a, b):
-            if q != w: res += 1
-        return res
+    # 2. loop
+    for i in range(1, n//2 + 1):
+        t = ""
+        prev = ""
+        cnt = 1
+        is_append = False
+        for j in range(0, n, i):
+            cur = s[j:j+i]
+            if cur == prev:
+                cnt += 1
+                is_append = False
+            else:
+                t += f"{cnt}{prev}" if cnt >= 2 else prev
+                prev = cur
+                cnt = 1
+                is_append = True
+        if not is_append:
+            t += f"{cnt}{prev}" if cnt >= 2 else prev
+        else:
+            t += cur
 
-    # 3. loop
-    for i, a in enumerate(words):
-        for j, b in enumerate(words):
-            if i == j: continue
-            if get_diff(a, b) == 1:
-                d[a].append(b)
-                d[b].append(a)
+        res = min(res, len(t))
 
-    # 4. bfs
-    def bfs(start):
-        q = deque()
-        q.append(start)
-        check[start] = 0
+    return res
 
-        while q:
-            node = q.popleft()
-            for n_node in d[node]:
-                if n_node not in check:
-                    check[n_node] = check[node] + 1
-                    q.append(n_node)
 
-    bfs(begin)
+s = "aabbaccc"
+s = "ababcdcdababcdcd"
+# s = "abcabcdede"
+# s = "abcabcabcabcdededededede"
+# s = "xababcdcdababcdcd"
 
-    return check[target]
-
-begin = "hit"
-target = "cog"
-words = ["hot", "dot", "dog", "lot", "log", "cog"]
-
-# begin = "hit"
-# target = "cog"
-# words = ["hot", "dot", "dog", "lot", "log"]
-
-res = solution(begin, target, words)
+res = solution(s)
 
 print('res', res)
