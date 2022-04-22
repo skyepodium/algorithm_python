@@ -1,26 +1,39 @@
-class Solution:
-    def digitSum(self, s: str, k: int) -> str:
+def solution(n, t, m, p):
 
-        def sum_str(st):
-            res = 0
-            for c in st:
-                res += int(c)
-            return str(res)
+    def int_to_base_str(num, base):
+        res = ""
+        while num > 0:
+            remain = num % base
+            if remain >= 10:
+                res += chr(ord('A') + remain % 10)
+            else:
+                res += str(remain)
+            num //= base
 
-        while len(s) > k:
-            base = ""
-            for i in range(0, len(s), k):
-                c = s[i:i+k]
-                base += sum_str(c)
-            s = base
+        if res == "":
+            res = "0"
 
-        return s
+        return res[::-1]
 
-sl = Solution()
-s = "11111222223"
-k = 3
-s = "00000000"
-k = 3
-res = sl.digitSum(s, k)
+    r = ""
+    for i in range(t * m):
+        r += int_to_base_str(i, n)
+
+    res = ""
+    for i in range(p, t*m+1, m):
+        idx = i - 1
+        res += r[idx]
+
+    return res
+
+
+n, t, m, p = 2, 4, 2, 1
+n, t, m, p = 16, 16, 2, 1
+n, t, m, p = 16, 16, 2, 2
+
+res = solution(n, t, m, p)
 
 print('res', res)
+
+print(len("13579BDF01234567"))
+
