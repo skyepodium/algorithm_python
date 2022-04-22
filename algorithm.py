@@ -1,30 +1,26 @@
-from typing import List
-from heapq import heappush, heappop
-
 class Solution:
-    def dominantIndex(self, nums: List[int]) -> int:
-        # 1. exception
-        if len(nums) < 2: return 0
+    def digitSum(self, s: str, k: int) -> str:
 
-        # 2. init
-        pq = []
+        def sum_str(st):
+            res = 0
+            for c in st:
+                res += int(c)
+            return str(res)
 
-        # 3. loop
-        for idx, val in enumerate(nums):
-            heappush(pq, (-val, idx))
+        while len(s) > k:
+            base = ""
+            for i in range(0, len(s), k):
+                c = s[i:i+k]
+                base += sum_str(c)
+            s = base
 
-        first, idx = heappop(pq)
-        second, _ = heappop(pq)
-        first, second = -first, -second
-
-        return idx if first >= second * 2 else -1
+        return s
 
 sl = Solution()
-nums = [3,6,1,0]
-nums = [1,2,3,4]
-nums = [1]
-res = sl.dominantIndex(nums)
+s = "11111222223"
+k = 3
+s = "00000000"
+k = 3
+res = sl.digitSum(s, k)
 
 print('res', res)
-
-
