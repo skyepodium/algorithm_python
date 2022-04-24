@@ -1,68 +1,56 @@
 import re
 
-def solution(m, musicinfos):
+def solution(n, k):
     # 1. init
-    res = "(None)"
-    t = -1
-    tk_list = ['C', 'D', 'F', 'G', 'A']
+    res = 0
 
-    def rep(s):
-        for tk in tk_list:
-            s = re.sub(f"{tk}#", tk.lower(), s)
-        return s
+    # 2. int_to_base
+    def int_to_base(n, k):
+        r = ""
+        while n > 0:
+            r += str(n % k)
+            n //= k
+        return r[::-1]
 
-    m = rep(m)
+    # 3. int_to_base
+    def is_prime(val):
+        if val < 2: return False
 
-    # 2. cal diff
-    def cal_diff(s, e):
-        s_h, s_m = [int(x) for x in s.split(":")]
-        e_h, e_m = [int(x) for x in e.split(":")]
+        for i in range(2, int(val ** 0.5) + 1):
+            if val % i == 0: return False
+        return True
 
-        h_diff = e_h - s_h
-        if e_m < s_m:
-            h_diff -= 1
-            e_m += 60
-        m_diff = e_m - s_m
+    num = int_to_base(n, k)
 
-        return h_diff * 60 + m_diff
+    # 4. check
+    ### 1) not zero
+    if num.count("0") == 0 and is_prime(int(num)):
+        res += 1
 
-    # 3. loop
-    for ms in musicinfos:
-        # 1) split
-        s, e, name, ml = ms.split(",")
-        ml = rep(ml)
+    ### 2) left
+    for c in re.findall("^([1-9]+)0", num):
+        if is_prime(int(c)):
+            res += 1
 
-        # 2) cal_diff
-        diff = cal_diff(s, e)
+    ### 3) left
+    for c in re.findall("0([1-9]+)$", num):
+        if is_prime(int(c)):
+            res += 1
 
-        # 3) get total
-        ml_len = len(ml)
-        me = (diff // ml_len) * ml + ml[0:diff % ml_len]
-
-        r = re.search(m, me)
-
-        if r:
-            if diff > t:
-                t = diff
-                res = name
+    ## 4) both
+    for x in re.findall("(?=0([1-9]+)0)", num):
+        if is_prime(int(x)):
+            res += 1
 
     return res
 
 
-m = "ABCDEFG"
-musicinfos = ["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"]
-#HELLO
+n = 437674
+k = 3
 
-m = "CC#BCC#BCC#BCC#B"
-musicinfos = ["03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B"]
-#FOO
-# # #
-m = "ABC"
-musicinfos = ["12:00,12:14,HELLO,C#DEFGAB", "13:00,13:05,WORLD,ABCDEF"]
-#WORLD
-#
-# m = "BF#"
-# musicinfos = ["00:53,12:56,HELLO!!!,AEBBF#"]
+n = 110011
+k = 10
 
-res = solution(m, musicinfos)
+res = solution(n, k)
+
 print('res', res)
