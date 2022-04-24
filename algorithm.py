@@ -1,29 +1,37 @@
-def solution(n):
+def solution(citations):
     # 1. init
     res = 0
-    d = [0 for _ in range(n+1)]
+    max_val = max(citations)
+    min_val = min(citations)
+    n = len(citations)
 
-    # 2. accmulate sum
-    d[0], d[1] = 0, 1
-    for i in range(1, n+1):
-        d[i] = d[i-1] + i
+    # 2. sort
+    citations.sort()
 
-    # 3. two pointer
-    s, e = 0, 0
-    while s <= e < n + 1 and s < n+1:
-        cur = d[e] - d[s]
-        if cur <= n:
-            if cur == n: res += 1
-            e += 1
-        else:
-            s += 1
+    # 3. lower_bound
+    def lower_bound(s, e, target):
+        while s < e:
+            mid = s + (e - s) // 2
+            if citations[mid] < target:
+                s = mid + 1
+            else:
+                e = mid
+        return e
+
+    # 4. loop
+    for i in range(max_val+1):
+        idx = lower_bound(0, n, i)
+        upper = n - idx
+        if upper >= i:
+            res = max(res, i)
 
     return res
 
 
+citations = [3, 0, 6, 1, 5]
 
-n = 15
+citations = [1, 1, 1, 1, 1]
 
-res = solution(n)
+res = solution(citations)
 
 print('res', res)
