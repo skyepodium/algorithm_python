@@ -1,56 +1,67 @@
-import re
-
-def solution(n, k):
+def solution(relation):
     # 1. init
     res = 0
+    n = len(relation)
+    m = len(relation[0])
+    idx_set = set()
+    l_list = []
 
-    # 2. int_to_base
-    def int_to_base(n, k):
-        r = ""
-        while n > 0:
-            r += str(n % k)
-            n //= k
-        return r[::-1]
+    # 2. go
+    def go(idx, l):
+        if idx >= m:
+            if len(l) > 0:
+                l_list.append(l[::])
+            return
 
-    # 3. int_to_base
-    def is_prime(val):
-        if val < 2: return False
+        l.append(idx)
+        go(idx + 1, l)
+        l.pop()
 
-        for i in range(2, int(val ** 0.5) + 1):
-            if val % i == 0: return False
-        return True
+        go(idx + 1, l)
 
-    num = int_to_base(n, k)
+    go(0, [])
 
-    # 4. check
-    ### 1) not zero
-    if num.count("0") == 0 and is_prime(int(num)):
+    # 3. sort
+    l_list.sort(key=len)
+
+    # 4. loop
+    for l in l_list:
+        c_list = [str(x) for x in l]
+        c_set = set(c_list)
+
+        is_possible = True
+        for idx in idx_set:
+            cnt = 0
+            for x in list(idx):
+                if x in c_set: cnt += 1
+
+            if cnt == len(idx):
+                is_possible = False
+                break
+
+        if not is_possible: continue
+
+        # 1) make key
+        key_list = []
+        for c in relation:
+            key = "_".join([str(c[a]) for a in l])
+            key_list.append(key)
+
+        # 2) uniqueness
+        s = set(key_list)
+        if len(s) < n: continue
+
+        # 3) minimality
+        idx_key = "".join([str(x) for x in l])
+
+        idx_set.add(idx_key)
         res += 1
-
-    ### 2) left
-    for c in re.findall("^([1-9]+)0", num):
-        if is_prime(int(c)):
-            res += 1
-
-    ### 3) left
-    for c in re.findall("0([1-9]+)$", num):
-        if is_prime(int(c)):
-            res += 1
-
-    ## 4) both
-    for x in re.findall("(?=0([1-9]+)0)", num):
-        if is_prime(int(x)):
-            res += 1
 
     return res
 
 
-n = 437674
-k = 3
+relation = [["100","ryan","music","2"],["200","apeach","math","2"],["300","tube","computer","3"],["400","con","computer","4"],["500","muzi","music","3"],["600","apeach","music","2"]]
 
-n = 110011
-k = 10
-
-res = solution(n, k)
+res = solution(relation)
 
 print('res', res)
