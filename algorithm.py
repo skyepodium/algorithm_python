@@ -1,67 +1,29 @@
-def solution(relation):
+def solution(n):
     # 1. init
     res = 0
-    n = len(relation)
-    m = len(relation[0])
-    idx_set = set()
-    l_list = []
+    d = [0 for _ in range(n+1)]
 
-    # 2. go
-    def go(idx, l):
-        if idx >= m:
-            if len(l) > 0:
-                l_list.append(l[::])
-            return
+    # 2. accmulate sum
+    d[0], d[1] = 0, 1
+    for i in range(1, n+1):
+        d[i] = d[i-1] + i
 
-        l.append(idx)
-        go(idx + 1, l)
-        l.pop()
-
-        go(idx + 1, l)
-
-    go(0, [])
-
-    # 3. sort
-    l_list.sort(key=len)
-
-    # 4. loop
-    for l in l_list:
-        c_list = [str(x) for x in l]
-        c_set = set(c_list)
-
-        is_possible = True
-        for idx in idx_set:
-            cnt = 0
-            for x in list(idx):
-                if x in c_set: cnt += 1
-
-            if cnt == len(idx):
-                is_possible = False
-                break
-
-        if not is_possible: continue
-
-        # 1) make key
-        key_list = []
-        for c in relation:
-            key = "_".join([str(c[a]) for a in l])
-            key_list.append(key)
-
-        # 2) uniqueness
-        s = set(key_list)
-        if len(s) < n: continue
-
-        # 3) minimality
-        idx_key = "".join([str(x) for x in l])
-
-        idx_set.add(idx_key)
-        res += 1
+    # 3. two pointer
+    s, e = 0, 0
+    while s <= e < n + 1 and s < n+1:
+        cur = d[e] - d[s]
+        if cur <= n:
+            if cur == n: res += 1
+            e += 1
+        else:
+            s += 1
 
     return res
 
 
-relation = [["100","ryan","music","2"],["200","apeach","math","2"],["300","tube","computer","3"],["400","con","computer","4"],["500","muzi","music","3"],["600","apeach","music","2"]]
 
-res = solution(relation)
+n = 15
+
+res = solution(n)
 
 print('res', res)
