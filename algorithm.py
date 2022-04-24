@@ -1,83 +1,68 @@
-def solution(m, n, board):
+import re
+
+def solution(m, musicinfos):
     # 1. init
-    n, m = m, n
-    res = 0
-    board = [list(x) for x in board]
-    check = [[False for _ in range(m)] for _ in range(n)]
-    d = [(0, 0), (0, 1), (1, 0), (1, 1)]
+    res = "(None)"
+    t = -1
+    tk_list = ['C', 'D', 'F', 'G', 'A']
 
-    # 2. search
-    def search():
-        cnt = 0
-        for i in range(n-1):
-            for j in range(m-1):
-                prev = board[i][j]
-                if prev == "": continue
+    def rep(s):
+        for tk in tk_list:
+            s = re.sub(f"{tk}#", tk.lower(), s)
+        return s
 
-                is_same = True
-                for dx, dy in d:
-                    nx, ny = i + dx, j + dy
-                    cur = board[nx][ny]
-                    if prev != cur:
-                        is_same = False
-                        break
+    m = rep(m)
 
-                if not is_same: continue
+    # 2. cal diff
+    def cal_diff(s, e):
+        s_h, s_m = [int(x) for x in s.split(":")]
+        e_h, e_m = [int(x) for x in e.split(":")]
 
-                for dx, dy in d:
-                    nx, ny = i + dx, j + dy
-                    if check[nx][ny]: continue
-                    check[nx][ny] = True
-                    cnt += 1
+        h_diff = e_h - s_h
+        if e_m < s_m:
+            h_diff -= 1
+            e_m += 60
+        m_diff = e_m - s_m
 
-        return cnt
+        return h_diff * 60 + m_diff
 
-    # 3. move
-    def move():
-        for j in range(m):
-            for idx in range(n-1, -1, -1):
-                i = idx
-                if board[i][j] == "" or check[i][j]: continue
+    # 3. loop
+    for ms in musicinfos:
+        # 1) split
+        s, e, name, ml = ms.split(",")
+        ml = rep(ml)
 
-                while i < n-1 and board[i][j] != "" and board[i+1][j] == "":
-                    board[i+1][j] = board[i][j]
-                    board[i][j] = ""
-                    i += 1
+        # 2) cal_diff
+        diff = cal_diff(s, e)
 
-    # 4. clear
-    def clear():
-        for i in range(n):
-            for j in range(m):
-                if check[i][j]:
-                    board[i][j] = ""
+        # 3) get total
+        ml_len = len(ml)
+        me = (diff // ml_len) * ml + ml[0:diff % ml_len]
 
-    # 5. loop
-    while True:
-        # 1) init
-        check = [[False for _ in range(m)] for _ in range(n)]
+        r = re.search(m, me)
 
-        # 2) search
-        search_cnt = search()
-        if search_cnt == 0: break
-        res += search_cnt
-
-        # 3) clear
-        clear()
-
-        # 4) move
-        move()
+        if r:
+            if diff > t:
+                t = diff
+                res = name
 
     return res
 
 
-m = 4
-n = 5
-board = ["CCBDE", "AAADE", "AAABF", "CCBBF"]
+m = "ABCDEFG"
+musicinfos = ["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"]
+#HELLO
 
-# m = 6
-# n = 6
-# board = ["TTTANT", "RRFACC", "RRRFCC", "TRRRAA", "TTMMMF", "TMMTTJ"]
+m = "CC#BCC#BCC#BCC#B"
+musicinfos = ["03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B"]
+#FOO
+# # #
+m = "ABC"
+musicinfos = ["12:00,12:14,HELLO,C#DEFGAB", "13:00,13:05,WORLD,ABCDEF"]
+#WORLD
+#
+# m = "BF#"
+# musicinfos = ["00:53,12:56,HELLO!!!,AEBBF#"]
 
-res = solution(m, n, board)
-
+res = solution(m, musicinfos)
 print('res', res)
