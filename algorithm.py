@@ -1,36 +1,29 @@
-def solution(numbers):
+from itertools import permutations
+
+def solution(k, dungeons):
     # 1. init
-    res = []
+    res = 0
+    n = len(dungeons)
+    idx_list = [_ for _ in range(n)]
 
     # 2. loop
-    for n in numbers:
-        val = 0
-        # 1) even
-        if n % 2 == 0:
-            val = n + 1
-        # 2) odd
-        else:
-            bin_num = "{0:b}".format(n)
-            bin_num_len = len(bin_num)
-            # 2-1) find lowest zero index
-            idx = bin_num.rfind('0')
+    for idx in permutations(idx_list):
+        l = k
+        t = 0
+        for i in idx:
+            a, b = dungeons[i]
+            if l < a or l < b: break
+            t += 1
+            l -= b
 
-            # 2-2) zero not exist
-            if idx == -1:
-                idx = bin_num_len - 1
-
-            # 2-3) zero exist
-            else:
-                idx = bin_num_len - idx - 2
-
-            val = n + (1 << idx)
-
-        res.append(val)
+        res = max(res, t)
 
     return res
 
-numbers = [2, 7, 9]
 
-res = solution(numbers)
+k = 80
+dungeons = [[80,20],[50,40],[30,10]]
+
+res = solution(k, dungeons)
 
 print('res', res)
