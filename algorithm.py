@@ -1,37 +1,36 @@
-def solution(citations):
+def solution(numbers):
     # 1. init
-    res = 0
-    max_val = max(citations)
-    min_val = min(citations)
-    n = len(citations)
+    res = []
 
-    # 2. sort
-    citations.sort()
+    # 2. loop
+    for n in numbers:
+        val = 0
+        # 1) even
+        if n % 2 == 0:
+            val = n + 1
+        # 2) odd
+        else:
+            bin_num = "{0:b}".format(n)
+            bin_num_len = len(bin_num)
+            # 2-1) find lowest zero index
+            idx = bin_num.rfind('0')
 
-    # 3. lower_bound
-    def lower_bound(s, e, target):
-        while s < e:
-            mid = s + (e - s) // 2
-            if citations[mid] < target:
-                s = mid + 1
+            # 2-2) zero not exist
+            if idx == -1:
+                idx = bin_num_len - 1
+
+            # 2-3) zero exist
             else:
-                e = mid
-        return e
+                idx = bin_num_len - idx - 2
 
-    # 4. loop
-    for i in range(max_val+1):
-        idx = lower_bound(0, n, i)
-        upper = n - idx
-        if upper >= i:
-            res = max(res, i)
+            val = n + (1 << idx)
+
+        res.append(val)
 
     return res
 
+numbers = [2, 7, 9]
 
-citations = [3, 0, 6, 1, 5]
-
-citations = [1, 1, 1, 1, 1]
-
-res = solution(citations)
+res = solution(numbers)
 
 print('res', res)
