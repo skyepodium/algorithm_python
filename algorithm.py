@@ -1,42 +1,48 @@
-from collections import Counter
+from typing import List
 
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        # 1. init
+        n = len(points)
+        e = []
+        d = [i for i in range(n)]
+        res = 0
 
-def solution(gems):
-    # 1. init
-    n = len(gems)
-    total_cnt = len(set(gems))
-    c = Counter()
-    res = [0, n-1]
+        # 2. cal_dist
+        def cal_dist(first, second):
+            x, y = first
+            a, b = second
+            return abs(x-a) + abs(y-b)
 
-    # 2. two pointer
-    s = 0
-    for e, cur in enumerate(gems):
-        # 1) cnt update
-        c[cur] += 1
+        # 3. make graph
+        for i in range(n):
+            for j in range(i+1, n):
+                e.append((i, j, cal_dist(points[i], points[j])))
 
-        # 2) minify
-        while len(c) >= total_cnt:
-            if e - s < res[1] - res[0]:
-                res[0], res[1] = s, e
+        # 4. sort
+        e.sort(key=lambda x: x[2])
 
-            s_val = gems[s]
-            c[s_val] -= 1
-            if c[s_val] == 0:
-                c.pop(s_val)
-            s += 1
+        # 5. find
+        def find(node):
+            if node == d[node]:
+                return node
+            else:
+                d[node] = find(d[node])
+                return d[node]
 
-    return [x+1 for x in res]
+        # 6. cal cost
+        for a, b, cost in e:
+            a, b = find(a), find(b)
+            if a != b:
+                d[a] = b
+                res += cost
 
-gems = ["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]
+        return res
 
-gems = ["AA", "AB", "AC", "AA", "AC"]
+sl = Solution()
 
-gems = ["XYZ", "XYZ", "XYZ"]
-
-gems = ["ZZZ", "YYY", "NNNN", "YYY", "BBB"]
-
-
-
-res = solution(gems)
+points = [[0,0],[2,2],[3,10],[5,2],[7,0]]
+points = [[3,12],[-2,5],[-4,1]]
+res = sl.minCostConnectPoints(points)
 
 print('res', res)
