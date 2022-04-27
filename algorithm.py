@@ -1,48 +1,26 @@
-from typing import List
+def solution(n, times):
+    # 1. init
+    max_val = max(times)
+    res = max_val * n
+    s, e = 0, max_val * n
 
-class Solution:
-    def minCostConnectPoints(self, points: List[List[int]]) -> int:
-        # 1. init
-        n = len(points)
-        e = []
-        d = [i for i in range(n)]
-        res = 0
+    # 2. cal cnt
+    def cal_cnt(a):
+        r = 0
+        for t in times:
+            r += a // t
+        return r
 
-        # 2. cal_dist
-        def cal_dist(first, second):
-            x, y = first
-            a, b = second
-            return abs(x-a) + abs(y-b)
+    # 3. binary search
+    while s < e:
+        mid = s + (e - s) // 2
 
-        # 3. make graph
-        for i in range(n):
-            for j in range(i+1, n):
-                e.append((i, j, cal_dist(points[i], points[j])))
+        cnt = cal_cnt(mid)
 
-        # 4. sort
-        e.sort(key=lambda x: x[2])
+        if cnt < n:
+            s = mid + 1
+        else:
+            res = min(res, mid)
+            e = mid
 
-        # 5. find
-        def find(node):
-            if node == d[node]:
-                return node
-            else:
-                d[node] = find(d[node])
-                return d[node]
-
-        # 6. cal cost
-        for a, b, cost in e:
-            a, b = find(a), find(b)
-            if a != b:
-                d[a] = b
-                res += cost
-
-        return res
-
-sl = Solution()
-
-points = [[0,0],[2,2],[3,10],[5,2],[7,0]]
-points = [[3,12],[-2,5],[-4,1]]
-res = sl.minCostConnectPoints(points)
-
-print('res', res)
+    return res
