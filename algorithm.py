@@ -1,48 +1,39 @@
-from typing import List
+from heapq import heappush, heappop
 
-class Solution:
-    def minCostConnectPoints(self, points: List[List[int]]) -> int:
-        # 1. init
-        n = len(points)
-        e = []
-        d = [i for i in range(n)]
-        res = 0
+def solution(board):
+    # 1. init
+    n = len(board)
+    m = len(board[0])
+    MAX_VAL = n * m * 600
+    d = [[[MAX_VAL for _ in range(4)] for _ in range(m)] for _ in range(n)]
+    dir_list = [(0, -1), (0, 1), (1, 0), (-1, 0)]
+    # 0 - left, 1 - right, 2 - down, 3 - up
 
-        # 2. cal_dist
-        def cal_dist(first, second):
-            x, y = first
-            a, b = second
-            return abs(x-a) + abs(y-b)
+    # 2. dijkstra
+    def dijkstra(start_x, start_y):
+        pq = []
 
-        # 3. make graph
-        for i in range(n):
-            for j in range(i+1, n):
-                e.append((i, j, cal_dist(points[i], points[j])))
+        for c_dir in range(4):
+            d[start_x][start_y][c_dir] = 0
+            heappush(pq, (0, start_x, start_y, c_dir))
 
-        # 4. sort
-        e.sort(key=lambda x: x[2])
+        while pq:
+            cost, x, y, dir = heappop(pq)
 
-        # 5. find
-        def find(node):
-            if node == d[node]:
-                return node
-            else:
-                d[node] = find(d[node])
-                return d[node]
+            for n_dir_idx, n_dir in enumerate(dir_list):
+                dx, dy = n_dir
+                nx = x + dx
+                ny = y + dy
+                if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                    continue
+                if board[nx][ny] == 1: continue
 
-        # 6. cal cost
-        for a, b, cost in e:
-            a, b = find(a), find(b)
-            if a != b:
-                d[a] = b
-                res += cost
+                n_cost = 100 if dir == n_dir_idx else 600
 
-        return res
+                if d[nx][ny][n_dir_idx] > d[x][y][dir] + n_cost:
+                    d[nx][ny][n_dir_idx] = d[x][y][dir] + n_cost
+                    heappush(pq, (d[nx][ny][n_dir_idx], nx, ny, n_dir_idx))
 
-sl = Solution()
+    dijkstra(0, 0)
 
-points = [[0,0],[2,2],[3,10],[5,2],[7,0]]
-points = [[3,12],[-2,5],[-4,1]]
-res = sl.minCostConnectPoints(points)
-
-print('res', res)
+    return min(d[n-1][m-1])
