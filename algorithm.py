@@ -1,39 +1,49 @@
+from typing import List
 from heapq import heappush, heappop
 
-def solution(board):
-    # 1. init
-    n = len(board)
-    m = len(board[0])
-    MAX_VAL = n * m * 600
-    d = [[[MAX_VAL for _ in range(4)] for _ in range(m)] for _ in range(n)]
-    dir_list = [(0, -1), (0, 1), (1, 0), (-1, 0)]
-    # 0 - left, 1 - right, 2 - down, 3 - up
+class Solution:
+    def minimumEffortPath(self, heights: List[List[int]]) -> int:
+        # 1. init
+        max_val = int(1e6)
+        n = len(heights)
+        m = len(heights[0])
+        d = [[max_val for _ in range(m)] for _ in range(n)]
+        dir = [(0, -1), (0, 1), (1, 0), (-1, 0)]
 
-    # 2. dijkstra
-    def dijkstra(start_x, start_y):
-        pq = []
+        # 2. dijkstra
+        def dijkstra(start_x, start_y):
+            pq = []
+            d[start_x][start_y] = 0
+            for i in range(4):
+                heappush(pq, (0, start_x, start_y, i))
 
-        for c_dir in range(4):
-            d[start_x][start_y][c_dir] = 0
-            heappush(pq, (0, start_x, start_y, c_dir))
+            while pq:
+                cost, x, y, c_dir = heappop(pq)
 
-        while pq:
-            cost, x, y, dir = heappop(pq)
+                if d[x][y] < cost: continue
 
-            for n_dir_idx, n_dir in enumerate(dir_list):
-                dx, dy = n_dir
-                nx = x + dx
-                ny = y + dy
-                if nx < 0 or nx >= n or ny < 0 or ny >= m:
-                    continue
-                if board[nx][ny] == 1: continue
+                for n_dir, dxy in enumerate(dir):
 
-                n_cost = 100 if dir == n_dir_idx else 600
+                    dx, dy = dxy
+                    nx, ny = x + dx, y + dy
+                    if nx < 0 or nx >= n or ny < 0 or ny >= m: continue
 
-                if d[nx][ny][n_dir_idx] > d[x][y][dir] + n_cost:
-                    d[nx][ny][n_dir_idx] = d[x][y][dir] + n_cost
-                    heappush(pq, (d[nx][ny][n_dir_idx], nx, ny, n_dir_idx))
+                    n_cost = max(abs(heights[nx][ny] - heights[x][y]), d[x][y])
+                    if d[nx][ny] > n_cost:
+                        d[nx][ny] = n_cost
+                        heappush(pq, (d[nx][ny], nx, ny, n_dir))
 
-    dijkstra(0, 0)
+        dijkstra(0, 0)
 
-    return min(d[n-1][m-1])
+        return d[n-1][m-1]
+
+
+sl = Solution()
+
+heights = [[1,2,2],[3,8,2],[5,3,5]]
+heights = [[1,2,3],[3,8,4],[5,3,5]]
+heights = [[1,2,1,1,1],[1,2,1,2,1],[1,2,1,2,1],[1,2,1,2,1],[1,1,1,2,1]]
+heights = [[1,10,6,7,9,10,4,9]]
+res = sl.minimumEffortPath(heights)
+
+print('res', res)
