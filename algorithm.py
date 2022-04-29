@@ -1,49 +1,39 @@
 from typing import List
-from heapq import heappush, heappop
+
 
 class Solution:
-    def minimumEffortPath(self, heights: List[List[int]]) -> int:
+    def specialArray(self, nums: List[int]) -> int:
         # 1. init
-        max_val = int(1e6)
-        n = len(heights)
-        m = len(heights[0])
-        d = [[max_val for _ in range(m)] for _ in range(n)]
-        dir = [(0, -1), (0, 1), (1, 0), (-1, 0)]
+        max_val = max(nums)
+        res = -1
 
-        # 2. dijkstra
-        def dijkstra(start_x, start_y):
-            pq = []
-            d[start_x][start_y] = 0
-            for i in range(4):
-                heappush(pq, (0, start_x, start_y, i))
+        # 2. cal cnt
+        def cal_cnt(mid):
+            return sum([1 for x in nums if x >= mid])
 
-            while pq:
-                cost, x, y, c_dir = heappop(pq)
+        # 3. sort
+        nums.sort()
 
-                if d[x][y] < cost: continue
+        # 4. binary search
+        s, e = 0, max_val
+        while s <= e:
+            mid = s + (e - s) // 2
+            cnt = cal_cnt(mid)
+            if cnt > mid:
+                s = mid + 1
+            elif cnt == mid:
+                return mid
+            else:
+                e = mid - 1
 
-                for n_dir, dxy in enumerate(dir):
-
-                    dx, dy = dxy
-                    nx, ny = x + dx, y + dy
-                    if nx < 0 or nx >= n or ny < 0 or ny >= m: continue
-
-                    n_cost = max(abs(heights[nx][ny] - heights[x][y]), d[x][y])
-                    if d[nx][ny] > n_cost:
-                        d[nx][ny] = n_cost
-                        heappush(pq, (d[nx][ny], nx, ny, n_dir))
-
-        dijkstra(0, 0)
-
-        return d[n-1][m-1]
-
+        return res
 
 sl = Solution()
 
-heights = [[1,2,2],[3,8,2],[5,3,5]]
-heights = [[1,2,3],[3,8,4],[5,3,5]]
-heights = [[1,2,1,1,1],[1,2,1,2,1],[1,2,1,2,1],[1,2,1,2,1],[1,1,1,2,1]]
-heights = [[1,10,6,7,9,10,4,9]]
-res = sl.minimumEffortPath(heights)
+nums = [3,5]
+# nums = [0,0]
+# nums = [0,4,3,0,4]
+
+res = sl.specialArray(nums)
 
 print('res', res)
