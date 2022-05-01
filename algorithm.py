@@ -4,18 +4,13 @@ class Solution:
     def backspaceCompare(self, s: str, t: str) -> bool:
 
         def refine(a):
-            while True:
-                cur = re.search("#", a)
-                if not cur: break
-
-                l, r = cur.start(), cur.end()
-
-                if l == 0:
-                    a = a[l+1:]
+            st = []
+            for c in a:
+                if c != '#':
+                    st.append(c)
                 else:
-                    a = a[:l-1] + a[r:]
-
-            return a
+                    if st: st.pop()
+            return st
 
         return refine(s) == refine(t)
 
