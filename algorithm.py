@@ -1,41 +1,32 @@
-import re
-
 class Solution:
-    def backspaceCompare(self, s: str, t: str) -> bool:
+    def longestPalindrome(self, s: str) -> str:
+        # 0. exception
+        if len(s) < 2 or s == s[::-1]: return s
 
-        def refine(a):
-            st = []
-            for c in a:
-                if c != '#':
-                    st.append(c)
-                else:
-                    if st: st.pop()
-            return st
+        # 1. init
+        res = ""
 
-        return refine(s) == refine(t)
+        # 2. get_max_len
+        def get_max_len(l, r):
+            while l >= 0 and r <= len(s) and s[l] == s[r-1]:
+                l -= 1
+                r += 1
 
+            return s[l+1:r-1]
+
+        # 3. loop
+        for i in range(len(s)):
+            res = max(res,
+                      get_max_len(i, i+1),
+                      get_max_len(i, i+2),
+                      key=len)
+
+        return res
+
+s = "babad"
 
 sl = Solution()
 
-s = "ab#c"
-t = "ad#c"
-
-s = "ab##"
-t = "c#d#"
-
-s = "a#c"
-t = "b"
-
-s = "a##c"
-t = "#a#c"
-
-s = "ab##"
-t = "c#d#"
-
-
-s = "j##xfix"
-t = "j###xfix"
-
-res = sl.backspaceCompare(s, t)
+res = sl.longestPalindrome(s)
 
 print('res', res)
