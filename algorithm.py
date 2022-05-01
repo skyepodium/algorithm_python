@@ -1,25 +1,46 @@
-from collections import defaultdict
+import re
 
-def solution(money):
-    # 1. init
-    n = len(money)
-    a = [0 for _ in range(n)]
-    b = [0 for _ in range(n)]
-    a[0] = money[0]
+class Solution:
+    def backspaceCompare(self, s: str, t: str) -> bool:
 
-    for i in range(1, n-1):
-        a[i] = max(a[i-2] + money[i], a[i-1])
+        def refine(a):
+            while True:
+                cur = re.search("#", a)
+                if not cur: break
 
-    for i in range(1, n):
-        b[i] = max(b[i-2] + money[i], b[i-1])
+                l, r = cur.start(), cur.end()
 
-    return max(a[n-2], b[n-1])
+                if l == 0:
+                    a = a[l+1:]
+                else:
+                    a = a[:l-1] + a[r:]
+
+            return a
+
+        return refine(s) == refine(t)
 
 
-money = [1, 2, 3, 1]
-money = [10000, 3, 7, 4, 5]
-money = [1, 100, 1, 100, 1]
+sl = Solution()
 
-res = solution(money)
+s = "ab#c"
+t = "ad#c"
+
+s = "ab##"
+t = "c#d#"
+
+s = "a#c"
+t = "b"
+
+s = "a##c"
+t = "#a#c"
+
+s = "ab##"
+t = "c#d#"
+
+
+s = "j##xfix"
+t = "j###xfix"
+
+res = sl.backspaceCompare(s, t)
 
 print('res', res)
