@@ -1,9 +1,5 @@
-a = "a"
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        s = str(x)
 
-print(a.isalpha())
-# True
-
-b = "0"
-
-print(b.isdigit())
-# True
+        return s == s[::-1]
