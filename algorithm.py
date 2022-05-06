@@ -1,37 +1,16 @@
 class Solution:
-    def removeDuplicates(self, s: str, k: int) -> str:
+    def removeDuplicates(self, s: str) -> str:
         # 1. init
         st = []
 
         # 2. loop
         for c in s:
-            if st:
-                t, cnt = st[-1]
-                if t == c:
-                    if cnt == k - 1:
-                        while st and st[-1][0] == c:
-                            st.pop()
-                    else:
-                        st.append((c, cnt + 1))
-                else:
-                    st.append((c, 1))
+            if st and st[-1] == c:
+                while st and st[-1] == c:
+                    st.pop()
             else:
-                st.append((c, 1))
+                st.append(c)
 
-        return "".join([t for t, _ in st])
+        return "".join(st)
 
-s = "abcd"
-k = 2
-
-s = "deeedbbcccbdaa"
-k = 3
-
-s = "pbbcggttciiippooaais"
-k = 2
-
-sl = Solution()
-
-res = sl.removeDuplicates(s, k)
-
-print('res', res)
 
