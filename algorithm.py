@@ -1,27 +1,21 @@
 from typing import List
-
+from collections import Counter
 
 class Solution:
     def maxOperations(self, nums: List[int], k: int) -> int:
         # 1. init
-        n = len(nums)
+        c = Counter(nums)
         res = 0
 
-        # 2. sort
-        nums.sort()
+        # 2. loop
+        for num in nums:
+            remain = k - num
+            if num == remain and c[remain] <= 1: continue
+            if c[remain] < 1 or c[num] < 1: continue
 
-        # 3. two pointer
-        l, r = 0, n - 1
-        while l < r:
-            cur = nums[l] + nums[r]
-            if cur == k:
-                res += 1
-                l += 1
-                r -= 1
-            elif cur < k:
-                l += 1
-            else:
-                r -= 1
+            res += 1
+            c[remain] -= 1
+            c[num] -= 1
 
         return res
 
@@ -31,6 +25,9 @@ nums = [1,2,3,4]
 k = 5
 nums = [3,1,3,4,3]
 k = 6
+
+nums = [2,5,4,4,1,3,4,4,1,4,4,1,2,1,2,2,3,2,4,2]
+k = 3
 
 
 res = sl.maxOperations(nums, k)
