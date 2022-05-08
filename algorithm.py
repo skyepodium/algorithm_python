@@ -1,23 +1,26 @@
-from typing import List
-
-
 class Solution:
-    def largestAltitude(self, gain: List[int]) -> int:
+    def countOperations(self, num1: int, num2: int) -> int:
         # 1. init
-        prev = 0
         res = 0
 
         # 2. loop
-        for g in gain:
-            prev = prev + g
-            res = max(res, prev)
+        while num1 > 0 and num2 > 0:
+            res += 1
+            if num1 > num2:
+                num1 -= num2
+            else:
+                num2 -= num1
 
         return res
 
 sl = Solution()
 
-gain = [-5,1,5,0,-7]
+num1 = 2
+num2 = 3
 
-res = sl.largestAltitude(gain)
+num1 = 10
+num2 = 10
+
+res = sl.countOperations(num1, num2)
 
 print('res', res)
