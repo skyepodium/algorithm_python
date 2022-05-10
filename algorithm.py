@@ -2,52 +2,42 @@ from typing import List
 
 
 class Solution:
-    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+    def construct2DArray(self, original: List[int], m: int, n: int) -> List[List[int]]:
+        if len(original) != m * n: return []
+
         # 1. init
-        max_int = 10
-        check = [False for _ in range(max_int)]
         res = []
 
-        # 2. recursive
-        def go(cnt, l, sum_val):
-            if sum_val > n:
-                return
-
-            if cnt >= k:
-                if sum_val == n:
-                    res.append(l[::])
-                return
-
-            for i in range(1, max_int):
-                if not check[i]:
-                    if l and l[-1] > i: continue
-
-                    check[i] = True
-                    l.append(i)
-                    go(cnt + 1, l, sum_val + i)
-                    check[i] = False
-                    l.pop()
-
-        go(0, [], 0)
+        # 2. loop
+        cnt = 0
+        t = []
+        for o in original:
+            t.append(o)
+            cnt += 1
+            if cnt >= n:
+                cnt = 0
+                res.append(t[::])
+                t = []
 
         return res
 
 
-sl = Solution()
 
-k = 3
-n = 7
+original = [1,2,3,4]
 
-k = 3
-n = 9
+m = 2
+n = 2
 
-k = 4
+original = [1,2,3]
+m = 1
+n = 3
+
+original = [1,2]
+m = 1
 n = 1
 
-k = 2
-n = 18
+sl = Solution()
 
-res = sl.combinationSum3(k, n)
+res = sl.construct2DArray(original, m, n)
 
 print('res', res)
-
