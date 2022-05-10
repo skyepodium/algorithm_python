@@ -1,26 +1,53 @@
-class Solution:
-    def countOperations(self, num1: int, num2: int) -> int:
-        # 1. init
-        res = 0
+from typing import List
 
-        # 2. loop
-        while num1 > 0 and num2 > 0:
-            res += 1
-            if num1 > num2:
-                num1 -= num2
-            else:
-                num2 -= num1
+
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        # 1. init
+        max_int = 10
+        check = [False for _ in range(max_int)]
+        res = []
+
+        # 2. recursive
+        def go(cnt, l, sum_val):
+            if sum_val > n:
+                return
+
+            if cnt >= k:
+                if sum_val == n:
+                    res.append(l[::])
+                return
+
+            for i in range(1, max_int):
+                if not check[i]:
+                    if l and l[-1] > i: continue
+
+                    check[i] = True
+                    l.append(i)
+                    go(cnt + 1, l, sum_val + i)
+                    check[i] = False
+                    l.pop()
+
+        go(0, [], 0)
 
         return res
 
+
 sl = Solution()
 
-num1 = 2
-num2 = 3
+k = 3
+n = 7
 
-num1 = 10
-num2 = 10
+k = 3
+n = 9
 
-res = sl.countOperations(num1, num2)
+k = 4
+n = 1
+
+k = 2
+n = 18
+
+res = sl.combinationSum3(k, n)
 
 print('res', res)
+
