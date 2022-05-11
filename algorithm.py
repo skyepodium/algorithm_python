@@ -1,33 +1,28 @@
-from typing import List
+t = int(input())
 
-class Solution:
-    def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
-        # 1. init
-        max_int = 101
-        c = [0 for _ in range(max_int)]
-        d = [0 for _ in range(max_int)]
-        res = []
+for _ in range(t):
+    n, m = map(int, input().split())
 
-        # 2. loop
-        for num in nums:
-            c[num] += 1
+    a = []
+    for i in range(n):
+        a.append(list(map(int, input().split())))
 
-        prev = 0
-        for i in range(max_int):
-            if c[i] != 0:
-                d[i], prev = prev, c[i] + prev
-
-        for num in nums:
-            res.append(d[num])
-
+    def sum_val(s, e, nx, ny):
+        res = 0
+        while 0 <= s < n and 0 <= e < m:
+            res += a[s][e]
+            s, e = s + nx, e + ny
         return res
 
+    res = 0
+    for i in range(n):
+        for j in range(m):
+            val = -3 * a[i][j]
+            d = [(1, 1), (1, -1), (-1, -1), (-1, 1)]
+            for dx, dy in d:
+                val += sum_val(i, j, dx, dy)
+            res = max(res, val)
+    print(res)
 
 
-sl = Solution()
-nums = [8,1,2,2,3]
-nums = [6,5,4,8]
-nums = [7,7,7,7]
-res = sl.smallerNumbersThanCurrent(nums)
 
-print('res', res)
