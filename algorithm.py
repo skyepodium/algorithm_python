@@ -1,11 +1,9 @@
 t = int(input())
 
 for _ in range(t):
-    q = input()
-
-    a = int(q[0]) + int(q[1]) + int(q[2])
-    b = int(q[3]) + int(q[4]) + int(q[5])
-
-    res = "YES" if a == b else "NO"
-
+    cnt = int(input())
+    a = list(map(int, input().split()))
+    sum_val = sum(a)
+    min_val = min(a)
+    res = sum_val - min_val * cnt
     print(res)
