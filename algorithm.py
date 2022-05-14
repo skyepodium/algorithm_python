@@ -1,16 +1,26 @@
-from collections import Counter
-
 class Solution:
-    def maxNumberOfBalloons(self, text: str) -> int:
-        c = Counter(text)
+    def makeFancyString(self, s: str) -> str:
+        # 1. init
+        st = []
 
-        return min(c['b'], c['a'], c['l']//2, c['o']//2, c['n'])
+        # 2. loop
+        for c in s:
+            a, b = st[-1] if st else ('', 0)
+
+            if a == c and b == 2: continue
+
+            cnt = b + 1 if a == c else 1
+
+            st.append((c, cnt))
+
+        return "".join([a for a, b in st])
 
 
 sl = Solution()
-text = "nlaebolko"
-text = "loonbalxballpoon"
-text = "leetcode"
-res = sl.maxNumberOfBalloons(text)
+
+s = "leeetcode"
+s = "aaabaaaa"
+s = "aab"
+res = sl.makeFancyString(s)
 
 print('res', res)
