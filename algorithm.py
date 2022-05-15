@@ -1,26 +1,26 @@
+from idlelib.tree import TreeNode
+from typing import Optional
+
+
 class Solution:
-    def makeFancyString(self, s: str) -> str:
+    def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
         # 1. init
-        st = []
+        self.d = 0
+        self.res = 0
 
-        # 2. loop
-        for c in s:
-            a, b = st[-1] if st else ('', 0)
+        # 2. dfs
+        def dfs(node, depth):
+            if depth == self.d:
+                self.res += node.val
 
-            if a == c and b == 2: continue
+            if depth > self.d:
+                self.d = depth
+                self.res = node.val
 
-            cnt = b + 1 if a == c else 1
+            for n_node in [node.left, node.right]:
+                if not n_node: continue
+                dfs(n_node, depth + 1)
 
-            st.append((c, cnt))
+        dfs(root, 0)
 
-        return "".join([a for a, b in st])
-
-
-sl = Solution()
-
-s = "leeetcode"
-s = "aaabaaaa"
-s = "aab"
-res = sl.makeFancyString(s)
-
-print('res', res)
+        return self.res
