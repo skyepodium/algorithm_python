@@ -1,26 +1,42 @@
-from idlelib.tree import TreeNode
-from typing import Optional
+from collections import deque
+from typing import List
 
 
 class Solution:
-    def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
         # 1. init
-        self.d = 0
-        self.res = 0
+        n = len(grid)
+        m = len(grid[0])
+        check = [[-1 for _ in range(m)] for _ in range(n)]
+        d = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
 
-        # 2. dfs
-        def dfs(node, depth):
-            if depth == self.d:
-                self.res += node.val
+        # 2. bfs
+        def bfs(x, y):
+            if grid[x][y] != 0: return
 
-            if depth > self.d:
-                self.d = depth
-                self.res = node.val
+            check[x][y] = 1
+            q = deque([(x, y)])
 
-            for n_node in [node.left, node.right]:
-                if not n_node: continue
-                dfs(n_node, depth + 1)
+            while q:
+                x, y = q.popleft()
 
-        dfs(root, 0)
+                for dx, dy in d:
+                    nx, ny = x + dx, y + dy
+                    if nx < 0 or nx >= n or ny < 0 or ny >= m: continue
+                    if grid[nx][ny] != 0 or check[nx][ny] != -1: continue
 
-        return self.res
+                    check[nx][ny] = check[x][y] + 1
+                    q.append((nx, ny))
+
+        bfs(0, 0)
+
+        return check[n-1][m-1]
+
+
+sl = Solution()
+grid = [[0,1],[1,0]]
+grid = [[0,0,0],[1,1,0],[1,1,0]]
+grid = [[1,0,0],[1,1,0],[1,1,0]]
+res = sl.shortestPathBinaryMatrix(grid)
+
+print('res', res)
