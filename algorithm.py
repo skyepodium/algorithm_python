@@ -1,35 +1,27 @@
-from typing import List
-
-
 class Solution:
-    def coinChange(self, coins: List[int], amount: int) -> int:
+    def countSubstrings(self, s: str) -> int:
         # 1. init
-        max_int = amount + 1
-        d = [max_int for _ in range(max_int)]
-        d[0] = 0
+        n = len(s)
+        self.res = 0
 
-        # 2. bottom up
-        for i in range(0, max_int):
-            for c in coins:
-                if i-c >= 0:
-                    d[i] = min(d[i], d[i-c] + 1)
+        # 2. is_palindrome
+        def is_palindrome(l, r):
+            while 0 <= l <= r < n and s[l] == s[r]:
+                self.res += 1
+                l -= 1
+                r += 1
 
-        return d[amount] if d[amount] <= amount else -1
+        # 3. loop
+        for i in range(n):
+            is_palindrome(i, i)
+            is_palindrome(i, i+1)
+
+        return self.res
 
 sl = Solution()
-coins = [1,2,5]
-amount = 11
-
-coins = [2]
-amount = 3
-
-coins = [1]
-amount = 0
-
-# coins = [186,419,83,408]
-# amount = 6249
-res = sl.coinChange(coins, amount)
+s = "abc"
+s = "aaa"
+s = "qwer"
+res = sl.countSubstrings(s)
 
 print('res', res)
-
-
