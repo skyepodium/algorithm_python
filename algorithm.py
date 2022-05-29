@@ -1,25 +1,27 @@
 from typing import List
-
+from collections import Counter
 
 class Solution:
-    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+    def maxProduct(self, words: List[str]) -> int:
         # 1. init
-        check = [False for _ in range(n)]
-        v = [[] for _ in range(n)]
+        n = len(words)
+        w = [Counter(w) for w in words]
+        res = 0
 
-        # 2. make graph
-        for s, e in edges:
-            v[s].append(e)
-            v[e].append(s)
+        # 2. loop
+        for i in range(n):
+            for j in range(i+1, n):
+                a, b = w[i], w[j]
+                if len(w[i] & w[j]) >= 1: continue
 
-        # 3. DFS
-        def dfs(node):
-            check[node] = True
-            for n_node in v[node]:
-                if check[n_node]: continue
-                dfs(n_node)
+                res = max(res, sum(a.values()) * sum(b.values()))
 
-        dfs(source)
+        return res
 
-        return check[destination]
+sl = Solution()
+words = ["abcw","baz","foo","bar","xtfn","abcdef"]
+words = ["a","ab","abc","d","cd","bcd","abcd"]
+words = ["a","aa","aaa","aaaa"]
+res = sl.maxProduct(words)
 
+print('res', res)
