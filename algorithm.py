@@ -1,27 +1,18 @@
 from typing import List
-from collections import Counter
+from itertools import zip_longest
 
 class Solution:
-    def maxProduct(self, words: List[str]) -> int:
-        # 1. init
-        n = len(words)
-        w = [Counter(w) for w in words]
-        res = 0
-
-        # 2. loop
-        for i in range(n):
-            for j in range(i+1, n):
-                a, b = w[i], w[j]
-                if len(w[i] & w[j]) >= 1: continue
-
-                res = max(res, sum(a.values()) * sum(b.values()))
-
+    def sortEvenOdd(self, nums: List[int]) -> List[int]:
+        res = []
+        for e, o in zip_longest(sorted(nums[0::2]), sorted(nums[1::2], reverse=True)):
+            if e: res.append(e)
+            if o: res.append(o)
         return res
 
 sl = Solution()
-words = ["abcw","baz","foo","bar","xtfn","abcdef"]
-words = ["a","ab","abc","d","cd","bcd","abcd"]
-words = ["a","aa","aaa","aaaa"]
-res = sl.maxProduct(words)
+nums = [4,1,2,3]
+nums = [2, 1]
+nums = [5,39,33,5,12,27,20,45,14,25,32,33,30,30,9,14,44,15,21]
+res = sl.sortEvenOdd(nums)
 
 print('res', res)
