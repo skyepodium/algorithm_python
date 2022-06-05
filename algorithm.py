@@ -18,9 +18,8 @@ class Solution:
                         is_nice = False
                         break
 
-                if is_nice:
-                    if len(res) < len(cur):
-                        res = cur
+                if is_nice and len(res) < len(cur):
+                    res = cur
 
         return res
 
