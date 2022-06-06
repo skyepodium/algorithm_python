@@ -1,3 +1,5 @@
+from heapq import heappush, heappop
+
 # 1. init
 n = int(input())
 MAX_VAl = 1000001 * 16
@@ -5,30 +7,35 @@ MAX_INT = 1 << n
 v = []
 d = [[MAX_VAl for _ in range(MAX_INT)] for _ in range(n)]
 size = 1 << n
+res = [MAX_VAl]
 
 # 2. make graph
 for _ in range(n):
     v.append(list(map(int, input().split())))
 
-# 3. travel
-# cur 도시를 방문하고, 나머지 모든 도시를 방문했을때 최소 비용
-def go(cur, status):
-    # 1) 이미 방문한 경우 - memoization
-    if d[cur][status] != MAX_VAl:
-        return d[cur][status]
+# 3. BFS
+def dijkstra(node):
+    d[node][1] = 0
+    pq = []
+    heappush(pq, (0, node, 1))
 
-    if status == size - 1 and v[cur][0] != 0: return v[cur][0]
+    while pq:
+        cost, node, status = heappop(pq)
 
-    # 2) 탐색
-    for next in range(n):
-        # 길이 없거나, 이미 방문한 도시이면 건너뜀
-        if v[cur][next] == 0 or status & 1 << next: continue
+        if cost > d[node][status]: continue
 
-        d[cur][status] = min(d[cur][status], go(next, status | (1 << next)) + v[cur][next])
+        if status == size - 1 and v[node][0] != 0:
+            res[0] = min(res[0], cost + v[node][0])
 
-    return d[cur][status]
+        for n_node in range(n):
+            if v[node][n_node] == 0 or status & 1 << n_node: continue
 
-res = go(0, 1)
+            n_status = status | (1 << n_node)
+            n_cost = d[node][status] + v[node][n_node]
+            if d[n_node][n_status] > n_cost:
+                d[n_node][n_status] = n_cost
+                heappush(pq, (n_cost, n_node, n_status))
+dijkstra(0)
 
-print(res)
+print(res[0])
 
