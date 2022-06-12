@@ -1,25 +1,15 @@
-class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        # 1. inti
-        res = 0
-        st = set()
+from urllib import parse
+import requests
 
-        # 2. two pointer
-        l = 0
-        for r, c in enumerate(s):
-            while c in st:
-                st.remove(s[l])
-                l += 1
-            st.add(c)
-            res = max(res, r - l + 1)
+def parse_cmd(cmd):
+    return parse.quote(cmd, encoding="utf-8")
 
-        return res
+def request(cmd):
+    base_url = "http://localhost:8080/run.php?cmd="
+    r = requests.get(f"{base_url}{parse_cmd(cmd)}")
+    print('r', r.text)
 
+while True:
+    print(request(input()))
+    print()
 
-sl = Solution()
-s = "abcabcbb"
-s = "bbbbb"
-s = "pwwkew"
-res = sl.lengthOfLongestSubstring(s)
-
-print('res', res)
