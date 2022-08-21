@@ -1,28 +1,28 @@
 from collections import Counter
 
-def solution(X, Y):
-    a = sorted((Counter(X) & Counter(Y)).items(), key=lambda x: (-int(x[0]), -int(x[1])))
-    res = ""
-    for num, count in a:
-        res += num * int(count)
+def solution(want, number, discount):
+    # 1. init
+    c = Counter()
+    for w, n in zip(want, number):
+        c[w] = n
 
-    if res == "":
-        return "-1"
-
-    if len(res) == res.count("0"):
-        return "0"
+    # 2. discount
+    n = len(discount)
+    res = 0
+    for i in range(n):
+        if discount[i] not in c:
+            continue
+        d = Counter(discount[i:i+10])
+        if len(c - d) == 0:
+            res += 1
 
     return res
 
-x = "100"
-y = "2345"
+want = ["b", "a", "r", "p1", "p2"]
+number = [3, 2, 2, 2, 1]
+discount = ["c", "a", "a", "b", "r", "a", "p1", "b", "p1", "r", "p2", "b", "a", "b"]
 
-x = "100"
-y = "203045"
-
-# x = "5525"
-# y = "1255"
-
-res = solution(x, y)
+res = solution(want, number, discount)
 
 print('res', res)
+
