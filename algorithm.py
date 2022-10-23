@@ -1,18 +1,11 @@
-from typing import List
-
-
 class Solution:
-    def flipAndInvertImage(self, image: List[List[int]]) -> List[List[int]]:
-        for row in image:
-            row.reverse()
-            for i in range(len(row)):
-                row[i] = 1 - row[i]
-        return image
+    def reverseWords(self, s: str) -> str:
+        return ' '.join([c[::-1] for c in s.split()])
 
 
-image = [[1,1,0],[1,0,1],[0,0,0]]
+s = "Let's take LeetCode contest"
+s = "God Ding"
+sl = Solution()
+res = sl.reverseWords(s)
 
-res = Solution().flipAndInvertImage(image)
 print('res', res)
-
-
