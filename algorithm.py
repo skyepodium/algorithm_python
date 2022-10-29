@@ -1,7 +1,16 @@
-def solution(common):
-    return common[-1] + common[2] - common[1] if common[1] - common[0] == common[2] - common[1] else common[-1] * int(common[2] / common[1])
+from typing import List
 
 
-common = [1, 2, 3, 4]
-common = [2, 4, 8]
-print(solution(common))
+class Solution:
+    def smallestEqual(self, nums: List[int]) -> int:
+        for idx, val in enumerate(nums):
+            if idx % 10 == val:
+                return idx
+
+        return -1
+
+nums = [0, 1, 2]
+# nums = [4,3,2,1]
+
+sl = Solution()
+print(sl.smallestEqual(nums))
