@@ -1,16 +1,4 @@
-from typing import List
+a = list(map(int, input().split()))
 
-
-class Solution:
-    def smallestEqual(self, nums: List[int]) -> int:
-        for idx, val in enumerate(nums):
-            if idx % 10 == val:
-                return idx
-
-        return -1
-
-nums = [0, 1, 2]
-# nums = [4,3,2,1]
-
-sl = Solution()
-print(sl.smallestEqual(nums))
+res = ((a[0] * a[1] * a[2]) - (a[3] * a[4] * a[5])) % 998244353
+print(res)
