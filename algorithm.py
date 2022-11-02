@@ -1,18 +1,11 @@
-import sys
-input = sys.stdin.readline
+n, m = map(int, input().split())
 
-while True:
-    n, m = map(int, input().split())
-    if n == 0 and m == 0: break
+a = []
 
-    res = 0
-    s = set()
+for i in range(1, m+1):
+    if len(a) >= m: break
+    for _ in range(i):
+        if len(a) >= m: break
+        a.append(i)
 
-    for _ in range(n + m):
-        c = int(input())
-        if c in s:
-            res += 1
-        else:
-            s.add(c)
-
-    print(res)
+print(sum(a[n-1:]))
