@@ -1,4 +1,20 @@
-a = list(map(int, input().split()))
+n, m = map(int, input().split())
+j = int(input())
 
-res = ((a[0] * a[1] * a[2]) - (a[3] * a[4] * a[5])) % 998244353
+res = 0
+l, r = 1, m
+
+for _ in range(j):
+    x = int(input())
+    l_delta, r_delta = abs(x-l), abs(x-r)
+
+    if x < l:
+        l -= l_delta
+        r -= l_delta
+        res += l_delta
+    elif x > r:
+        l += r_delta
+        r += r_delta
+        res += r_delta
+
 print(res)
