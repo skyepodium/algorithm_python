@@ -1,20 +1,32 @@
-n, m = map(int, input().split())
-j = int(input())
+from collections import deque
 
-res = 0
-l, r = 1, m
+a, b = map(int, input().split())
+n = int(input())
 
-for _ in range(j):
-    x = int(input())
-    l_delta, r_delta = abs(x-l), abs(x-r)
+MAX_INT = 1001
+check = [-1 for _ in range(MAX_INT)]
+q = deque()
+check[a] = 0
+q.append(a)
 
-    if x < l:
-        l -= l_delta
-        r -= l_delta
-        res += l_delta
-    elif x > r:
-        l += r_delta
-        r += r_delta
-        res += r_delta
+for _ in range(n):
+    c = int(input())
+    check[c] = 1 if c != a else 0
+    q.append(c)
 
-print(res)
+def bfs():
+    while q:
+        node = q.popleft()
+
+        l, r = node - 1, node + 1
+
+        if l >= 1 and check[l] == -1:
+            check[l] = check[node] + 1
+            q.append(l)
+        if r < MAX_INT and check[r] == -1:
+            check[r] = check[node] + 1
+            q.append(r)
+
+bfs()
+
+print(check[b])
