@@ -1,21 +1,34 @@
-class Solution:
-    def reverseVowels(self, s: str) -> str:
-        # 1. init
-        vowel_list = []
-        vowel_set = set(list("aeiou"))
-        s_list = list(s)
+from collections import deque
 
-        # 2. make vowel_list
-        for idx, val in enumerate(s):
-            if val.lower() in vowel_set:
-                vowel_list.append(idx)
+f, s, g, u, d = map(int, input().split())
 
-        # 3. loop
-        l, r = 0, len(vowel_list) - 1
-        while l < r:
-            l_idx, r_idx = vowel_list[l], vowel_list[r]
-            s_list[l_idx], s_list[r_idx] = s_list[r_idx], s_list[l_idx]
-            l += 1
-            r -= 1
+q = deque()
+check = {}
 
-        return "".join(s_list)
+def bfs():
+    while q:
+        cur = q.popleft()
+
+        l, r = cur - d, cur + u
+        if l > 0 and l not in check:
+            cost = check[cur]
+            n_cost = cost + 1
+            check[l] = n_cost
+            q.append(l)
+
+        if r <= f and r not in check:
+            cost = check[cur]
+            n_cost = cost + 1
+            check[r] = n_cost
+            q.append(r)
+
+
+check[s] = 0
+q.append(s)
+bfs()
+
+if g not in check:
+    print("use the stairs")
+else:
+    print(check[g])
+
