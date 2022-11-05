@@ -1,34 +1,25 @@
-from collections import deque
+l = list(map(int, input().split()))
 
-f, s, g, u, d = map(int, input().split())
+# 1. init
+res = int(1e6)
 
-q = deque()
-check = {}
+# 2. sort
+l.sort()
 
-def bfs():
-    while q:
-        cur = q.popleft()
+# 3. gcd
+def gcd(a, b):
+    return a if b == 0 else gcd(b, a % b)
 
-        l, r = cur - d, cur + u
-        if l > 0 and l not in check:
-            cost = check[cur]
-            n_cost = cost + 1
-            check[l] = n_cost
-            q.append(l)
+for i in range(len(l)):
+    for j in range(i + 1, len(l)):
+        for k in range(j + 1, len(l)):
+            a, b, c = l[i], l[j], l[k]
 
-        if r <= f and r not in check:
-            cost = check[cur]
-            n_cost = cost + 1
-            check[r] = n_cost
-            q.append(r)
+            t = (b*c) / gcd(b, c)
+            r = (a*t) / gcd(a, t)
 
+            res = min(res, int(r))
 
-check[s] = 0
-q.append(s)
-bfs()
+print(res)
 
-if g not in check:
-    print("use the stairs")
-else:
-    print(check[g])
 
