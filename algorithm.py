@@ -1,36 +1,18 @@
-from collections import deque
+from heapq import heappush, heappop
 
-# 1. input
-n, r, c = map(int, input().split())
-r -= 1
-c -= 1
+x = int(input())
 
-# 2. init
-v = [['.' for _ in range(n)] for _ in range(n)]
-check = [[-1 for _ in range(n)] for _ in range(n)]
-q = deque()
-check[r][c] = 0
-q.append((r, c))
-v[r][c] = 'v'
-d = [(1, 1), (1, -1), (-1, -1), (-1, 1)]
+q = [64]
+res = 0
 
-# 3. bfs
-def bfs():
-    while q:
-        x, y = q.popleft()
+while q and sum(q) > x:
+    half = int(heappop(q) / 2)
 
-        for dx, dy in d:
-            nx, ny = x + dx, y + dy
-            if nx < 0 or nx >= n or ny < 0 or ny >= n:
-                continue
-            if check[nx][ny] == 0 or v[nx][ny] == 'v':
-                continue
+    if sum(q) + half > x:
+        heappush(q, half)
+    else:
+        heappush(q, half)
+        heappush(q, half)
 
-            check[nx][ny] = 0
-            v[nx][ny] = 'v'
-            q.append((nx, ny))
+print(len([x for x in q if x != 0]))
 
-bfs()
-
-res = '\n'.join(''.join(a) for a in v)
-print(res)
