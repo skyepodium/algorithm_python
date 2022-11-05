@@ -1,10 +1,4 @@
-n = int(input())
-a, b = 1, 1
-
-for _ in range(n):
-    if a > b:
-        a, b = b, a
-
-    a += 1
-
-print(a * b)
+n, m = map(int, input().split())
+a = int(input())
+b = int(input())
+print(a*b)
