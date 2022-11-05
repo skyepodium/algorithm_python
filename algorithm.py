@@ -1,25 +1,36 @@
-l = list(map(int, input().split()))
+from collections import deque
 
-# 1. init
-res = int(1e6)
+# 1. input
+n, r, c = map(int, input().split())
+r -= 1
+c -= 1
 
-# 2. sort
-l.sort()
+# 2. init
+v = [['.' for _ in range(n)] for _ in range(n)]
+check = [[-1 for _ in range(n)] for _ in range(n)]
+q = deque()
+check[r][c] = 0
+q.append((r, c))
+v[r][c] = 'v'
+d = [(1, 1), (1, -1), (-1, -1), (-1, 1)]
 
-# 3. gcd
-def gcd(a, b):
-    return a if b == 0 else gcd(b, a % b)
+# 3. bfs
+def bfs():
+    while q:
+        x, y = q.popleft()
 
-for i in range(len(l)):
-    for j in range(i + 1, len(l)):
-        for k in range(j + 1, len(l)):
-            a, b, c = l[i], l[j], l[k]
+        for dx, dy in d:
+            nx, ny = x + dx, y + dy
+            if nx < 0 or nx >= n or ny < 0 or ny >= n:
+                continue
+            if check[nx][ny] == 0 or v[nx][ny] == 'v':
+                continue
 
-            t = (b*c) / gcd(b, c)
-            r = (a*t) / gcd(a, t)
+            check[nx][ny] = 0
+            v[nx][ny] = 'v'
+            q.append((nx, ny))
 
-            res = min(res, int(r))
+bfs()
 
+res = '\n'.join(''.join(a) for a in v)
 print(res)
-
-
