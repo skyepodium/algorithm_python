@@ -1,18 +1,10 @@
-from heapq import heappush, heappop
+n = int(input())
+a, b = 1, 1
 
-x = int(input())
+for _ in range(n):
+    if a > b:
+        a, b = b, a
 
-q = [64]
-res = 0
+    a += 1
 
-while q and sum(q) > x:
-    half = int(heappop(q) / 2)
-
-    if sum(q) + half > x:
-        heappush(q, half)
-    else:
-        heappush(q, half)
-        heappush(q, half)
-
-print(len([x for x in q if x != 0]))
-
+print(a * b)
