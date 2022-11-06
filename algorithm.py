@@ -1,8 +1,20 @@
-a, b = map(int, input().split())
+s = 0
+a = []
 
-str_a, str_b = str(a), str(b)
+for _ in range(9):
+    n = int(input())
+    s += n
+    a.append(n)
 
-min_val = int(str_a.replace('6', '5')) + int(str_b.replace('6', '5'))
-max_val = int(str_a.replace('5', '6')) + int(str_b.replace('5', '6'))
+def check():
+    for i in range(9):
+        for j in range(i + 1, 9):
+            if s - a[i] - a[j] == 100:
+                return i, j
+    return -1, -1
 
-print(f"{min_val} {max_val}")
+i, j = check()
+
+for k in range(9):
+    if k != i and k != j:
+        print(a[k])
