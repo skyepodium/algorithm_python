@@ -1,9 +1,12 @@
-n = int(input())
+t = int(input())
 
-for _ in range(n):
-    s, e = map(int, input().split())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int, input().split()))
+    a.sort()
+
     res = 0
-    for i in range(s, e + 1):
-        res += str(i).count("0")
+    for i in range(n - 1):
+        res += abs(a[i] - a[i + 1])
 
-    print(res)
+    print(res * 2)
