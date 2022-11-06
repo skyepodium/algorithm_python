@@ -1,26 +1,14 @@
-n = int(input())
+from collections import defaultdict
 
-def can_palindrome(s):
-    l, r = 0, len(s) - 1
-    count = 0
-    while l < r:
-        if s[l] == s[r]:
-            l += 1
-            r -= 1
-        elif s[l] != s[r]:
-            if count == 0:
-                count += 1
-                l += 1
-            else:
-                break
-    return 1 if l >= r else 2
+d = defaultdict(int)
 
-def check_palindrome(s):
-    if s == s[::-1]:
-        return 0
+a, b, c = map(int, input().split())
+for i in range(1, a+1):
+    for j in range(1, b+1):
+        for k in range(1, c+1):
+            r = i + j + k
+            d[r] += 1
 
-    return 1 if can_palindrome(s) == 1 or can_palindrome(s[::-1]) == 1 else 2
+r = sorted(d.items(), key=lambda x: (-x[1], x[0]))
 
-for _ in range(n):
-    s = input()
-    print(check_palindrome(s))
+print(r[0][0])
