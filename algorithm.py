@@ -1,26 +1,8 @@
-from collections import defaultdict
+a, b = map(int, input().split())
 
-n, m, l = map(int, input().split())
+str_a, str_b = str(a), str(b)
 
-d = defaultdict(int)
-cur = 1
-d[cur] = 1
-res = 0
+min_val = int(str_a.replace('6', '5')) + int(str_b.replace('6', '5'))
+max_val = int(str_a.replace('5', '6')) + int(str_b.replace('5', '6'))
 
-
-while True:
-    if d[cur] >= m:
-        break
-
-    n_num = 0
-    count = d[cur]
-    if count % 2 == 1:
-        n_num = (cur + l) % n
-    else:
-        n_num = (cur - l) % n
-
-    res += 1
-    cur = n_num
-    d[cur] += 1
-
-print(res)
+print(f"{min_val} {max_val}")
