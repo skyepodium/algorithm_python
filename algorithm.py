@@ -1,15 +1,26 @@
-a = [int(x) for x in input().split(":")]
-b = [int(x) for x in input().split(":")]
+from collections import defaultdict
 
-start_time = a[0] * 3600 + a[1] * 60 + a[2]
-end_time = b[0] * 3600 + b[1] * 60 + b[2]
+n, m, l = map(int, input().split())
 
-if start_time > end_time:
-    end_time += 24 * 3600
+d = defaultdict(int)
+cur = 1
+d[cur] = 1
+res = 0
 
-time_diff =  end_time - start_time
 
-def lead_zero(n):
-    return f"0{n}" if n < 10 else n
+while True:
+    if d[cur] >= m:
+        break
 
-print(f"{lead_zero(time_diff // 3600)}:{lead_zero(time_diff % 3600 // 60)}:{lead_zero(time_diff % 60)}")
+    n_num = 0
+    count = d[cur]
+    if count % 2 == 1:
+        n_num = (cur + l) % n
+    else:
+        n_num = (cur - l) % n
+
+    res += 1
+    cur = n_num
+    d[cur] += 1
+
+print(res)
