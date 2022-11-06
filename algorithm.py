@@ -1,28 +1,15 @@
-t = int(input())
+a = [int(x) for x in input().split(":")]
+b = [int(x) for x in input().split(":")]
 
-for _ in range(t):
-    # 0. input
-    a, b = map(int, input().split())
-    base = a % 10
-    last_num = a % 10
-    res = 0
+start_time = a[0] * 3600 + a[1] * 60 + a[2]
+end_time = b[0] * 3600 + b[1] * 60 + b[2]
 
-    # 1. exception
-    if last_num == 1:
-        print(1)
-        continue
+if start_time > end_time:
+    end_time += 24 * 3600
 
-    # 2. init
-    s = set()
-    cycle = []
-    while last_num not in s:
-        s.add(last_num)
-        cycle.append(last_num)
-        last_num = (last_num * base) % 10
+time_diff =  end_time - start_time
 
-    # 3. find
-    cycle_len = len(cycle)
-    last_idx = b % cycle_len
-    res = cycle[last_idx - 1]
+def lead_zero(n):
+    return f"0{n}" if n < 10 else n
 
-    print(res if res != 0 else 10)
+print(f"{lead_zero(time_diff // 3600)}:{lead_zero(time_diff % 3600 // 60)}:{lead_zero(time_diff % 60)}")
