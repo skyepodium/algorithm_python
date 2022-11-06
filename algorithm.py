@@ -1,13 +1,26 @@
 n = int(input())
 
-alpha_array = [chr(ord('a') + i) for i in range(0, 26)]
-alpah_set = set(alpha_array)
+def can_palindrome(s):
+    l, r = 0, len(s) - 1
+    count = 0
+    while l < r:
+        if s[l] == s[r]:
+            l += 1
+            r -= 1
+        elif s[l] != s[r]:
+            if count == 0:
+                count += 1
+                l += 1
+            else:
+                break
+    return 1 if l >= r else 2
+
+def check_palindrome(s):
+    if s == s[::-1]:
+        return 0
+
+    return 1 if can_palindrome(s) == 1 or can_palindrome(s[::-1]) == 1 else 2
 
 for _ in range(n):
-    s = [c for c in input().lower() if c in alpah_set]
-    input_set = set(s)
-
-    if len(input_set) == 26:
-        print("pangram")
-    else:
-        print("missing", "".join(sorted(list(alpah_set - input_set))))
+    s = input()
+    print(check_palindrome(s))
