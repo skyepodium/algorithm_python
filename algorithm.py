@@ -1,20 +1,25 @@
-s = 0
-a = []
+while True:
+    # 1. input
+    a, b = map(int, input().split())
+    if a == 0 and b == 0:
+        break
 
-for _ in range(9):
-    n = int(input())
-    s += n
-    a.append(n)
+    # 2. init
+    a, b = str(a)[::-1], str(b)[::-1]
+    r = max(len(a), len(b))
+    res = 0
 
-def check():
-    for i in range(9):
-        for j in range(i + 1, 9):
-            if s - a[i] - a[j] == 100:
-                return i, j
-    return -1, -1
+    # 3. check carry
+    carry = 0
+    for i in range(r):
+        a_num = int(a[i]) if i < len(a) else 0
+        b_num = int(b[i]) if i < len(b) else 0
+        s = a_num + b_num + carry
+        if s >= 10:
+            res += 1
+            carry = 1
+        else:
+            carry = 0
 
-i, j = check()
+    print(res)
 
-for k in range(9):
-    if k != i and k != j:
-        print(a[k])
