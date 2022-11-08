@@ -1,12 +1,13 @@
-t = int(input())
+class Solution:
+    def makeGood(self, s: str) -> str:
+        res = []
 
-for _ in range(t):
-    n = int(input())
-    a = list(map(int, input().split()))
-    a.sort()
+        for c in s:
+            top = res[-1] if len(res) > 0 else ""
 
-    res = 0
-    for i in range(n - 1):
-        res += abs(a[i] - a[i + 1])
+            if top.lower() == c.lower() and ord(top) != ord(c):
+                res.pop()
+            else:
+                res.append(c)
 
-    print(res * 2)
+        return "".join(res)
