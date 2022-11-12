@@ -1,46 +1,23 @@
-from typing import List
-
-
 class Solution:
-    def threeSumClosest(self, nums: List[int], target: int) -> int:
-        # 1. init
-        res = 0
-        min_diff = float('inf')
+    def isStrictlyPalindromic(self, n: int) -> bool:
 
-        # 2. sort
-        nums.sort()
+        # 1. decimal_to_base
+        def decimal_to_base(num, base):
+            res = ""
+            while num > 0:
+                res += str(num % base)
+                num //= base
+            return res
 
-        # 3. loop
-        for i in range(len(nums)):
-            # 3.1. init
-            left = i + 1
-            right = len(nums) - 1
+        # 2. loop
+        for i in range(2, n-1):
+            base_str = str(decimal_to_base(n, i))
+            if base_str != base_str[::-1]:
+                return False
 
-            # 3.2. loop
-            while left < right:
-                # 3.2.1. init
-                sum = nums[i] + nums[left] + nums[right]
-                diff = abs(sum - target)
+        return True
 
-                # 3.2.2. update
-                if diff < min_diff:
-                    res = sum
-                    min_diff = diff
-
-                # 3.2.3. update
-                if sum > target:
-                    right -= 1
-                elif sum < target:
-                    left += 1
-                else:
-                    return sum
-
-        return res
-
-nums = [-1,2,1,-4]
-target = 1
-
-# nums = [0,0,0]
-# target = 1
 sl = Solution()
-print(sl.threeSumClosest(nums, target))
+n = 4
+n = 9
+print(sl.isStrictlyPalindromic(n))
