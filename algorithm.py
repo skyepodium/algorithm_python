@@ -1,30 +1,46 @@
-from heapq import heappush, heappop
+from typing import List
 
-class MedianFinder:
 
-    def __init__(self):
-        self.min_heap = []
-        self.max_heap = []
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        # 1. init
+        res = 0
+        min_diff = float('inf')
 
-    def addNum(self, num: int) -> None:
-        if len(self.max_heap) < 1:
-            heappush(self.max_heap, -num)
-            return
+        # 2. sort
+        nums.sort()
 
-        if num < -self.max_heap[0]:
-            heappush(self.max_heap, -num)
-        else:
-            heappush(self.min_heap, num)
+        # 3. loop
+        for i in range(len(nums)):
+            # 3.1. init
+            left = i + 1
+            right = len(nums) - 1
 
-        if len(self.max_heap) >= len(self.min_heap) + 2:
-            heappush(self.min_heap, -heappop(self.max_heap))
-        elif len(self.max_heap) < len(self.min_heap):
-            heappush(self.max_heap, -heappop(self.min_heap))
+            # 3.2. loop
+            while left < right:
+                # 3.2.1. init
+                sum = nums[i] + nums[left] + nums[right]
+                diff = abs(sum - target)
 
-        return
+                # 3.2.2. update
+                if diff < min_diff:
+                    res = sum
+                    min_diff = diff
 
-    def findMedian(self) -> float:
-        if len(self.max_heap) == len(self.min_heap):
-            return (-self.max_heap[0] + self.min_heap[0]) / 2.0
+                # 3.2.3. update
+                if sum > target:
+                    right -= 1
+                elif sum < target:
+                    left += 1
+                else:
+                    return sum
 
-        return -float(self.max_heap[0])
+        return res
+
+nums = [-1,2,1,-4]
+target = 1
+
+# nums = [0,0,0]
+# target = 1
+sl = Solution()
+print(sl.threeSumClosest(nums, target))
