@@ -1,23 +1,14 @@
-class Solution:
-    def isStrictlyPalindromic(self, n: int) -> bool:
+from collections import defaultdict
 
-        # 1. decimal_to_base
-        def decimal_to_base(num, base):
-            res = ""
-            while num > 0:
-                res += str(num % base)
-                num //= base
-            return res
+class Solution:
+    def repeatedCharacter(self, s: str) -> str:
+        # 1. init
+        d = defaultdict(int)
 
         # 2. loop
-        for i in range(2, n-1):
-            base_str = str(decimal_to_base(n, i))
-            if base_str != base_str[::-1]:
-                return False
+        for c in s:
+            d[c] += 1
+            if d[c] >= 2:
+                return c
 
-        return True
-
-sl = Solution()
-n = 4
-n = 9
-print(sl.isStrictlyPalindromic(n))
+        return ''
