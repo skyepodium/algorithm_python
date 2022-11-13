@@ -1,28 +1,33 @@
-from collections import deque
+def solution(arrayA, arrayB):
+    # 1. init
+    a_gcd, b_gcd = arrayA[0], arrayB[0]
 
-n, m = map(int, input().split())
-v = [[] for _ in range(n+1)]
-ind = [0] * (n + 1)
-res = [1] * (n + 1)
+    # 2. gcd
+    def gcd(a, b):
+        return a if b == 0 else gcd(b, a % b)
 
-for _ in range(m):
-    s, e = map(int, input().split())
-    ind[e] += 1
-    v[s].append(e)
+    # 3. loop
+    for a, b in zip(arrayA, arrayB):
+        a_gcd, b_gcd = gcd(a_gcd, a), gcd(b_gcd, b)
 
-q = deque()
-for i in range(1, n+1):
-    if ind[i] == 0:
-        q.append(i)
+    # 4. check
+    for a, b in zip(arrayA, arrayB):
+        if a_gcd != 0 and b % a_gcd == 0:
+            a_gcd = 0
 
-while q:
-    node = q.popleft()
+        if b_gcd != 0 and a % b_gcd == 0:
+            b_gcd = 0
 
-    for n_node in v[node]:
-        ind[n_node] -= 1
-        res[n_node] = res[node] + 1
+    # 5. return
+    return max(a_gcd, b_gcd)
 
-        if ind[n_node] == 0:
-            q.append(n_node)
+arrayA = [10, 17]
+arrayB = [5, 20]
 
-print(" ".join([str(i) for i in res[1:]]))
+arrayA = [10, 20]
+arrayB = [5, 17]
+
+arrayA = [14, 35, 119]
+arrayB = [38, 30, 102]
+
+print(solution(arrayA, arrayB))
