@@ -1,27 +1,22 @@
-from collections import deque
-
-def solution(order):
+def solution(elements):
     # 1. init
-    res = 0
-    n = len(order)
-    s = []
-    order = deque(order)
+    s = set()
+    n = len(elements)
 
-    for i in range(n):
-        if i + 1 != order[0]:
-            s.append(i + 1)
-        else:
-            order.popleft()
-            res += 1
+    # 2. loop
+    for num in range(1, n+1):
+        for l in range(n):
+            r = l + num
+            if r > n:
+                cur = sum(elements[l:r] + elements[:r - n])
+            else:
+                cur = sum(elements[l:r])
 
-            while s and order and s[-1] == order[0]:
-                s.pop()
-                order.popleft()
-                res += 1
+            if not cur in s:
+                s.add(cur)
+        print()
 
-    return res
+    return len(s)
 
-order = [4, 3, 1, 2, 5]
-order = [5, 4, 3, 2, 1]
-
-print(solution(order))
+elements = [7,9,1,1,4]
+print(solution(elements))
