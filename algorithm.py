@@ -1,33 +1,27 @@
-def solution(arrayA, arrayB):
+from collections import deque
+
+def solution(order):
     # 1. init
-    a_gcd, b_gcd = arrayA[0], arrayB[0]
+    res = 0
+    n = len(order)
+    s = []
+    order = deque(order)
 
-    # 2. gcd
-    def gcd(a, b):
-        return a if b == 0 else gcd(b, a % b)
+    for i in range(n):
+        if i + 1 != order[0]:
+            s.append(i + 1)
+        else:
+            order.popleft()
+            res += 1
 
-    # 3. loop
-    for a, b in zip(arrayA, arrayB):
-        a_gcd, b_gcd = gcd(a_gcd, a), gcd(b_gcd, b)
+            while s and order and s[-1] == order[0]:
+                s.pop()
+                order.popleft()
+                res += 1
 
-    # 4. check
-    for a, b in zip(arrayA, arrayB):
-        if a_gcd != 0 and b % a_gcd == 0:
-            a_gcd = 0
+    return res
 
-        if b_gcd != 0 and a % b_gcd == 0:
-            b_gcd = 0
+order = [4, 3, 1, 2, 5]
+order = [5, 4, 3, 2, 1]
 
-    # 5. return
-    return max(a_gcd, b_gcd)
-
-arrayA = [10, 17]
-arrayB = [5, 20]
-
-arrayA = [10, 20]
-arrayB = [5, 17]
-
-arrayA = [14, 35, 119]
-arrayB = [38, 30, 102]
-
-print(solution(arrayA, arrayB))
+print(solution(order))
