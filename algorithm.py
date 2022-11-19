@@ -1,46 +1,59 @@
 from typing import List
-from collections import deque, defaultdict
 
 class Solution:
     def openLock(self, deadends: List[str], target: str) -> int:
         # 1. init
-        deadends = set(deadends)
-        check = defaultdict(int)
+        visited = set(deadends)
+        check = set()
 
-        # 2. bfs
-        def bfs(start_node):
-            q = deque()
-            q.append(start_node)
+        # 2. move_bit
+        def move_bit(node, idx, direction):
+            if direction == 1:
+                next_bit = (int(node[idx]) + 1) % 10
+            else:
+                next_bit = (int(node[idx]) - 1) % 10
+            if next_bit >= 10:
+                next_bit = 0
+            elif next_bit < 0:
+                next_bit = 9
+            return node[:idx] + str(next_bit) + node[idx+1:]
 
-            while q:
-                node = q.popleft()
 
-                if node in deadends:
-                    continue
+        # 3. bfs
+        def bfs(start_node, target_node):
+            q1 = set([start_node])
+            q2 = set([target_node])
+            step = 0
 
-                for idx, bit in enumerate(node):
-                    upbit = str((int(bit) + 1) % 10)
-                    if upbit == "10":
-                        upbit = "0"
-                    downbit = str((int(bit) - 1) % 10)
-                    if downbit == "0":
-                        downbit = "9"
-                    up_node = node[:idx] + upbit + node[idx + 1:]
-                    down_node = node[:idx] + downbit + node[idx + 1:]
+            while q1 and q2:
+                if len(q1) > len(q2):
+                    q1, q2 = q2, q1
 
-                    next_nodes = [up_node, down_node]
-                    for next_node in next_nodes:
-                        if next_node in deadends:
-                            continue
-                        if next_node in check:
-                            continue
+                temp = set()
 
-                        check[next_node] = check[node] + 1
-                        q.append(next_node)
+                for node in q1:
+                    if node in deadends:
+                        continue
 
-        bfs("0000")
+                    if node in q2:
+                        return step
 
-        return check[target] if target in check else -1
+                    visited.add(node)
+
+                    for i in range(4):
+                        for j in [-1, 1]:
+                            next_node = move_bit(node, i, j)
+                            if next_node in visited:
+                                continue
+                            temp.add(next_node)
+
+                q1 = q2
+                q2 = temp
+                step += 1
+
+            return -1
+
+        return bfs("0000", target)
 
 deadends = ["0201","0101","0102","1212","2002"]
 target = "0202"
@@ -51,6 +64,5 @@ target = "0009"
 deadends = ["8887","8889","8878","8898","8788","8988","7888","9888"]
 target = "8888"
 
-s = Solution()
-res = s.openLock(deadends, target)
-print('res', res)
+sl = Solution()
+print(sl.openLock(deadends, target))
