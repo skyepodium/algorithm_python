@@ -1,25 +1,23 @@
-from typing import List
-from collections import Counter
+n, x = map(int, input().split())
 
-class Solution:
-    def findAnagrams(self, s: str, p: str) -> List[int]:
-        # 1. init
-        n = len(p)
-        base = Counter(p)
-        c = Counter()
-        res = []
+nums = list(map(int, input().split()))
+res = 0
+l = 0
+sum_val = 0
+sum_val_count = 0
+for r, num in enumerate(nums):
+    sum_val += num
+    if r - l + 1 >= x:
+        if sum_val > res:
+            res = sum_val
+            sum_val_count = 1
+        elif sum_val != 0 and sum_val == res:
+            sum_val_count += 1
+        sum_val -= nums[l]
+        l += 1
 
-        # 2. loop
-        for i in range(len(s)):
-            # 1) cur
-            cur = s[i]
-
-            # 2) update
-            c[cur] += 1
-
-            if i >= n - 1:
-                if c == base:
-                    res.append(i - n + 1)
-                c[s[i-n+1]] -= 1
-
-        return res
+if res == 0:
+    print("SAD")
+else:
+    print(res)
+    print(sum_val_count)
