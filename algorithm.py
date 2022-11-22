@@ -1,44 +1,46 @@
-from heapq import heappop, heappush
-
-n = int(input())
-m = int(input())
-v = [[] for _ in range(n+1)]
-MAX_INT = int(1e12)
-d = [MAX_INT] * (n+1)
-path = [0] * (n+1)
-
-for _ in range(m):
-    s, e, c = map(int, input().split())
-    v[s].append((e, c))
-
-start_node, end_node = map(int, input().split())
-
-def dijkstra(start_node):
-    pq = []
-    d[start_node] = 0
-    pq.append((d[start_node], start_node))
-
-    while pq:
-        cost, node = heappop(pq)
-        if cost > d[node]:
-            continue
-
-        for next_node, next_cost in v[node]:
-            if d[next_node] > d[node] + next_cost:
-                d[next_node] = d[node] + next_cost
-                path[next_node] = node
-                heappush(pq, (d[next_node], next_node))
+from typing import List
 
 
-path[start_node] = start_node
-dijkstra(start_node)
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        # 0. sort
+        nums.sort()
 
-print(d[end_node])
+        # 1. init
+        n = len(nums)
+        res = []
+        st = set()
 
-st = []
-while path[end_node] != end_node:
-    st.append(end_node)
-    end_node = path[end_node]
-st.append(start_node)
-print(len(st))
-print(*st[::-1])
+        for i in range(n - 3):
+            for j in range(i+1, n-2):
+
+                l = j + 1
+                r = n - 1
+                while l < r:
+                    s = nums[i] + nums[j] + nums[l] + nums[r]
+                    if s == target:
+                        cur = [nums[i], nums[j], nums[l], nums[r]]
+                        key = "".join([str(x) for x in cur])
+                        if key not in st:
+                            res.append(cur)
+                            st.add(key)
+                        while l < r and nums[l] == nums[l+1]: l += 1
+                        while l < r and nums[r] == nums[r-1]: r -= 1
+
+                        l += 1
+                        r -= 1
+                    elif s < target:
+                        l += 1
+                    else:
+                        r -= 1
+
+        return res
+
+nums = [1,0,-1,0,-2,2]
+target = 0
+
+nums = [2,2,2,2,2]
+target = 8
+
+sl = Solution()
+print(sl.fourSum(nums, target))
