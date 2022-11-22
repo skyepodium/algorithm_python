@@ -1,33 +1,27 @@
 from typing import Optional
-from collections import deque
-# Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
 
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
 class Solution:
-    def minDepth(self, root: Optional[TreeNode]) -> int:
-        # 0. exception
-        if not root:
-            return 0
-
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
         # 1. init
-        q = deque()
-        q.append((root, 1))
+        fast = slow = head
 
-        # 2. BFS
-        while q:
-            node, step = q.popleft()
+        # 2. runner
+        while fast and fast.next:
+            slow, fast = slow.next, fast.next.next
 
-            l = node.left
-            r = node.right
-            if not l and not r:
-                return step
+            if slow == fast:
+                break
 
-            for next_node in [l, r]:
-                if not next_node: continue
-                q.append((next_node, step + 1))
+        if not fast or not fast.next:
+            return None
 
-        return 0
+        # 3. move
+        fast = head
+        while fast != slow:
+            fast, slow = fast.next, slow.next
+
+        return fast
