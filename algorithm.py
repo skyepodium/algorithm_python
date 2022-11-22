@@ -1,17 +1,34 @@
-from collections import defaultdict
+from typing import Optional
 
-n, q = map(int, input().split())
 
-d = defaultdict(set)
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
-for _ in range(q):
-    c, s, e = map(int, input().split())
-    if c == 1:
-        d[s].add(e)
-    elif c == 2:
-        if e in d[s]:
-            d[s].remove(e)
-    else:
-        res1 = True if e in d[s] else False
-        res2 = True if s in d[e] else False
-        print('Yes' if res1 and res2 else 'No')
+
+class Solution:
+    def __init__(self):
+        self.res = int(-1e9)
+
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        # 1. dfs
+        def dfs(node):
+            # 1) exception
+            if not node:
+                return 0
+
+            # 2) recursion
+            l = max(0, dfs(node.left))
+            r = max(0, dfs(node.right))
+
+            # 3) update
+            self.res = max(self.res, l + r + node.val)
+
+            # 4) return
+            return max(l, r) + node.val
+
+        dfs(root)
+        return self.res
+
