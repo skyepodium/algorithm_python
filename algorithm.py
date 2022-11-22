@@ -1,30 +1,45 @@
-def solution(n):
-    check = [False] * n
-    res = [0]
-    st = []
+from typing import List
 
-    def can_put(i, j):
-        for x, y in st:
-            if abs(i-x) == abs(j-y):
-                return False
-        return True
 
-    def dfs(idx):
-        if idx >= n:
-            res[0] += 1
-            return
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        # 1. init
+        check = [False] * (n + 1)
+        st = []
+        res = []
 
-        for i in range(n):
-            if not check[i] and can_put(idx, i):
-                check[i] = True
-                st.append((idx, i))
-                dfs(idx + 1)
-                check[i] = False
-                st.pop()
+        # 2. valid
+        def valid(i, j):
+            for x, y in st:
+                if abs(i - x) == abs(j - y):
+                    return False
+            return True
 
-    dfs(0)
-    return res[0]
+        # 3. DFS
+        def dfs(i):
+            if i >= n:
+                temp = []
+                for x, y in st:
+                    cur = ['.'] * n
+                    cur[y] = 'Q'
+                    temp.append("".join(cur))
+                res.append(temp)
+                return
 
+            for j in range(n):
+                if not check[j] and valid(i, j):
+                    st.append((i, j))
+                    check[j] = True
+                    dfs(i + 1)
+                    st.pop()
+                    check[j] = False
+
+        dfs(0)
+
+        return res
+
+sl = Solution()
 n = 4
-res = solution(n)
+# n = 1
+res = sl.solveNQueens(n)
 print('res', res)
