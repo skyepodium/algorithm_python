@@ -2,11 +2,11 @@ from typing import List
 
 
 class Solution:
-    def solveNQueens(self, n: int) -> List[List[str]]:
+    def totalNQueens(self, n: int) -> List[List[str]]:
         # 1. init
         check = [False] * (n + 1)
         st = []
-        res = []
+        res = [0]
 
         # 2. valid
         def valid(i, j):
@@ -18,12 +18,7 @@ class Solution:
         # 3. DFS
         def dfs(i):
             if i >= n:
-                temp = []
-                for x, y in st:
-                    cur = ['.'] * n
-                    cur[y] = 'Q'
-                    temp.append("".join(cur))
-                res.append(temp)
+                res[0] += 1
                 return
 
             for j in range(n):
@@ -36,7 +31,7 @@ class Solution:
 
         dfs(0)
 
-        return res
+        return res[0]
 
 sl = Solution()
 n = 4
