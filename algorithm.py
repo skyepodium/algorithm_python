@@ -1,27 +1,30 @@
-class Solution:
-    def numSquares(self, n: int) -> int:
-        # 1. init
-        squares = set()
-        d = [n] * (n + 1)
+def solution(n):
+    check = [False] * n
+    res = [0]
+    st = []
 
-        # 2. loop
-        for i in range(1, n+1):
-            if int(i ** 0.5) ** 2 == i:
-                squares.add(i)
-                d[i] = 1
+    def can_put(i, j):
+        for x, y in st:
+            if abs(i-x) == abs(j-y):
+                return False
+        return True
 
-        # 3. bottom-up
-        for i in range(1, n+1):
-            for square in squares:
-                diff = i - square
-                if diff < 0:
-                    continue
-                d[i] = min(d[i], d[diff] + 1)
+    def dfs(idx):
+        if idx >= n:
+            res[0] += 1
+            return
 
-        return d[n]
+        for i in range(n):
+            if not check[i] and can_put(idx, i):
+                check[i] = True
+                st.append((idx, i))
+                dfs(idx + 1)
+                check[i] = False
+                st.pop()
 
-sl = Solution()
-n = 12
-n = 13
-res = sl.numSquares(n)
+    dfs(0)
+    return res[0]
+
+n = 4
+res = solution(n)
 print('res', res)
