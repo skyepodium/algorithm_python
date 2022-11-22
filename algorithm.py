@@ -1,27 +1,25 @@
-from typing import Optional
+from typing import List
+from collections import Counter
 
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
 class Solution:
-    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
         # 1. init
-        fast = slow = head
+        n = len(p)
+        base = Counter(p)
+        c = Counter()
+        res = []
 
-        # 2. runner
-        while fast and fast.next:
-            slow, fast = slow.next, fast.next.next
+        # 2. loop
+        for i in range(len(s)):
+            # 1) cur
+            cur = s[i]
 
-            if slow == fast:
-                break
+            # 2) update
+            c[cur] += 1
 
-        if not fast or not fast.next:
-            return None
+            if i >= n - 1:
+                if c == base:
+                    res.append(i - n + 1)
+                c[s[i-n+1]] -= 1
 
-        # 3. move
-        fast = head
-        while fast != slow:
-            fast, slow = fast.next, slow.next
-
-        return fast
+        return res
