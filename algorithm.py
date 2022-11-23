@@ -2,24 +2,74 @@ from typing import List
 
 
 class Solution:
-    def validUtf8(self, data: List[int]) -> bool:
-        def check(start_idx, size):
-            for i in range(start_idx + 1, start_idx + size + 1):
-                if i >= len(data) or (data[i] >> 6) != 0b10:
-                    return False
-            return True
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
 
-        start = 0
-        while start < len(data):
-            first = data[start]
-            if first >> 3 == 0b11110 and check(start, 3):
-                start += 4
-            elif first >> 4 == 0b1110 and check(start, 2):
-                start += 3
-            elif first >> 5 == 0b110 and check(start, 1):
-                start += 2
-            elif first >> 7 == 0:
-                start += 1
-            else:
-                return False
+        for i in range(0, 9, 3):
+            for j in range(0, 9, 3):
+                s = set()
+                for x in range(i, i+3):
+                    for y in range(j, j+3):
+                        cur = board[x][y]
+                        if cur == '.': continue
+                        if cur in s:
+                            return False
+                        else:
+                            s.add(cur)
+
+        for b in board:
+            t = [num for num in b if num != '.']
+            s = set()
+            for num in t:
+                if num in s:
+                    return False
+                else:
+                    s.add(num)
+
+        for j in range(0, 9):
+            s = set()
+            for i in range(0, 9):
+                num = board[i][j]
+                if num == '.': continue
+                if num in s:
+                    return False
+                else:
+                    s.add(num)
+
         return True
+
+
+
+sl = Solution()
+board = [["5","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+
+board = [["8","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+
+board = [[".",".","4",".",".",".","6","3","."]
+        ,[".",".",".",".",".",".",".",".","."]
+        ,["5",".",".",".",".",".",".","9","."]
+        ,[".",".",".","5","6",".",".",".","."]
+        ,["4",".","3",".",".",".",".",".","1"]
+        ,[".",".",".","7",".",".",".",".","."]
+        ,[".",".",".","5",".",".",".",".","."]
+        ,[".",".",".",".",".",".",".",".","."]
+        ,[".",".",".",".",".",".",".",".","."]]
+
+res = sl.isValidSudoku(board)
+
+print('res', res)
