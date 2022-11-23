@@ -1,16 +1,17 @@
-t = int(input())
+from typing import List
+from collections import Counter
 
-for _ in range(t):
-    n = int(input())
-    nums = list(map(int, input().split()))
+class Solution:
+    def majorityElement(self, nums: List[int]) -> List[int]:
+        # 1. init
+        cnt = Counter(nums)
+        base = len(nums) / 3
+        res = []
 
-    s = sorted(nums)
-    first_max, second_max = s[-1], s[-2]
+        # 2. loop
+        for num, c in cnt.items():
+            if c > base:
+                res.append(num)
 
-    res = []
-    for num in nums:
-        if num != first_max:
-            res.append(num - first_max)
-        else:
-            res.append(num - second_max)
-    print(*res)
+        return sorted(res)
+
