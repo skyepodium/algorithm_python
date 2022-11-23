@@ -1,46 +1,51 @@
-from typing import List
-
+from collections import Counter
 
 class Solution:
-    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
-        # 0. sort
-        nums.sort()
+    def minWindow(self, s: str, t: str) -> str:
+        # 0. exception
+        if len(s) < len(t):
+            return ""
 
         # 1. init
-        n = len(nums)
-        res = []
-        st = set()
+        base = Counter(t)
+        min_length = len(s) + 1
+        res = ""
 
-        for i in range(n - 3):
-            for j in range(i+1, n-2):
+        # 2. loop
+        cur = Counter()
+        l = 0
+        for r, c in enumerate(s):
+            cur[c] += 1
+            while len(base - cur) == 0:
+                diff = r - l + 1
+                if min_length > diff:
+                    min_length = diff
+                    res = s[l:r+1]
 
-                l = j + 1
-                r = n - 1
-                while l < r:
-                    s = nums[i] + nums[j] + nums[l] + nums[r]
-                    if s == target:
-                        cur = [nums[i], nums[j], nums[l], nums[r]]
-                        key = "".join([str(x) for x in cur])
-                        if key not in st:
-                            res.append(cur)
-                            st.add(key)
-                        while l < r and nums[l] == nums[l+1]: l += 1
-                        while l < r and nums[r] == nums[r-1]: r -= 1
-
-                        l += 1
-                        r -= 1
-                    elif s < target:
-                        l += 1
-                    else:
-                        r -= 1
+                if cur[s[l]] > 0:
+                    cur[s[l]] -= 1
+                l += 1
 
         return res
 
-nums = [1,0,-1,0,-2,2]
-target = 0
+s = "ADOBECODEBANC"
+t = "ABC"
 
-nums = [2,2,2,2,2]
-target = 8
+s = "a"
+t = "a"
+
+s = "a"
+t = "aa"
+#
+s = "a"
+t = "b"
+#
+s = "ab"
+t = "A"
+
+s = "abc"
+t = "cba"
 
 sl = Solution()
-print(sl.fourSum(nums, target))
+res = sl.minWindow(s, t)
+print('res', res)
