@@ -1,12 +1,20 @@
 from typing import List
-
+from heapq import heappop, heappush
 
 class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        res = 0
+    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
+        # 1. init
+        pq = []
+        res = []
 
-        for i in range(len(prices) - 1):
-            if prices[i+1] > prices[i]:
-                res += prices[i+1] - prices[i]
+        # 2. make max heap
+        for h, k in people:
+            heappush(pq, (-h, k))
+
+        # 3. insert
+        while pq:
+            h, k = heappop(pq)
+            res.insert(k, [-h, k])
 
         return res
+
