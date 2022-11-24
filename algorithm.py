@@ -1,4 +1,12 @@
-n, k = map(int, input().split())
-scores = list(map(int, input().split()))
-scores.sort(reverse=True)
-print(scores[k-1])
+from collections import deque
+
+n = int(input())
+q = deque([num for num in range(1, n+1)])
+
+res = []
+while q:
+    res.append(q.popleft())
+    if q:
+        q.append(q.popleft())
+
+print(*res)
