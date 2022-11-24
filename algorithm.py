@@ -1,19 +1,56 @@
 from typing import List
 
-
 class Solution:
-    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+
         # 1. init
-        l, r = 0, len(numbers) - 1
+        n, m = len(board), len(board[0])
+        check = [[False for _ in range(m)] for _ in range(n)]
+        start_nodes = []
+        d = [(0, -1), (0, 1), (1, 0), (-1, 0)]
+        self.is_exist = False
 
-        # 2. two pointer
-        while l <= r:
-            sum_val = numbers[l] + numbers[r]
-            if sum_val < target:
-                l += 1
-            elif sum_val > target:
-                r -= 1
-            else:
-                return [l + 1, r + 1]
+        # 2. start_nodes
+        for i in range(n):
+            for j in range(m):
+                if board[i][j] == word[0]:
+                    start_nodes.append((i, j))
 
-        return [-1, -1]
+        # 3. DFS
+        def dfs(x, y, cnt, s):
+            if cnt >= len(word):
+                if s == word:
+                    self.is_exist = True
+                return
+
+            for dx, dy in d:
+                nx, ny = x + dx, y + dy
+                if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                    continue
+                if not check[nx][ny] and board[nx][ny] == word[cnt]:
+                    check[nx][ny] = True
+                    dfs(nx, ny, cnt + 1, s + board[nx][ny])
+                    check[nx][ny] = False
+
+        # 4. loop
+        for x, y in start_nodes:
+            check[x][y] = True
+            dfs(x, y, 1, f"{board[x][y]}")
+            if self.is_exist:
+                return True
+            check[x][y] = False
+
+        return False
+
+board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]
+word = "ABCCED"
+
+board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]
+word = "SEE"
+
+board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]]
+word = "ABCB"
+
+sl = Solution()
+res = sl.exist(board, word)
+print('res', res)
