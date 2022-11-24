@@ -1,9 +1,12 @@
-n = int(input())
-a = list(map(int, input().split()))
+b = input()
 
-res = 0
-for i in range(len(a)-1):
-    for j in range(i+1, len(a)):
-        res += abs(a[i] - a[j])
+while len(b) % 3 != 0:
+    b = "0" + b
 
-print(res * 2)
+
+res = ""
+for i in range(0, len(b), 3):
+    cur = b[i:i+3]
+    res += str(int(cur, 2))
+
+print(res)
