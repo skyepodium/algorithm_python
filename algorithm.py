@@ -1,28 +1,11 @@
 n = int(input())
+a = input()
+b = input()
 
-MAX_VAL = -1
-res = -1
-s = []
-a = []
+if n % 2 == 1:
+    a = a.replace('1', '2').replace('0', '1').replace('2', '0')
 
-def dfs(idx, i):
-    if idx >= 5:
-        if len(s) == 3:
-            val = sum(s) % 10
-            global MAX_VAL, res
-            if val >= MAX_VAL:
-                MAX_VAL = val
-                res = i
-        return
-
-    s.append(a[idx])
-    dfs(idx + 1, i)
-    s.pop()
-
-    dfs(idx + 1, i)
-
-for i in range(1, n+1):
-    a = list(map(int, input().split()))
-    dfs(0, i)
-
-print(res)
+if a == b:
+    print('Deletion succeeded')
+else:
+    print('Deletion failed')
