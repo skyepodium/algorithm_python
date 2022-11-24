@@ -1,12 +1,28 @@
-from collections import deque
-
 n = int(input())
-q = deque([num for num in range(1, n+1)])
 
-res = []
-while q:
-    res.append(q.popleft())
-    if q:
-        q.append(q.popleft())
+MAX_VAL = -1
+res = -1
+s = []
+a = []
 
-print(*res)
+def dfs(idx, i):
+    if idx >= 5:
+        if len(s) == 3:
+            val = sum(s) % 10
+            global MAX_VAL, res
+            if val >= MAX_VAL:
+                MAX_VAL = val
+                res = i
+        return
+
+    s.append(a[idx])
+    dfs(idx + 1, i)
+    s.pop()
+
+    dfs(idx + 1, i)
+
+for i in range(1, n+1):
+    a = list(map(int, input().split()))
+    dfs(0, i)
+
+print(res)
