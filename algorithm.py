@@ -1,7 +1,10 @@
 while True:
-    s = input()
-    if s[0] == "#":
+    n = int(input())
+    if n == 0:
         break
 
-    c, s = s[0], s[2:]
-    print(f"{c} {s.lower().count(c)}")
+    while True:
+        n = sum([int(x) for x in list(str(n))])
+        if n < 10:
+            print(n)
+            break
