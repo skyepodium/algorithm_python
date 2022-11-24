@@ -1,31 +1,41 @@
-from collections import deque
+from heapq import heappush, heappop
 
-start_node = input()
-end_node = input()
+n, m, k = map(int, input().split())
 
-visited = set()
-n = len(end_node)
+v = [[] for _ in range(n+1)]
+MAX_INT = int(1e12)
+d = [[MAX_INT for _ in range(k+1)] for _ in range(n+1)]
 
-def bfs(start):
-    q = deque()
-    q.append(start)
-    visited.add(start)
+for _ in range(m):
+    s, e, c = map(int, input().split())
+    v[s].append((e, c))
+    v[e].append((s, c))
 
-    while q:
-        node = q.popleft()
 
-        next_nodes = []
-        if node[-1] == "A":
-            next_nodes.append(node[:len(node)-1])
-        if node[0] == "B":
-            next_nodes.append(node[1:][::-1])
+def dijkstra(start_node):
+    pq = []
+    d[start_node][k] = 0
+    heappush(pq, (d[start_node][k], start_node, k))
 
-        for next_node in next_nodes:
-            if len(next_node) <= 0: continue
-            if not next_node in visited:
-                visited.add(next_node)
-                q.append(next_node)
+    while pq:
+        cost, node, cnt = heappop(pq)
 
-bfs(end_node)
+        if d[node][cnt] < cost:
+            continue
 
-print(1 if start_node in visited else 0)
+        for next_node, next_cost in v[node]:
+            # 1. not use
+            if d[next_node][cnt] > d[node][cnt] + next_cost:
+                d[next_node][cnt] = d[node][cnt] + next_cost
+                heappush(pq, (d[next_node][cnt], next_node, cnt))
+
+            # 2. use
+            if cnt > 0:
+                if d[next_node][cnt-1] > d[node][cnt]:
+                    d[next_node][cnt-1] = d[node][cnt]
+                    heappush(pq, (d[next_node][cnt-1], next_node, cnt-1))
+
+
+dijkstra(1)
+
+print(min(d[n]))
