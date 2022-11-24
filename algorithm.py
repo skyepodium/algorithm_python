@@ -1,10 +1,9 @@
-while True:
-    n = int(input())
-    if n == 0:
-        break
+n = int(input())
+a = list(map(int, input().split()))
 
-    while True:
-        n = sum([int(x) for x in list(str(n))])
-        if n < 10:
-            print(n)
-            break
+res = 0
+for i in range(len(a)-1):
+    for j in range(i+1, len(a)):
+        res += abs(a[i] - a[j])
+
+print(res * 2)
