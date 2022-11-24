@@ -1,41 +1,78 @@
 from heapq import heappush, heappop
+from collections import deque
 
-n, m, k = map(int, input().split())
-
-v = [[] for _ in range(n+1)]
+MAX_N = 501
 MAX_INT = int(1e12)
-d = [[MAX_INT for _ in range(k+1)] for _ in range(n+1)]
 
-for _ in range(m):
-    s, e, c = map(int, input().split())
-    v[s].append((e, c))
-    v[e].append((s, c))
+d = [MAX_INT] * MAX_N
+p = [[0 for _ in range(MAX_N)] for _ in range(MAX_N)]
+path = [[] for _ in range(MAX_N)]
 
 
-def dijkstra(start_node):
+def dijkstra(start_node, n):
+    d[start_node] = 0
     pq = []
-    d[start_node][k] = 0
-    heappush(pq, (d[start_node][k], start_node, k))
+    heappush(pq, (d[start_node], start_node))
 
     while pq:
-        cost, node, cnt = heappop(pq)
+        cost, node = heappop(pq)
 
-        if d[node][cnt] < cost:
+        if d[node] < cost:
             continue
 
-        for next_node, next_cost in v[node]:
-            # 1. not use
-            if d[next_node][cnt] > d[node][cnt] + next_cost:
-                d[next_node][cnt] = d[node][cnt] + next_cost
-                heappush(pq, (d[next_node][cnt], next_node, cnt))
+        for next_node in range(n):
+            if next_node == node: continue
+            next_cost = p[node][next_node]
+            if next_cost == 0: continue
 
-            # 2. use
-            if cnt > 0:
-                if d[next_node][cnt-1] > d[node][cnt]:
-                    d[next_node][cnt-1] = d[node][cnt]
-                    heappush(pq, (d[next_node][cnt-1], next_node, cnt-1))
+            if d[next_node] > d[node] + next_cost:
+                path[next_node].clear()
+                path[next_node].append(node)
+                d[next_node] = d[node] + next_cost
+                heappush(pq, (d[next_node], next_node))
+            elif d[next_node] == d[node] + next_cost:
+                path[next_node].append(node)
 
 
-dijkstra(1)
+def remove_path(end_node):
+    q = deque()
+    q.append(end_node)
 
-print(min(d[n]))
+    while q:
+        end_node = q.popleft()
+
+        for start_node in path[end_node]:
+            if p[start_node][end_node] > 0:
+                p[start_node][end_node] = 0
+                q.append(start_node)
+
+
+while True:
+    # 1. input
+    n, m = map(int, input().split())
+    if n == 0 and m == 0: break
+
+    # 2. init
+    for i in range(n):
+        d[i] = MAX_INT
+        path[i].clear()
+        for j in range(n):
+            p[i][j] = 0
+
+    # 3. make graph
+    start_node, end_node = map(int, input().split())
+    for _ in range(m):
+        s, e, c = map(int, input().split())
+        p[s][e] = c
+
+    dijkstra(start_node, n)
+
+    remove_path(end_node)
+
+    for i in range(n):
+        d[i] = MAX_INT
+        path[i].clear()
+
+    dijkstra(start_node, n)
+
+    print(d[end_node] if d[end_node] != MAX_INT else -1)
