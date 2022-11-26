@@ -1,20 +1,16 @@
-t = int(input())
+n = int(input())
 
-res = 0
-for i in range(t):
-    s = input()
-    st = []
+d = {}
 
-    for c in s:
-        if not st:
-            st.append(c)
-        else:
-            if st[-1] == c:
-                st.pop()
-            else:
-                st.append(c)
+for i in range(1, n + 1):
+    num = i
+    sum_val = num
+    while num > 0:
+        sum_val += num % 10
+        num //= 10
+    if sum_val not in d:
+        d[sum_val] = i
+        if sum_val == n:
+            break
 
-    if not st:
-        res += 1
-
-print(res)
+print(d[n] if n in d else 0)
