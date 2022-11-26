@@ -1,26 +1,27 @@
-from collections import Counter
+def solution(ability):
+    # 1. init
+    n = len(ability)
+    m = len(ability[0])
+    check = [False] * (n)
+    res = [0]
 
-def solution(input_string):
-    res = ""
-    base = Counter(input_string)
+    # 2. dfs
+    def dfs(idx, power):
+        if idx >= m:
+            res[0] = max(res[0], power)
+            return
 
-    for char, cnt in base.items():
-        if cnt == 1:
-            continue
+        for i in range(n):
+            if not check[i]:
+                check[i] = True
+                dfs(idx + 1, power + ability[i][idx])
+                check[i] = False
 
-        first_idx, last_idx = len(input_string) - 1, 0
-        for idx, val in enumerate(input_string):
-            if val == char:
-                first_idx = min(first_idx, idx)
-                last_idx = max(last_idx, idx)
-        if cnt < last_idx - first_idx + 1:
-            res += char
+    dfs(0, 0)
 
-    return "".join(sorted(res)) if len(res) > 0 else "N"
+    # 3. return
+    return res[0]
 
-s = "edeaaabbccd"
-s = "eeddee"
-s = "string"
-s = "zbzbz"
-res = solution(s)
-print('res', res)
+ability = [[40, 10, 10], [20, 5, 0], [30, 30, 30], [70, 0, 70], [100, 100, 100]]
+# ability = [[20, 30], [30, 20], [20, 30]]
+print(solution(ability))
