@@ -1,12 +1,20 @@
-n = int(input())
+t = int(input())
 
-i = 666
-cnt = 0
-while True:
-    if "666" in str(i):
-        cnt += 1
-    if cnt >= n:
-        break
-    i += 1
+res = 0
+for i in range(t):
+    s = input()
+    st = []
 
-print(i)
+    for c in s:
+        if not st:
+            st.append(c)
+        else:
+            if st[-1] == c:
+                st.pop()
+            else:
+                st.append(c)
+
+    if not st:
+        res += 1
+
+print(res)
