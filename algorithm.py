@@ -1,11 +1,19 @@
-n = int(input())
+from typing import List
 
-a = []
-for _ in range(n):
-    t = list(map(int, input().split()))
-    a.append(t)
 
-a.sort(key=lambda x: (x[0], x[1], x[2]))
+class Solution:
+    def arrayRankTransform(self, arr: List[int]) -> List[int]:
+        a = sorted(list(set(arr)))
 
-for i in range(n):
-    print(*a[i])
+        d = {}
+        for idx, val in enumerate(a):
+            d[val] = idx + 1
+
+        return [d[num] for num in arr]
+
+sl = Solution()
+arr = [40,10,20,30]
+arr = [100,100,100]
+arr = [37,12,28,9,100,56,80,5,12]
+res = sl.arrayRankTransform(arr)
+print('res', res)
