@@ -1,16 +1,47 @@
 n = int(input())
+s = input().split(" ")
 
-d = {}
+check = [False] * (11)
+st = []
+val_list = [-int(1e10), int(1e10)]
+res_list = ['', '']
 
-for i in range(1, n + 1):
-    num = i
-    sum_val = num
-    while num > 0:
-        sum_val += num % 10
-        num //= 10
-    if sum_val not in d:
-        d[sum_val] = i
-        if sum_val == n:
-            break
+def dfs(idx: int) -> None:
+    if idx > n:
 
-print(d[n] if n in d else 0)
+        for i, c in enumerate(s):
+            if c == '<' and st[i] > st[i+1]:
+                return
+            if c == '>' and st[i] < st[i+1]:
+                return
+        base = 0
+        for num in st:
+            base = base * 10 + num
+        if base > val_list[0]:
+            val_list[0] = base
+            res_list[0] = ''.join(map(str, st))
+        if base < val_list[1]:
+            val_list[1] = base
+            res_list[1] = ''.join(map(str, st))
+        return
+
+    for i in range(10):
+        if not check[i]:
+            if st:
+                if s[idx-1] == "<":
+                    if st[-1] > i:
+                        continue
+                else:
+                    if st[-1] < i:
+                        continue
+
+            check[i] = True
+            st.append(i)
+            dfs(idx + 1)
+            st.pop()
+            check[i] = False
+
+dfs(0)
+
+print(res_list[0])
+print(res_list[1])
