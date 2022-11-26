@@ -1,19 +1,22 @@
-from typing import List
-
-
 class Solution:
-    def arrayRankTransform(self, arr: List[int]) -> List[int]:
-        a = sorted(list(set(arr)))
+    def tribonacci(self, n: int) -> int:
+        d = [0] * (n+1)
 
-        d = {}
-        for idx, val in enumerate(a):
-            d[val] = idx + 1
+        def go(n):
+            if n == 0:
+                return 0
 
-        return [d[num] for num in arr]
+            if n == 1 or n == 2:
+                return 1
+
+            if d[n] > 0:
+                return d[n]
+
+            d[n] = go(n - 1) + go(n - 2) + go(n - 3)
+            return d[n]
+
+        return go(n)
 
 sl = Solution()
-arr = [40,10,20,30]
-arr = [100,100,100]
-arr = [37,12,28,9,100,56,80,5,12]
-res = sl.arrayRankTransform(arr)
-print('res', res)
+n = 25
+print(sl.tribonacci(n))
