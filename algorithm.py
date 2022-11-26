@@ -1,36 +1,26 @@
-from typing import List
+from collections import Counter
 
+def solution(input_string):
+    res = ""
+    base = Counter(input_string)
 
-class Solution:
-    def subarrayLCM(self, nums: List[int], k: int) -> int:
-        # 1. init
-        n = len(nums)
-        res = 0
+    for char, cnt in base.items():
+        if cnt == 1:
+            continue
 
-        def gcd(a, b):
-            if b == 0:
-                return a
-            else:
-                return gcd(b, a%b)
+        first_idx, last_idx = len(input_string) - 1, 0
+        for idx, val in enumerate(input_string):
+            if val == char:
+                first_idx = min(first_idx, idx)
+                last_idx = max(last_idx, idx)
+        if cnt < last_idx - first_idx + 1:
+            res += char
 
-        def lcm(a, b):
-            return (a * b) // gcd(a, b)
+    return "".join(sorted(res)) if len(res) > 0 else "N"
 
-        for i in range(n):
-            l = nums[i]
-            for j in range(i, n):
-                l = lcm(l, nums[j])
-                if l == k:
-                    res += 1
-                if l > k:
-                    break
-
-        return res
-
-sl = Solution()
-nums = [3,6,2,7,1]
-k = 6
-nums = [3]
-k = 2
-res = sl.subarrayLCM(nums, k)
+s = "edeaaabbccd"
+s = "eeddee"
+s = "string"
+s = "zbzbz"
+res = solution(s)
 print('res', res)

@@ -25,6 +25,7 @@
         <list>
           <option value="_bisect.bisect_right.bisect_left" />
           <option value="_bisect.bisect_right.bisect_right" />
+          <option value="str.decode" />
         </list>
       </option>
     </inspection_tool>
