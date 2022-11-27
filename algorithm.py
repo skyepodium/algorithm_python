@@ -1,22 +1,36 @@
+from typing import List
+from collections import defaultdict
+
 class Solution:
-    def tribonacci(self, n: int) -> int:
-        d = [0] * (n+1)
+    def countSubarrays(self, nums: List[int], k: int) -> int:
+        # 1. init
+        d = defaultdict(int)
+        d[0] = 1
+        res = 0
+        sum = 0
+        found = False
 
-        def go(n):
-            if n == 0:
-                return 0
+        # 2. loop
+        for num in nums:
+            if num < k:
+                sum -= 1
+            elif num > k:
+                sum += 1
+            else:
+                found = True
+            if found:
+                res += d[sum] + d[sum - 1]
+            else:
+                d[sum] += 1
 
-            if n == 1 or n == 2:
-                return 1
+        return res
 
-            if d[n] > 0:
-                return d[n]
+nums = [3,2,1,4,5]
+k = 4
 
-            d[n] = go(n - 1) + go(n - 2) + go(n - 3)
-            return d[n]
-
-        return go(n)
+nums = [2,3,1]
+k = 3
 
 sl = Solution()
-n = 25
-print(sl.tribonacci(n))
+res = sl.countSubarrays(nums, k)
+print('res', res)
