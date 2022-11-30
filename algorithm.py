@@ -1,31 +1,16 @@
 from typing import List
-
+from collections import Counter
 
 class Solution:
-    def minDeletionSize(self, strs: List[str]) -> int:
-        # 1. init
-        n = len(strs)
-        m = len(strs[0])
-        res = 0
+    def uniqueOccurrences(self, arr: List[int]) -> bool:
+        base = Counter(arr)
 
-        # 2. loop
-        for j in range(m):
-            prev = "a"
-            is_sorted = True
-            for i in range(n):
-                if prev <= strs[i][j]:
-                    prev = strs[i][j]
-                else:
-                    is_sorted = False
-                    break
-            if not is_sorted:
-                res += 1
-
-        return res
+        return len(base) == len(set([cnt for cnt in base.values()]))
 
 sl = Solution()
-strs = ["cba","daf","ghi"]
-strs = ["a","b"]
-strs = ["zyx","wvu","tsr"]
-res = sl.minDeletionSize(strs)
+arr = [1,2,2,1,1,3]
+arr = [1,2]
+arr = [-3,0,1,-3,1,1,1,-3,10,0]
+res = sl.uniqueOccurrences(arr)
+
 print('res', res)
