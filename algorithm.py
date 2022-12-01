@@ -1,16 +1,14 @@
-from typing import List
-from collections import Counter
-
 class Solution:
-    def uniqueOccurrences(self, arr: List[int]) -> bool:
-        base = Counter(arr)
+    def halvesAreAlike(self, s: str) -> bool:
 
-        return len(base) == len(set([cnt for cnt in base.values()]))
+        def count_vowel(s: str) -> int:
+            vowel_set = set(list('aeiou'))
+            cnt = 0
 
-sl = Solution()
-arr = [1,2,2,1,1,3]
-arr = [1,2]
-arr = [-3,0,1,-3,1,1,1,-3,10,0]
-res = sl.uniqueOccurrences(arr)
+            for c in s.lower():
+                if c in vowel_set:
+                    cnt += 1
 
-print('res', res)
+            return cnt
+
+        return count_vowel(s[:len(s) // 2]) == count_vowel(s[len(s) // 2:])
