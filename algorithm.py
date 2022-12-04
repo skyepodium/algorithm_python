@@ -1,12 +1,13 @@
 class Solution:
-    def decompressRLElist(self, nums: List[int]) -> List[int]:
+    def isCircularSentence(self, sentence: str) -> bool:
         # 1. init
-        res = []
+        s = sentence.split(" ")
 
         # 2. loop
-        for i in range(0, len(nums), 2):
-            freq, num = nums[i], nums[i + 1]
-            for _ in range(freq):
-                res.append(num)
+        prev = s[-1]
+        for c in s:
+            if prev[-1] != c[0]:
+                return False
+            prev = c
 
-        return res
+        return True
