@@ -1,35 +1,36 @@
 from typing import List
+from collections import Counter
 
 
 class Solution:
-    def minimumAverageDifference(self, nums: List[int]) -> int:
+    def bestHand(self, ranks: List[int], suits: List[str]) -> str:
         # 1. init
-        n = len(nums)
-        d = [0] * (n+1)
-        d[0] = nums[0]
-        min_average_diff = int(1e10)
-        min_idx = 0
+        c = Counter(suits)
+        r = Counter(ranks)
 
-        # 2. cumulative sum
-        for i in range(1, n):
-            d[i] = d[i-1] + nums[i]
+        if len(c) == 1:
+            return "Flush"
 
-        # 3. update
-        for i in range(n):
-            l = d[i] // (i+1)
-            r = (d[n-1] - d[i]) // (n-i-1) if i < n-1 else 0
+        for key, cnt in r.items():
+            if cnt >= 3:
+                return "Three of a Kind"
 
-            average_diff = abs(l - r)
-            if min_average_diff > average_diff:
-                min_average_diff = average_diff
-                min_idx = i
+        for key, cnt in r.items():
+            if cnt >= 2:
+                return "Pair"
 
-        return min_idx
-
-nums = [2,5,3,9,5,3]
-nums = [0]
-nums = [4,2,0]
+        return "High Card"
 
 sl = Solution()
-res = sl.minimumAverageDifference(nums)
+ranks = [13,2,3,1,9]
+suits = ["a","a","a","a","a"]
+
+# ranks = [4,4,2,4,4]
+# suits = ["d","a","a","b","c"]
+
+ranks = [10,10,2,12,9]
+suits = ["a","b","c","a","d"]
+
+res = sl.bestHand(ranks, suits)
+
 print('res', res)
