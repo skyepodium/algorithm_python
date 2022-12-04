@@ -1,37 +1,17 @@
-from collections import deque
+from typing import List
+
 
 class Solution:
-    def isSubsequence(self, s: str, t: str) -> bool:
+    def arithmeticTriplets(self, nums: List[int], diff: int) -> int:
         # 1. init
-        s_q = deque(s)
-        t_q = deque(t)
+        n = len(nums)
+        res = 0
 
         # 2. loop
-        while s_q and t_q:
-            s_top = s_q[0]
-            t_top = t_q[0]
-            if s_top == t_top:
-                s_q.popleft()
-                t_q.popleft()
-            else:
-                t_q.popleft()
+        for i in range(n-2):
+            for j in range(i+1, n-1):
+                for k in range(j+1, n):
+                    if nums[j] - nums[i] == diff and nums[k] - nums[j] == diff:
+                        res += 1
 
-        return not s_q
-
-sl = Solution()
-
-s = "abc"
-t = "ahbgdc"
-
-s = "axc"
-t = "ahbgdc"
-
-s = ""
-t = "ahbgdc"
-
-s = "b"
-b = "abc"
-
-res = sl.isSubsequence(s, t)
-
-print('res', res)
+        return res
