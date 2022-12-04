@@ -1,13 +1,19 @@
 class Solution:
-    def isCircularSentence(self, sentence: str) -> bool:
+    def dividePlayers(self, skill: List[int]) -> int:
         # 1. init
-        s = sentence.split(" ")
+        res = 0
 
-        # 2. loop
-        prev = s[-1]
-        for c in s:
-            if prev[-1] != c[0]:
-                return False
-            prev = c
+        # 2. sort
+        skill.sort()
 
-        return True
+        # 3. loop
+        l, r = 0, len(skill) - 1
+        sum_skill = skill[l] + skill[r]
+        while l < r:
+            if skill[l] + skill[r] != sum_skill:
+                return -1
+            res += skill[l] * skill[r]
+            l += 1
+            r -= 1
+
+        return res
