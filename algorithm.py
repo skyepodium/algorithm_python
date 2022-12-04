@@ -6,12 +6,18 @@ class Solution:
         # 1. init
         n = len(nums)
         res = 0
+        s = set(nums)
 
-        # 2. loop
-        for i in range(n-2):
-            for j in range(i+1, n-1):
-                for k in range(j+1, n):
-                    if nums[j] - nums[i] == diff and nums[k] - nums[j] == diff:
-                        res += 1
+        # 3. loop
+        for j in range(1, n-1):
+            if nums[j] - diff in s and nums[j] + diff in s:
+                res += 1
 
         return res
+
+nums = [0,1,4,6,7,10]
+diff = 3
+
+sl = Solution()
+res = sl.arithmeticTriplets(nums, diff)
+print('res', res)
