@@ -1,19 +1,32 @@
 class Solution:
-    def dividePlayers(self, skill: List[int]) -> int:
+    def minScore(self, n: int, roads: List[List[int]]) -> int:
         # 1. init
-        res = 0
+        MAX_INT = int(1e14)
+        d = [MAX_INT] * (n+1)
+        v = [[] for _ in range(n+1)]
 
-        # 2. sort
-        skill.sort()
+        # 2. make graph
+        for s, e, c in roads:
+            v[s].append((e, c))
+            v[e].append((s, c))
 
-        # 3. loop
-        l, r = 0, len(skill) - 1
-        sum_skill = skill[l] + skill[r]
-        while l < r:
-            if skill[l] + skill[r] != sum_skill:
-                return -1
-            res += skill[l] * skill[r]
-            l += 1
-            r -= 1
+        # 3. dijkstra
+        def dijkstra(start_node):
+            pq = []
+            heappush(pq, (d[start_node], start_node))
 
-        return res
+            while pq:
+                cost, node = heappop(pq)
+
+                if d[node] < cost:
+                    continue
+
+                for n_node, n_cost in v[node]:
+                    cost = min(cost, n_cost)
+                    if d[n_node] > cost:
+                        d[n_node] = cost
+                        heappush(pq, (d[n_node], n_node))
+
+        dijkstra(1)
+
+        return d[n]
