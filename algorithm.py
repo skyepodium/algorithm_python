@@ -1,32 +1,35 @@
+from typing import List
+
+
 class Solution:
-    def minScore(self, n: int, roads: List[List[int]]) -> int:
+    def minimumAverageDifference(self, nums: List[int]) -> int:
         # 1. init
-        MAX_INT = int(1e14)
-        d = [MAX_INT] * (n+1)
-        v = [[] for _ in range(n+1)]
+        n = len(nums)
+        d = [0] * (n+1)
+        d[0] = nums[0]
+        min_average_diff = int(1e10)
+        min_idx = 0
 
-        # 2. make graph
-        for s, e, c in roads:
-            v[s].append((e, c))
-            v[e].append((s, c))
+        # 2. cumulative sum
+        for i in range(1, n):
+            d[i] = d[i-1] + nums[i]
 
-        # 3. dijkstra
-        def dijkstra(start_node):
-            pq = []
-            heappush(pq, (d[start_node], start_node))
+        # 3. update
+        for i in range(n):
+            l = d[i] // (i+1)
+            r = (d[n-1] - d[i]) // (n-i-1) if i < n-1 else 0
 
-            while pq:
-                cost, node = heappop(pq)
+            average_diff = abs(l - r)
+            if min_average_diff > average_diff:
+                min_average_diff = average_diff
+                min_idx = i
 
-                if d[node] < cost:
-                    continue
+        return min_idx
 
-                for n_node, n_cost in v[node]:
-                    cost = min(cost, n_cost)
-                    if d[n_node] > cost:
-                        d[n_node] = cost
-                        heappush(pq, (d[n_node], n_node))
+nums = [2,5,3,9,5,3]
+nums = [0]
+nums = [4,2,0]
 
-        dijkstra(1)
-
-        return d[n]
+sl = Solution()
+res = sl.minimumAverageDifference(nums)
+print('res', res)
