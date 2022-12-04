@@ -1,36 +1,37 @@
-from typing import List
-from collections import Counter
-
+from collections import deque
 
 class Solution:
-    def bestHand(self, ranks: List[int], suits: List[str]) -> str:
+    def isSubsequence(self, s: str, t: str) -> bool:
         # 1. init
-        c = Counter(suits)
-        r = Counter(ranks)
+        s_q = deque(s)
+        t_q = deque(t)
 
-        if len(c) == 1:
-            return "Flush"
+        # 2. loop
+        while s_q and t_q:
+            s_top = s_q[0]
+            t_top = t_q[0]
+            if s_top == t_top:
+                s_q.popleft()
+                t_q.popleft()
+            else:
+                t_q.popleft()
 
-        for key, cnt in r.items():
-            if cnt >= 3:
-                return "Three of a Kind"
-
-        for key, cnt in r.items():
-            if cnt >= 2:
-                return "Pair"
-
-        return "High Card"
+        return not s_q
 
 sl = Solution()
-ranks = [13,2,3,1,9]
-suits = ["a","a","a","a","a"]
 
-# ranks = [4,4,2,4,4]
-# suits = ["d","a","a","b","c"]
+s = "abc"
+t = "ahbgdc"
 
-ranks = [10,10,2,12,9]
-suits = ["a","b","c","a","d"]
+s = "axc"
+t = "ahbgdc"
 
-res = sl.bestHand(ranks, suits)
+s = ""
+t = "ahbgdc"
+
+s = "b"
+b = "abc"
+
+res = sl.isSubsequence(s, t)
 
 print('res', res)
