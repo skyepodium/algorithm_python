@@ -1,23 +1,17 @@
-from typing import List
+# Definition for singly-linked list.
+from typing import Optional
 
 
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 class Solution:
-    def arithmeticTriplets(self, nums: List[int], diff: int) -> int:
-        # 1. init
-        n = len(nums)
-        res = 0
-        s = set(nums)
+    def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        fast = slow = head
 
-        # 3. loop
-        for j in range(1, n-1):
-            if nums[j] - diff in s and nums[j] + diff in s:
-                res += 1
+        while fast.next and fast.next.next:
+            fast = fast.next.next
+            slow = slow.next
 
-        return res
-
-nums = [0,1,4,6,7,10]
-diff = 3
-
-sl = Solution()
-res = sl.arithmeticTriplets(nums, diff)
-print('res', res)
+        return slow.next if fast.next else slow
