@@ -1,29 +1,23 @@
-# Definition for a binary tree node.
-from typing import Optional
+def main():
+    # 1. input
+    n = int(input())
+    life = list(map(int, input().split()))
+    joy = list(map(int, input().split()))
+
+    # 2. init
+    MAX_LIFE = 100
+    d = [[0 for _ in range(MAX_LIFE + 1)] for _ in range(n + 1)]
+
+    # 3. loop
+    for i in range(n):
+        for j in range(MAX_LIFE + 1):
+            if j - life[i] > 0:
+                d[i][j] = max(d[i-1][j], d[i-1][j - life[i]] + joy[i])
+            else:
+                d[i][j] = max(d[i-1][j], d[i][j])
+
+    return d[n-1][MAX_LIFE]
 
 
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-class Solution:
-    res = 0
-    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
-        # 1. init
-        self.res = 0
-
-        # 2. traverse
-        def dfs(node):
-            if not node:
-                return
-
-            if low <= node.val <= high:
-                self.res += node.val
-
-            dfs(node.left)
-            dfs(node.right)
-
-        dfs(root)
-
-        return self.res
+if __name__ == '__main__':
+    print(main())
