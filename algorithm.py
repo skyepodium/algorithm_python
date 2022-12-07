@@ -1,17 +1,30 @@
-# Definition for singly-linked list.
-from typing import Optional
-
-
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
 class Solution:
-    def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        fast = slow = head
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        # 1. init
+        n, m = len(text1), len(text2)
+        d = [[0 for _ in range(m+1)] for _ in range(n+1)]
 
-        while fast.next and fast.next.next:
-            fast = fast.next.next
-            slow = slow.next
+        # 2. loop
+        for i in range(1, n+1):
+            for j in range(1, m+1):
+                if text1[i-1] == text2[j-1]:
+                    d[i][j] = d[i-1][j-1] + 1
+                else:
+                    d[i][j] = max(d[i-1][j], d[i][j-1])
 
-        return slow.next if fast.next else slow
+        return d[n][m]
+
+
+sl = Solution()
+text1 = "abcde"
+text2 = "ace"
+
+text1 = "abc"
+text2 = "abc"
+
+text1 = "abc"
+text2 = "def"
+
+res = sl.longestCommonSubsequence(text1, text2)
+
+print('res', res)
