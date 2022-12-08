@@ -1,23 +1,37 @@
-def main():
-    # 1. input
-    n = int(input())
-    life = list(map(int, input().split()))
-    joy = list(map(int, input().split()))
-
-    # 2. init
-    MAX_LIFE = 100
-    d = [[0 for _ in range(MAX_LIFE + 1)] for _ in range(n + 1)]
-
-    # 3. loop
-    for i in range(n):
-        for j in range(MAX_LIFE + 1):
-            if j - life[i] > 0:
-                d[i][j] = max(d[i-1][j], d[i-1][j - life[i]] + joy[i])
-            else:
-                d[i][j] = max(d[i-1][j], d[i][j])
-
-    return d[n-1][MAX_LIFE]
+# Definition for a binary tree node.
+from typing import Optional
 
 
-if __name__ == '__main__':
-    print(main())
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
+    a = []
+    b = []
+    def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
+        # 1. init
+        self.a = []
+        self.b = []
+
+        # 2. dfs
+        def dfs(root, l):
+            if root:
+                if not root.left and not root.right:
+                    l.append(root.val)
+                dfs(root.left, l)
+                dfs(root.right, l)
+
+        dfs(root1, self.a)
+        dfs(root2, self.b)
+
+        return self.a == self.b
+
+sl = Solution()
+
+root1 = TreeNode(1)
+root2 = TreeNode(1)
+
+res = sl.leafSimilar(root1, root2)
+print('res', res)
