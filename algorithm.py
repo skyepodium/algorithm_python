@@ -1,21 +1,17 @@
-from typing import List
-
-
 class Solution:
-    def findDifference(self, nums1: List[int], nums2: List[int]) -> List[List[int]]:
+    def climbStairs(self, n: int) -> int:
+        # 0. exception
+        if n <= 2:
+            return n
+
         # 1. init
-        a_set, b_set = set(nums1), set(nums2)
+        d = [0] * (n+1)
+        d[0] = 1
+        d[1] = 1
+        d[2] = 2
 
-        return [list(a_set - b_set), list(b_set - a_set)]
+        # 2. loop
+        for i in range(2, n+1):
+            d[i] = d[i-1] + d[i-2]
 
-sl = Solution()
-
-nums1 = [1,2,3]
-nums2 = [2,4,6]
-
-nums1 = [1,2,3,3]
-nums2 = [1,1,2,2]
-
-res = sl.findDifference(nums1, nums2)
-
-print('res', res)
+        return d[n]
