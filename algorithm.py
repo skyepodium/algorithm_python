@@ -1,25 +1,33 @@
+from typing import List
+
+
 class Solution:
-    def validMountainArray(self, arr: List[int]) -> bool:
+    def decrypt(self, code: List[int], k: int) -> List[int]:
         # 1. init
-        prev = arr[0]
-        is_up = False
-        is_down = False
+        n = len(code)
+        res = [0] * n
 
         # 2. loop
-        for i, num in enumerate(arr):
-            if num == prev and i != 0:
-                return False
+        if k > 0:
+            for i in range(n):
+                for j in range(1, abs(k)+1):
+                    res[i] += code[(i + j) % n]
+        elif k < 0:
+            for i in range(n):
+                for j in range(1, abs(k)+1):
+                    res[i] += code[(i - j) % n]
 
-            if num > prev:
-                if is_down:
-                    return False
-                is_up = True
+        return res
 
-            if num < prev:
-                if not is_up:
-                    return False
-                is_down = True
+sl = Solution()
 
-            prev = num
+code = [5,7,1,4]
+k = 3
 
-        return is_up and is_down
+code = [1,2,3,4]
+k = 0
+
+code = [2,4,9,3]
+k = -2
+
+print(sl.decrypt(code, k))
