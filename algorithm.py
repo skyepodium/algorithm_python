@@ -2,23 +2,31 @@ from typing import List
 
 
 class Solution:
-    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
         # 1. init
-        check = [False] * (n+1)
+        n = len(rooms)
         v = [[] for _ in range(n+1)]
+        check = [False] * (n+1)
 
-        # 2. make graph
-        for s, e in edges:
-            v[s].append(e)
-            v[e].append(s)
+        # 2. build graph
+        for room, keys in enumerate(rooms):
+            for key in keys:
+                v[room].append(key)
 
         # 3. dfs
         def dfs(node):
             check[node] = True
-            for next_node in v[node]:
-                if not check[next_node]:
-                    dfs(next_node)
+            for n_node in v[node]:
+                if not check[n_node]:
+                    dfs(n_node)
 
-        dfs(source)
+        dfs(0)
 
-        return check[destination]
+        return sum(check) == n
+
+rooms = [[1],[2],[3],[]]
+rooms = [[1,3],[3,0,1],[2],[0]]
+sl = Solution()
+res = sl.canVisitAllRooms(rooms)
+
+print('res', res)
