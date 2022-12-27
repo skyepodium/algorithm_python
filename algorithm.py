@@ -1,5 +1,3 @@
-def gcd(a, b):
-    if b == 0:
-        return a
-    else:
-        return gcd(b, a % b)
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        return str(x) == str(x)[::-1]
