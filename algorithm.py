@@ -1,37 +1,12 @@
 class Solution:
-    def wordPattern(self, pattern: str, s: str) -> bool:
-        # 0. exception
-        if len(pattern) != len(s.split(" ")):
-            return False
+    def detectCapitalUse(self, word: str) -> bool:
+        if word == word.lower():
+            return True
 
-        # 1. init
-        d = {}
-        w = {}
+        if word == word.upper():
+            return True
 
-        # 2. loop
-        for p, c in zip(pattern, s.split(" ")):
-            if p in d and d[p] != c:
-                return False
+        if word[0] == word[0].upper() and word[1:] == word[1:].lower():
+            return True
 
-            if c in w and w[c] != p:
-                return False
-
-            d[p] = c
-            w[c] = p
-
-        return True
-
-sl = Solution()
-pattern = "abba"
-s = "dog cat cat dog"
-
-
-pattern = "abba"
-s = "dog dog dog dog"
-
-pattern = "aaa"
-s = "aa aa aa aa"
-
-res = sl.wordPattern(pattern, s)
-
-print('res', res)
+        return False
