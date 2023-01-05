@@ -1,21 +1,16 @@
 class Solution:
-    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    def countMatches(self, items: List[List[str]], ruleKey: str, ruleValue: str) -> int:
         # 1. init
-        res = []
+        d = {
+            "type": 0,
+            "color": 1,
+            "name": 2
+        }
+        res = 0
 
-        # 2. exception
-        if not root:
-            return res
-
-        # 3. pre_order
-        def pre_order(node):
-            if not node:
-                return
-
-            res.append(node.val)
-            pre_order(node.left)
-            pre_order(node.right)
-
-        pre_order(root)
+        # 2. loop
+        for i in items:
+            if i[d[ruleKey]] == ruleValue:
+                res += 1
 
         return res
