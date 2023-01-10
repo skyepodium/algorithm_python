@@ -1,35 +1,26 @@
-from typing import List
+from typing import Optional
 
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
 class Solution:
-    def fairCandySwap(self, aliceSizes: List[int], bobSizes: List[int]) -> List[int]:
-        # 1. init
-        sum_alice = sum(aliceSizes)
-        sum_bob = sum(bobSizes)
-        half_size = (sum_alice + sum_bob) // 2
-        s = set(aliceSizes)
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        if p and not q:
+            return False
 
-        # 2. loop
-        for b in bobSizes:
-            remain = half_size - (sum_bob - b)
-            if remain in s:
-                return [remain, b]
+        if not p and q:
+            return False
 
-        return [-1, -1]
+        if not p and not q:
+            return True
 
+        if p.val != q.val:
+            return False
 
-sl = Solution()
-aliceSizes = [1,1]
-bobSizes = [2,2]
+        l = self.isSameTree(p.left, q.left)
+        r = self.isSameTree(p.right, q.right)
 
-aliceSizes = [1,2]
-bobSizes = [2,3]
-
-aliceSizes = [2]
-bobSizes = [1,3]
-
-aliceSizes = [2, 2]
-bobSizes = [1, 1]
-res = sl.fairCandySwap(aliceSizes, bobSizes)
-
-print('res', res)
+        return l and r
