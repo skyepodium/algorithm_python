@@ -1,18 +1,29 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from typing import Optional
+
+
 class Solution:
-    def countGoodSubstrings(self, s: str) -> int:
+    def isUnivalTree(self, root: Optional[TreeNode]) -> bool:
         # 1. init
-        res = 0
+        self.res = True
+        self.val = root.val
 
-        # 2. loop
-        for i in range(len(s) - 2):
-            if len(set(s[i:i+3])) >= 3:
-                res += 1
+        # 2. dfs
+        def dfs(node):
+            if not node:
+                return
 
-        return res
+            if node.val != self.val:
+                self.res = False
 
-sl = Solution()
-s = "xyzzaz"
-s = "aababcabc"
-res = sl.countGoodSubstrings(s)
+            dfs(node.left)
+            dfs(node.right)
 
-print('res', res)
+        dfs(root)
+
+        return self.res
