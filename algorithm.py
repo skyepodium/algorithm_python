@@ -1,29 +1,34 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-from typing import Optional
+import re
 
 
 class Solution:
-    def isUnivalTree(self, root: Optional[TreeNode]) -> bool:
+    def checkZeroOnes(self, s: str) -> bool:
         # 1. init
-        self.res = True
-        self.val = root.val
+        ones = re.split("[0+]", s)
+        zeroes = re.split("[1+]", s)
+        one_max_length = 0
+        zero_max_length = 0
 
-        # 2. dfs
-        def dfs(node):
-            if not node:
-                return
+        # 2. loop
+        for one in ones:
+            if one == '':
+                continue
 
-            if node.val != self.val:
-                self.res = False
+            one_max_length = max(one_max_length, len(one))
 
-            dfs(node.left)
-            dfs(node.right)
+        for zero in zeroes:
+            if zero == '':
+                continue
 
-        dfs(root)
+            zero_max_length = max(zero_max_length, len(zero))
 
-        return self.res
+        return one_max_length > zero_max_length
+
+
+sl = Solution()
+s = "1101"
+s = "111000"
+s = "110100010"
+res = sl.checkZeroOnes(s)
+
+print('res', res)
