@@ -1,21 +1,17 @@
 class Solution:
-    def countEven(self, num: int) -> int:
+    def findClosestNumber(self, nums: List[int]) -> int:
         # 1. init
-        res = 0
+        res = -float(1e6)
+        min_dist = float(1e6)
 
         # 2. loop
-        for i in range(1, num+1):
-            str_num = str(i)
-            nums = [int(j) for j in str_num]
-            sum_nums = sum(nums)
-
-            if sum_nums % 2 == 0:
-                res += 1
+        for num in nums:
+            abs_num = abs(num)
+            if abs_num < min_dist:
+                min_dist = abs_num
+                res = num
+            elif abs_num == min_dist:
+                if num > res:
+                    res = num
 
         return res
-
-sl = Solution()
-num = 30
-res = sl.countEven(num)
-
-print('res', res)
