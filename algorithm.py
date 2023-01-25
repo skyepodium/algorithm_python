@@ -1,26 +1,40 @@
-from typing import List
-
-
 class Solution:
-    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        # 1. init
-        n = len(nums2)
-        next_big = [-1] * n
-        index_dic = {}
-        res = []
+    def search(self, nums: list[int], target: int) -> int:
 
-        # 2. loop
-        for i in range(n):
-            cur = nums2[i]
-            index_dic[cur] = i
-            for j in range(i+1, n):
-                next_nums = nums2[j]
-                if next_nums > cur:
-                    if next_big[i] == -1:
-                        next_big[i] = next_nums
+        # 1. find min idx
+        def min_idx(l, r):
+            while l < r:
+                mid = l + (r-l) // 2
 
-        # 3. search
-        for num in nums1:
-            res.append(next_big[index_dic[num]])
+                if nums[mid] > nums[r]:
+                    l = mid + 1
+                else:
+                    r = mid
 
-        return res
+            return l
+
+        pivot_idx = min_idx(0, len(nums) - 1)
+
+        # 2. get_origin_idx
+        def get_origin_idx(cur_idx):
+            if cur_idx + pivot_idx >= len(nums):
+                origin = cur_idx + pivot_idx - len(nums)
+            else:
+                origin = cur_idx + pivot_idx
+            return origin
+
+        # 3. binary_search
+        def binary_search(l, r):
+            while l <= r:
+                mid = l + (r-l) // 2
+                origin_mid_idx = get_origin_idx(mid)
+                if nums[origin_mid_idx] < target:
+                    l = mid + 1
+                elif nums[origin_mid_idx] > target:
+                    r = mid - 1
+                else:
+                    return origin_mid_idx
+
+            return -1
+
+        return binary_search(0, len(nums) - 1)
