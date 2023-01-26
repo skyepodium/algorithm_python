@@ -1,40 +1,20 @@
 class Solution:
-    def search(self, nums: list[int], target: int) -> int:
+    def trap(self, height: list[int]) -> int:
 
-        # 1. find min idx
-        def min_idx(l, r):
-            while l < r:
-                mid = l + (r-l) // 2
+        result = 0;
 
-                if nums[mid] > nums[r]:
-                    l = mid + 1
-                else:
-                    r = mid
+        l, r = 0, len(height) - 1
+        left_max, right_max = height[l], height[r]
 
-            return l
+        while l <= r:
+            left_max = max(left_max, height[l])
+            right_max = max(right_max, height[r])
 
-        pivot_idx = min_idx(0, len(nums) - 1)
-
-        # 2. get_origin_idx
-        def get_origin_idx(cur_idx):
-            if cur_idx + pivot_idx >= len(nums):
-                origin = cur_idx + pivot_idx - len(nums)
+            if left_max <= right_max:
+                result += left_max - height[l]
+                l += 1
             else:
-                origin = cur_idx + pivot_idx
-            return origin
+                result += right_max - height[r]
+                r -= 1
 
-        # 3. binary_search
-        def binary_search(l, r):
-            while l <= r:
-                mid = l + (r-l) // 2
-                origin_mid_idx = get_origin_idx(mid)
-                if nums[origin_mid_idx] < target:
-                    l = mid + 1
-                elif nums[origin_mid_idx] > target:
-                    r = mid - 1
-                else:
-                    return origin_mid_idx
-
-            return -1
-
-        return binary_search(0, len(nums) - 1)
+        return result
