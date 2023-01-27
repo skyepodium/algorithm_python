@@ -1,20 +1,25 @@
 class Solution:
-    def trap(self, height: list[int]) -> int:
+    def permute(self, nums: list[int]) -> list[list[int]]:
 
-        result = 0;
+        result = []
+        size = len(nums)
+        check = [False for _ in range(21)]
 
-        l, r = 0, len(height) - 1
-        left_max, right_max = height[l], height[r]
+        def go(idx, stack):
+            if idx >= size:
+                result.append(list(stack))
+                return
 
-        while l <= r:
-            left_max = max(left_max, height[l])
-            right_max = max(right_max, height[r])
+            for num in nums:
+                if not check[num+10]:
+                    check[num+10] = True
+                    stack.append(num)
 
-            if left_max <= right_max:
-                result += left_max - height[l]
-                l += 1
-            else:
-                result += right_max - height[r]
-                r -= 1
+                    go(idx + 1, stack)
+
+                    check[num+10] = False
+                    stack.pop()
+
+        go(0, [])
 
         return result
