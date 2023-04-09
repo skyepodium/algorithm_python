@@ -43,8 +43,6 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file:///usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/urllib/__init__.py" root0="SKIP_INSPECTION" />
-    <setting file="file:///usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/urllib/parse.py" root0="SKIP_INSPECTION" />
     <setting file="file:///usr/local/lib/python3.9/site-packages/requests/api.py" root0="SKIP_INSPECTION" />
     <setting file="file:///usr/local/lib/python3.9/site-packages/requests/models.py" root0="SKIP_INSPECTION" />
     <setting file="file:///usr/local/lib/python3.9/site-packages/requests/sessions.py" root0="SKIP_INSPECTION" />

@@ -1,46 +1,51 @@
-from typing import List
+from PIL import Image
+from pyzbar.pyzbar import decode
+from itertools import permutations
+
+# 1. 주어진 이미지 파일을 열고, 각각의 이미지 사이즈를 구한다.
+image_files = [f"{num}.png" for num in range(27)]
+images = [Image.open(f) for f in image_files]
+widths, heights = zip(*(i.size for i in images))
+
+# 2. 이미지 너비, 높이 계산
+total_width = sum(widths) - widths[0] * 6
+total_height = max(heights)
+
+left = [2, 5, 6, 15, 16, 25, 26]
+center = [3, 7, 10, 19, 20, 21, 23]
+right = [1, 4, 8, 14, 18, 22, 24]
 
 
-class Solution:
-    def closedIsland(self, grid: List[List[int]]) -> int:
-        # 1. init
-        res = 0
-        n, m = len(grid), len(grid[0])
-        visited = [[False] * m for _ in range(n)]
-        d = [(0, -1), (0, 1), (1, 0), (-1, 0)]
+# 3. 주어진 순서대로 이미지를 붙여서 QR 코드를 생성
+def create_qr_code_by_image_orders(image_orders):
+    x_offset = 0
+    new_image = Image.new('RGB', (total_width, total_height))
+    for i, order in enumerate(image_orders):
+        image = images[order]
+        new_image.paste(image, (x_offset, 0))
+        x_offset += image.size[0]
+    return new_image
 
-        # 2. dfs
-        def dfs(x, y):
-            visited[x][y] = True
 
-            for dx, dy in d:
-                nx, ny = x + dx, y + dy
-                if nx < 0 or nx >= n or ny < 0 or ny >= m:
-                    continue
-                if grid[nx][ny] != 0 or visited[nx][ny]:
-                    continue
-                dfs(nx, ny)
+# 4. QR 코드를 생성한 이미지를 읽고 결과 반환
+def iterate_orders():
+    for i in permutations(left, len(left)):
+        for j in permutations(center, len(center)):
+            for k in permutations(right, len(right)):
+                image_orders = [*i, *j, *k]
+                new_image = create_qr_code_by_image_orders(image_orders)
+                qr_codes = decode(new_image)
 
-        # 3. edge
-        for i in range(n):
-            for j in range(m):
-                if i == 0 or i == n - 1 or j == 0 or j == m - 1:
-                    if grid[i][j] == 0 and not visited[i][j]:
-                        dfs(i, j)
+                print(image_orders)
 
-        # 4. center
-        for i in range(1, n-1):
-            for j in range(1, m-1):
-                if grid[i][j] == 0 and not visited[i][j]:
-                    dfs(i, j)
-                    res += 1
+                if qr_codes:
+                    new_image.save('flag.png')
+                    return qr_codes
 
-        return res
 
-# grid = [[1,1,1,1,1,1,1,0],[1,0,0,0,0,1,1,0],[1,0,1,0,1,1,1,0],[1,0,0,0,0,1,0,1],[1,1,1,1,1,1,1,0]]
-# grid = [[0,0,1,0,0],[0,1,0,1,0],[0,1,1,1,0]]
-grid = [[0,0,1,1,0,1,0,0,1,0],[1,1,0,1,1,0,1,1,1,0],[1,0,1,1,1,0,0,1,1,0],[0,1,1,0,0,0,0,1,0,1],[0,0,0,0,0,0,1,1,1,0],[0,1,0,1,0,1,0,1,1,1],[1,0,1,0,1,1,0,0,0,1],[1,1,1,1,1,1,0,0,0,0],[1,1,1,0,0,1,0,1,0,1],[1,1,1,0,1,1,0,1,1,0]]
+def main():
+    flag = iterate_orders()
+    print('flag', flag)
 
-sl = Solution()
-res = sl.closedIsland(grid)
-print('res', res)
+
+main()
