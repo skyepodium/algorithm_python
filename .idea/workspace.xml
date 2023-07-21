@@ -46,9 +46,18 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_HOME_DIR$/plugins/python-ce/helpers/typeshed/stdlib/hashlib.pyi" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/Library/Caches/JetBrains/PyCharmCE2022.2/python_stubs/-1199943124/builtins.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/Library/Caches/JetBrains/PyCharmCE2022.2/python_stubs/-1199943124/posix.py" root0="SKIP_INSPECTION" />
+    <setting file="file:///usr/local/Cellar/python@3.9/3.9.16/Frameworks/Python.framework/Versions/3.9/lib/python3.9/base64.py" root0="SKIP_INSPECTION" />
+    <setting file="file:///usr/local/Cellar/python@3.9/3.9.16/Frameworks/Python.framework/Versions/3.9/lib/python3.9/hashlib.py" root0="SKIP_INSPECTION" />
+    <setting file="file:///usr/local/lib/python3.9/site-packages/pwnlib/tubes/tube.py" root0="SKIP_INSPECTION" />
+    <setting file="file:///usr/local/lib/python3.9/site-packages/requests/adapters.py" root0="SKIP_INSPECTION" />
     <setting file="file:///usr/local/lib/python3.9/site-packages/requests/api.py" root0="SKIP_INSPECTION" />
     <setting file="file:///usr/local/lib/python3.9/site-packages/requests/models.py" root0="SKIP_INSPECTION" />
     <setting file="file:///usr/local/lib/python3.9/site-packages/requests/sessions.py" root0="SKIP_INSPECTION" />
+    <setting file="file:///usr/local/lib/python3.9/site-packages/urllib3/connection.py" root0="SKIP_INSPECTION" />
+    <setting file="file:///usr/local/lib/python3.9/site-packages/urllib3/util/connection.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
