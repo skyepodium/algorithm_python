@@ -2,32 +2,19 @@ from typing import List
 
 
 class Solution:
-    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
+    def uniqueMorseRepresentations(self, words: List[str]) -> int:
         # 1. init
-        n, m = len(matrix), len(matrix[0])
+        c = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---",
+             ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."]
+        l = []
 
-        def check(x, y):
-            val = matrix[x][y]
-            while x < n and y < m:
-                if matrix[x][y] != val:
-                    return False
-                x += 1
-                y += 1
+        for word in words:
+            code = ""
+            for w in word:
+                code += c[ord(w) - 97]
 
-            return True
+            if code not in l:
+                l.append(code)
 
-        # 2. check
-        for i in range(n):
-            if not check(i, 0):
-                return False
+        return len(l)
 
-        for j in range(m):
-            if not check(0, j):
-                return False
-
-        return True
-
-
-sl = Solution()
-matrix = [[1, 2, 3, 4], [5, 1, 2, 3], [9, 5, 1, 2]]
-print(sl.isToeplitzMatrix(matrix))
