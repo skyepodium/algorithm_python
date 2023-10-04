@@ -1,51 +1,34 @@
-from collections import deque
-from typing import List
-
-
 class Solution:
-    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+    def countLargestGroup(self, n: int) -> int:
         # 1. init
-        n, m = len(image), len(image[0])
-        visited = [[False] * m for _ in range(n)]
-        d = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-        start_color = image[sr][sc]
+        d = {}
+        max_val = 0
+        result = 0
 
-        # 2. bfs
-        def bfs(start_x, start_y):
-            q = deque()
-            q.append((start_x, start_y))
+        # 2. loop
+        for i in range(1, n + 1):
+            num_str = str(i)
 
-            while q:
-                x, y = q.popleft()
-                visited[x][y] = True
-                image[x][y] = color
+            sum_val = 0
+            for c in num_str:
+                sum_val += int(c)
 
-                for dx, dy in d:
-                    nx, ny = x + dx, y + dy
-                    if nx < 0 or nx >= n or ny < 0 or ny >= m:
-                        continue
+            if sum_val not in d:
+                d[sum_val] = 1
+            else:
+                d[sum_val] += 1
 
-                    if visited[nx][ny] or image[nx][ny] != start_color:
-                        continue
+            max_val = max(max_val, d[sum_val])
 
-                    q.append((nx, ny))
-                    visited[nx][ny] = True
-                    image[nx][ny] = color
+        # 3. result
+        for key in d:
+            if d[key] == max_val:
+                result += 1
 
-        bfs(sr, sc)
+        return result
 
-        return image
-
-
-image = [[0, 0, 0], [0, 0, 0]]
-sr = 0
-sc = 0
-color = 0
-
-image = [[1, 1, 1], [1, 1, 0], [1, 0, 1]]
-sr = 1
-sc = 1
-color = 2
 
 sl = Solution()
-print(sl.floodFill(image, sr, sc, color))
+n = 13
+n = 2
+print(sl.countLargestGroup(n))
