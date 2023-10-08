@@ -1,2 +1,2 @@
-def solution(age):
-    return 2022 - age + 1
+def solution(num1, num2):
+    return num1 * num2
