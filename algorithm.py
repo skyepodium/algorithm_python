@@ -1,17 +1,30 @@
+# Definition for a binary tree node.
+from typing import Optional
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class Solution:
-    def fib(self, n: int) -> int:
+    def sumRootToLeaf(self, root: Optional[TreeNode]) -> int:
         # 1. init
-        d = [0 for _ in range(n + 1)]
+        self.res = 0
 
-        # 2. fibo
-        def fibo(i):
-            if i <= 1:
-                return i
+        # 2. dfs
+        def dfs(node: TreeNode, path_sum: str):
+            if not node:
+                return
 
-            if d[i] != 0:
-                return d[i]
+            if not node.left and not node.right:
+                self.res += int(f"{path_sum}{node.val}", 2)
 
-            d[i] = fibo(i - 1) + fibo(i - 2)
-            return d[i]
+            dfs(node.left, f"{path_sum}{node.val}")
+            dfs(node.right, f"{path_sum}{node.val}")
 
-        return fibo(n)
+        dfs(root, "")
+
+        return self.res
