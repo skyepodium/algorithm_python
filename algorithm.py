@@ -1,17 +1,25 @@
-url = "shopping.naver.com/luxury/home"
+class Solution:
+    def checkPerfectNumber(self, num: int) -> bool:
+        # 1. init
+        res = 1
+        sqrt = int(num ** 0.5)
+
+        # 2. check
+        for i in range(2, sqrt + 1):
+            if num % i == 0:
+                res += i
+                res += num // i
+
+        if sqrt == num ** 0.5:
+            res -= sqrt
+            
+        # 3. return
+        return res == num
 
 
-def encode_url(url: str) -> str:
-    res = ""
+# 1 2 3
 
-    for c in url:
-        if c in ["/", ":"]:
-            res += c
-        else:
-            res += f"%{hex(ord(c))[2:]}"
-
-    return res
-
-
-res = "https://" + encode_url(url)
-print(res)
+sl = Solution()
+num = 1
+num = 9
+print(sl.checkPerfectNumber(num))
