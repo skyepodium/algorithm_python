@@ -1,25 +1,31 @@
 class Solution:
-    def checkPerfectNumber(self, num: int) -> bool:
+    def interpret(self, command: str) -> str:
         # 1. init
-        res = 1
-        sqrt = int(num ** 0.5)
+        s = []
 
-        # 2. check
-        for i in range(2, sqrt + 1):
-            if num % i == 0:
-                res += i
-                res += num // i
+        # 2. loop
+        for c in command:
+            if c == "(":
+                s.append(c)
+            elif c == ")":
+                if s[-1] == "(":
+                    s.pop()
+                    s.append("o")
+            else:
+                if len(s) < 1:
+                    s.append(c)
+                elif s[-1] == "(":
+                    s.pop()
+                    s.append(c)
+                else:
+                    s.append(c)
 
-        if sqrt == num ** 0.5:
-            res -= sqrt
-            
         # 3. return
-        return res == num
+        return "".join(s)
 
 
-# 1 2 3
-
+command = "G()(al)"
+command = "G()()()()(al)"
+command = "(al)G(al)()()G"
 sl = Solution()
-num = 1
-num = 9
-print(sl.checkPerfectNumber(num))
+print(sl.interpret(command))
