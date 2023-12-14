@@ -1,10 +1,14 @@
 class Solution:
-    def sortSentence(self, s: str) -> str:
-        s = s.split()
-        s.sort(key=lambda x: x[-1])
-        return ' '.join([i[:-1] for i in s])
-
-
-sl = Solution()
-s = "is2 sentence4 This1 a3"
-print(sl.sortSentence(s))
+    def romanToInt(self, s: str) -> int:
+        # roman to integer
+        roman_dict = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+        # result
+        result = 0
+        # loop through the string
+        for i in range(len(s)):
+            # if the current string is less than the next string, then it is a subtraction
+            if i < len(s) - 1 and roman_dict[s[i]] < roman_dict[s[i + 1]]:
+                result -= roman_dict[s[i]]
+            else:
+                result += roman_dict[s[i]]
+        return result
