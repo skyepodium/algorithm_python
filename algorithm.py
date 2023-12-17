@@ -1,27 +1,19 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 class Solution:
-    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+    def searchInsert(self, nums: List[int], target: int) -> int:
 
-        res = node = ListNode(0)
+        l = 0
+        r = len(nums) - 1
 
-        carry = 0
-        while l1 or l2 or carry:
-            sum_val = 0
-            if l1:
-                sum_val += l1.val
-                l1 = l1.next
+        answer = -1
+        while l <= r:
+            mid = (l + r) // 2
+            print(l, r, mid, nums[mid], target)
+            if nums[mid] < target:
+                l = mid + 1
+            elif nums[mid] == target:
+                return mid
+            else:
+                answer = mid
+                r = mid - 1
 
-            if l2:
-                sum_val += l2.val
-                l2 = l2.next
-
-            carry, val = divmod(sum_val + carry, 10)
-
-            node.next = ListNode(val)
-            node = node.next
-
-        return res.next
+        return answer if answer != -1 else len(nums)
