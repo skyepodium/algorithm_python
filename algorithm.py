@@ -1,19 +1,13 @@
 class Solution:
-    def searchInsert(self, nums: List[int], target: int) -> int:
+    def jump(self, nums: List[int]) -> int:
+        MAX_INT = 10001
+        d = [MAX_INT for _ in range(MAX_INT)]
+        d[0] = 0
 
-        l = 0
-        r = len(nums) - 1
+        for idx in range(len(nums)):
+            for step in range(1, nums[idx] + 1):
+                next_idx = idx + step
+                if next_idx <= len(nums) - 1:
+                    d[next_idx] = min(d[next_idx], d[idx] + 1)
 
-        answer = -1
-        while l <= r:
-            mid = (l + r) // 2
-            print(l, r, mid, nums[mid], target)
-            if nums[mid] < target:
-                l = mid + 1
-            elif nums[mid] == target:
-                return mid
-            else:
-                answer = mid
-                r = mid - 1
-
-        return answer if answer != -1 else len(nums)
+        return d[len(nums) - 1]
