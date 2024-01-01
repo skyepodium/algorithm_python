@@ -1,13 +1,23 @@
 class Solution:
-    def jump(self, nums: List[int]) -> int:
-        MAX_INT = 10001
-        d = [MAX_INT for _ in range(MAX_INT)]
-        d[0] = 0
+    def isHappy(self, n: int) -> bool:
+        # 1. init
+        seen = set()
 
-        for idx in range(len(nums)):
-            for step in range(1, nums[idx] + 1):
-                next_idx = idx + step
-                if next_idx <= len(nums) - 1:
-                    d[next_idx] = min(d[next_idx], d[idx] + 1)
+        # 2. loop
+        while n != 1:
+            if n in seen:
+                return False
+            seen.add(n)
 
-        return d[len(nums) - 1]
+            next_val = 0
+            while n > 0:
+                next_val += (n % 10) ** 2
+                n //= 10
+            n = next_val
+
+        return True
+
+
+sl = Solution()
+res = sl.isHappy(2)
+print(res)
