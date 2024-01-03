@@ -1,23 +1,22 @@
+from typing import List
+
+
 class Solution:
-    def isHappy(self, n: int) -> bool:
-        # 1. init
-        seen = set()
+    def searchInsert(self, nums: List[int], target: int) -> int:
 
-        # 2. loop
-        while n != 1:
-            if n in seen:
-                return False
-            seen.add(n)
+        l = 0
+        r = len(nums) - 1
 
-            next_val = 0
-            while n > 0:
-                next_val += (n % 10) ** 2
-                n //= 10
-            n = next_val
+        answer = -1
+        while l <= r:
+            mid = (l + r) // 2
+            print(l, r, mid, nums[mid], target)
+            if nums[mid] < target:
+                l = mid + 1
+            elif nums[mid] == target:
+                return mid
+            else:
+                answer = mid
+                r = mid - 1
 
-        return True
-
-
-sl = Solution()
-res = sl.isHappy(2)
-print(res)
+        return answer if answer != -1 else len(nums)
