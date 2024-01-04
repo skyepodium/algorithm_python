@@ -1,22 +1,35 @@
-from typing import List
-
-
 class Solution:
-    def searchInsert(self, nums: List[int], target: int) -> int:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
 
-        l = 0
-        r = len(nums) - 1
+        for i in range(0, 9, 3):
+            for j in range(0, 9, 3):
+                s = set()
+                for x in range(i, i + 3):
+                    for y in range(j, j + 3):
+                        cur = board[x][y]
+                        if cur == '.': continue
+                        if cur in s:
+                            return False
+                        else:
+                            s.add(cur)
 
-        answer = -1
-        while l <= r:
-            mid = (l + r) // 2
-            print(l, r, mid, nums[mid], target)
-            if nums[mid] < target:
-                l = mid + 1
-            elif nums[mid] == target:
-                return mid
-            else:
-                answer = mid
-                r = mid - 1
+        for b in board:
+            t = [num for num in b if num != '.']
+            s = set()
+            for num in t:
+                if num in s:
+                    return False
+                else:
+                    s.add(num)
 
-        return answer if answer != -1 else len(nums)
+        for j in range(0, 9):
+            s = set()
+            for i in range(0, 9):
+                num = board[i][j]
+                if num == '.': continue
+                if num in s:
+                    return False
+                else:
+                    s.add(num)
+
+        return True
